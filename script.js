@@ -26,13 +26,26 @@
   );
 
   // Paleta de comandos
-  const go = (hash) => () => document.querySelector(hash).scrollIntoView({ behavior: "smooth" });
+  const header = document.querySelector(".site-header");
+  const go = (hash) => () => {
+    const el = document.querySelector(hash);
+    const top = hash === "#inicio" ? 0 : el.getBoundingClientRect().top + window.scrollY - header.offsetHeight - 16;
+    window.scrollTo({ top, behavior: "smooth" });
+    history.replaceState(null, "", hash);
+  };
+  document.querySelectorAll('a[href^="#"]').forEach((a) =>
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      go(a.getAttribute("href"))();
+    })
+  );
+
   const open = (url) => () => window.open(url, "_blank", "noopener");
 
   const commands = [
-    { group: "Navegação", label: "Início", hint: "#", run: go("#inicio") },
-    { group: "Navegação", label: "Skills", hint: "#", run: go("#skills") },
-    { group: "Navegação", label: "Contato", hint: "#", run: go("#contato") },
+    { group: "Navegação", label: "Início", key: "I", run: go("#inicio") },
+    { group: "Navegação", label: "Skills", key: "S", run: go("#skills") },
+    { group: "Navegação", label: "Contato", key: "C", run: go("#contato") },
     { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },
@@ -73,9 +86,9 @@
       li.id = `cmd-${i}`;
       li.setAttribute("role", "option");
       li.setAttribute("aria-selected", String(i === active));
-      li.innerHTML = `<span></span><small></small>`;
+      li.innerHTML = cmd.key ? `<span></span><kbd></kbd>` : `<span></span><small></small>`;
       li.firstChild.textContent = cmd.label;
-      li.lastChild.textContent = cmd.hint;
+      li.lastChild.textContent = cmd.key || cmd.hint;
       li.addEventListener("mousemove", () => setActive(i));
       li.addEventListener("click", () => execute(i));
       list.appendChild(li);
@@ -115,7 +128,7 @@
 
   input.addEventListener("input", () => {
     const q = normalize(input.value.trim());
-    filtered = commands.filter((c) => normalize(`${c.label} ${c.group} ${c.hint}`).includes(q));
+    filtered = commands.filter((c) => normalize(`${c.label} ${c.group} ${c.hint || ""}`).includes(q));
     active = 0;
     render();
   });
@@ -140,6 +153,19 @@
     } else if (e.key === "Escape" && !palette.hidden) {
       closePalette();
     }
+  });
+
+  // Atalhos de uma tecla (I, S, C) — ignorados enquanto se digita ou com a paleta aberta
+  const shortcuts = Object.fromEntries(commands.filter((c) => c.key).map((c) => [c.key.toLowerCase(), c]));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || !palette.hidden) return;
+    const t = e.target;
+    if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    const cmd = shortcuts[e.key.toLowerCase()];
+    if (!cmd) return;
+    e.preventDefault();
+    cmd.run();
   });
 
   document.querySelectorAll("[data-open-palette]").forEach((b) => b.addEventListener("click", openPalette));
