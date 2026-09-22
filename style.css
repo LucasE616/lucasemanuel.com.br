@@ -7,6 +7,7 @@
   --muted: #8f9ba8;
   --accent: #50fa7b;
   --gutter: clamp(1rem, 4vw, 2.5rem);
+  --header-h: 4.5rem;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --display: "Inter Tight", "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
@@ -52,7 +53,8 @@ button { font: inherit; color: inherit; }
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 1.1rem var(--gutter);
+  height: var(--header-h);
+  padding: 0 var(--gutter);
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: blur(10px);
 }
@@ -98,11 +100,13 @@ button { font: inherit; color: inherit; }
 .cmd-trigger:hover { background: var(--surface-2); }
 
 /* Hero */
+/* A hero ocupa exatamente o que sobra da tela, para o README só aparecer ao rolar */
 .hero {
-  min-height: calc(100vh - 140px);
-  min-height: calc(100svh - 140px);
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
   display: flex;
   align-items: center;
+  padding: 2rem 0;
 }
 
 .hero h1 {
@@ -164,7 +168,7 @@ kbd {
 }
 
 /* README */
-.section { padding: 2rem 0 5rem; scroll-margin-top: 70px; }
+.section { padding: 2rem 0 5rem; scroll-margin-top: var(--header-h); }
 
 .readme {
   border: 1px solid var(--border);
@@ -211,7 +215,7 @@ kbd {
   border-bottom: 1px solid var(--border);
   font-size: 1.1rem;
   font-weight: 500;
-  scroll-margin-top: 80px;
+  scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
 .tags {
