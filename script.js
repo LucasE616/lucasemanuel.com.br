@@ -12,13 +12,38 @@
     toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
   };
 
+  // navigator.clipboard só existe em contexto seguro (HTTPS), daí o plano B
+  const legacyCopy = (text) => {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:0;left:-9999px";
+    document.body.appendChild(ta);
+    const previous = document.activeElement;
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch {
+      ok = false;
+    }
+    ta.remove();
+    previous?.focus?.();
+    return ok;
+  };
+
   const copy = async (text) => {
     try {
-      await navigator.clipboard.writeText(text);
-      showToast(`Copiado: ${text}`);
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        showToast(`Copiado: ${text}`);
+        return;
+      }
     } catch {
-      showToast("Não foi possível copiar");
+      // cai no plano B abaixo
     }
+    showToast(legacyCopy(text) ? `Copiado: ${text}` : "Não foi possível copiar");
   };
 
   document.querySelectorAll("[data-copy]").forEach((btn) =>
