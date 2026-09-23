@@ -16,6 +16,7 @@ Depois abra http://localhost:5500.
 ## Estrutura
 
 - `index.html` — conteúdo (apresentação, skills e contatos)
-- `style.css` — estilos
-- `script.js` — paleta de comandos (Ctrl/⌘ + K) e botões de copiar
+- `setup/index.html` — página de setup (`/setup`)
+- `style.css` — estilos compartilhados
+- `script.js` — paleta de comandos (Ctrl/⌘ + K), atalhos (I, S, C, U), modais e botões de copiar
 - `CNAME` — domínio personalizado do GitHub Pages

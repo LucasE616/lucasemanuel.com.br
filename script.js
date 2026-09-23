@@ -52,6 +52,12 @@
     if (btn) copy(btn.dataset.copy);
   });
 
+  // Páginas: a home tem o README e o modal; as outras (ex.: /setup) apontam para a
+  // raiz via data-root e mandam Skills/Contato para a home, que abre o modal pelo hash.
+  const root = document.body.dataset.root || "./";
+  const page = document.body.dataset.page || "home";
+  const isHome = page === "home";
+
   // Modal dos tópicos: o conteúdo vem do README ([data-topic]), sem duplicar HTML
   const topics = {
     skills: { title: "Skills", file: "skills.md" },
@@ -59,15 +65,19 @@
   };
 
   const modal = document.getElementById("modal");
-  const modalBox = modal.querySelector(".modal-box");
+  const modalBox = modal?.querySelector(".modal-box");
   const modalTitle = document.getElementById("modal-title");
   const modalFile = document.getElementById("modal-file");
   const modalContent = document.getElementById("modal-content");
-  const modalClose = modal.querySelector(".modal-close");
+  const modalClose = modal?.querySelector(".modal-close");
   let modalReturnFocus = null;
 
   const openTopic = (name) => () => {
     const source = document.querySelector(`[data-topic="${name}"]`);
+    if (!modal || !source) {
+      location.href = `${root}#${name}`;
+      return;
+    }
     const clone = source.cloneNode(true);
     clone.removeAttribute("data-topic");
     clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
@@ -86,15 +96,27 @@
   };
 
   const closeModal = () => {
-    if (modal.hidden) return;
+    if (!modal || modal.hidden) return;
     modal.hidden = true;
     document.body.classList.remove("modal-open");
     modalReturnFocus?.focus?.();
   };
 
   const goHome = () => {
+    if (!isHome) {
+      location.href = root;
+      return;
+    }
     closeModal();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goSetup = () => {
+    if (page === "setup") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    location.href = `${root}setup/`;
   };
 
   const navActions = { "#inicio": goHome, "#skills": openTopic("skills"), "#contato": openTopic("contato") };
@@ -110,8 +132,14 @@
 
   document.querySelectorAll("[data-close-modal]").forEach((b) => b.addEventListener("click", closeModal));
 
+  // Vindo de outra página (ex.: /setup → Skills), abre o modal pedido e limpa o hash
+  if (isHome && topics[location.hash.slice(1)]) {
+    openTopic(location.hash.slice(1))();
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+
   // Mantém o Tab dentro do modal enquanto ele estiver aberto
-  modal.addEventListener("keydown", (e) => {
+  modal?.addEventListener("keydown", (e) => {
     if (e.key !== "Tab") return;
     const focusables = [...modalBox.querySelectorAll("a[href], button:not([disabled])")];
     const first = focusables[0];
@@ -132,6 +160,7 @@
     { group: "Navegação", label: "Início", key: "I", run: goHome },
     { group: "Navegação", label: "Skills", key: "S", run: openTopic("skills") },
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
+    { group: "Navegação", label: "Setup", key: "U", run: goSetup },
     { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },
