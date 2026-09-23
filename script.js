@@ -46,31 +46,92 @@
     showToast(legacyCopy(text) ? `Copiado: ${text}` : "Não foi possível copiar");
   };
 
-  document.querySelectorAll("[data-copy]").forEach((btn) =>
-    btn.addEventListener("click", () => copy(btn.dataset.copy))
-  );
+  // Delegado para funcionar também nas cópias do conteúdo dentro do modal
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (btn) copy(btn.dataset.copy);
+  });
 
-  // Paleta de comandos
-  const header = document.querySelector(".site-header");
-  const go = (hash) => () => {
-    const el = document.querySelector(hash);
-    const top = hash === "#inicio" ? 0 : el.getBoundingClientRect().top + window.scrollY - header.offsetHeight - 16;
-    window.scrollTo({ top, behavior: "smooth" });
-    history.replaceState(null, "", hash);
+  // Modal dos tópicos: o conteúdo vem do README ([data-topic]), sem duplicar HTML
+  const topics = {
+    skills: { title: "Skills", file: "skills.md" },
+    contato: { title: "Contato", file: "contato.md" },
   };
+
+  const modal = document.getElementById("modal");
+  const modalBox = modal.querySelector(".modal-box");
+  const modalTitle = document.getElementById("modal-title");
+  const modalFile = document.getElementById("modal-file");
+  const modalContent = document.getElementById("modal-content");
+  const modalClose = modal.querySelector(".modal-close");
+  let modalReturnFocus = null;
+
+  const openTopic = (name) => () => {
+    const source = document.querySelector(`[data-topic="${name}"]`);
+    const clone = source.cloneNode(true);
+    clone.removeAttribute("data-topic");
+    clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+
+    modalTitle.textContent = topics[name].title;
+    modalFile.textContent = topics[name].file;
+    modalContent.replaceChildren(clone);
+
+    if (modal.hidden) {
+      modalReturnFocus = document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add("modal-open");
+    }
+    modalContent.parentElement.scrollTop = 0;
+    modalClose.focus();
+  };
+
+  const closeModal = () => {
+    if (modal.hidden) return;
+    modal.hidden = true;
+    document.body.classList.remove("modal-open");
+    modalReturnFocus?.focus?.();
+  };
+
+  const goHome = () => {
+    closeModal();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const navActions = { "#inicio": goHome, "#skills": openTopic("skills"), "#contato": openTopic("contato") };
+
   document.querySelectorAll('a[href^="#"]').forEach((a) =>
     a.addEventListener("click", (e) => {
+      const action = navActions[a.getAttribute("href")];
+      if (!action) return;
       e.preventDefault();
-      go(a.getAttribute("href"))();
+      action();
     })
   );
 
+  document.querySelectorAll("[data-close-modal]").forEach((b) => b.addEventListener("click", closeModal));
+
+  // Mantém o Tab dentro do modal enquanto ele estiver aberto
+  modal.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab") return;
+    const focusables = [...modalBox.querySelectorAll("a[href], button:not([disabled])")];
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  // Paleta de comandos
   const open = (url) => () => window.open(url, "_blank", "noopener");
 
   const commands = [
-    { group: "Navegação", label: "Início", key: "I", run: go("#inicio") },
-    { group: "Navegação", label: "Skills", key: "S", run: go("#skills") },
-    { group: "Navegação", label: "Contato", key: "C", run: go("#contato") },
+    { group: "Navegação", label: "Início", key: "I", run: goHome },
+    { group: "Navegação", label: "Skills", key: "S", run: openTopic("skills") },
+    { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
     { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },
@@ -175,12 +236,15 @@
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
       e.preventDefault();
       palette.hidden ? openPalette() : closePalette();
-    } else if (e.key === "Escape" && !palette.hidden) {
-      closePalette();
+    } else if (e.key === "Escape") {
+      // Esc fecha primeiro o que estiver por cima: paleta, depois modal
+      if (!palette.hidden) closePalette();
+      else closeModal();
     }
   });
 
-  // Atalhos de uma tecla (I, S, C) — ignorados enquanto se digita ou com a paleta aberta
+  // Atalhos de uma tecla (I, S, C) — ignorados enquanto se digita ou com a paleta aberta.
+  // Com o modal aberto continuam valendo: S/C trocam o tópico e I fecha e volta ao topo.
   const shortcuts = Object.fromEntries(commands.filter((c) => c.key).map((c) => [c.key.toLowerCase(), c]));
 
   document.addEventListener("keydown", (e) => {

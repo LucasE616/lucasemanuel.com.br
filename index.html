@@ -66,6 +66,8 @@
             <div class="readme-body">
               <h2>Olá, eu sou o Lucas Emanuel <span class="wave" aria-hidden="true">👋</span></h2>
 
+              <!-- data-topic: conteúdo reaproveitado pelos modais de Skills e Contato -->
+              <div data-topic="skills">
               <h3>Linguagens &amp; tecnologias</h3>
               <ul class="tags">
                 <li>JavaScript</li>
@@ -81,8 +83,10 @@
                 <li>Gestão de software</li>
                 <li>Metodologias ágeis</li>
               </ul>
+              </div>
 
               <h3 id="contato">Contato</h3>
+              <div data-topic="contato">
               <ul class="contacts">
                 <li>
                   <span class="label">E-mail</span>
@@ -118,6 +122,7 @@
                   <span class="value"><a href="https://instagram.com/lucase616" target="_blank" rel="noopener">@lucase616</a></span>
                 </li>
               </ul>
+              </div>
 
               <pre class="printf"><code>printf("página feita com muito café ☕\n");</code></pre>
             </div>
@@ -149,6 +154,21 @@
           aria-controls="palette-list"
         />
         <ul class="palette-list" id="palette-list" role="listbox"></ul>
+      </div>
+    </div>
+
+    <!-- Modal dos tópicos (S = Skills, C = Contato) -->
+    <div class="modal" id="modal" hidden>
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <header class="modal-bar">
+          <span class="modal-file" id="modal-file"></span>
+          <button class="modal-close" type="button" data-close-modal aria-label="Fechar">esc</button>
+        </header>
+        <div class="modal-body">
+          <h2 class="modal-title" id="modal-title"></h2>
+          <div id="modal-content"></div>
+        </div>
       </div>
     </div>
 
