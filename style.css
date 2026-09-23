@@ -269,14 +269,16 @@ kbd {
   min-width: 0;
 }
 
-.contacts a {
+.contacts a,
+.gear a {
   overflow-wrap: anywhere;
   text-decoration-color: var(--border);
   text-underline-offset: 0.2em;
   transition: text-decoration-color 0.15s;
 }
 
-.contacts a:hover { text-decoration-color: var(--text); }
+.contacts a:hover,
+.gear a:hover { text-decoration-color: var(--text); }
 
 .copy,
 .pill {
