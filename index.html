@@ -125,6 +125,22 @@
               </ul>
               </div>
 
+              <h3>Curiosidades &amp; indicações</h3>
+              <p class="readme-note">Livros, séries, filmes e produtos que uso e indico.</p>
+              <button class="readme-button" type="button" data-open-topic="indicacoes">
+                abrir indicacoes.md <span aria-hidden="true">→</span>
+              </button>
+
+              <!--
+                Conteúdo do modal de indicações (não aparece na página, só no modal).
+                Cada categoria é um <h3> seguido de <ul class="picks">. Para adicionar um item:
+                  <li><span class="pick-name">Nome</span><span class="pick-meta">autor, ano ou comentário</span></li>
+                A linha pick-meta é opcional. Categoria sem itens: apague o bloco inteiro.
+              -->
+              <template data-topic="indicacoes">
+                <p class="readme-note">Em breve.</p>
+              </template>
+
               <pre class="printf"><code>printf("página feita com muito café ☕\n");</code></pre>
             </div>
           </article>

@@ -62,6 +62,7 @@
   const topics = {
     skills: { title: "Skills", file: "skills.md" },
     contato: { title: "Contato", file: "contato.md" },
+    indicacoes: { title: "Curiosidades & indicações", file: "indicacoes.md" },
   };
 
   const modal = document.getElementById("modal");
@@ -78,8 +79,10 @@
       location.href = `${root}#${name}`;
       return;
     }
-    const clone = source.cloneNode(true);
-    clone.removeAttribute("data-topic");
+    // <template> guarda conteúdo que só existe no modal (ex.: indicações)
+    const clone =
+      source instanceof HTMLTemplateElement ? source.content.cloneNode(true) : source.cloneNode(true);
+    clone.removeAttribute?.("data-topic");
     clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
 
     modalTitle.textContent = topics[name].title;
@@ -131,6 +134,9 @@
   );
 
   document.querySelectorAll("[data-close-modal]").forEach((b) => b.addEventListener("click", closeModal));
+  document.querySelectorAll("[data-open-topic]").forEach((b) =>
+    b.addEventListener("click", () => openTopic(b.dataset.openTopic)())
+  );
 
   // Vindo de outra página (ex.: /setup → Skills), abre o modal pedido e limpa o hash
   if (isHome && topics[location.hash.slice(1)]) {
@@ -161,6 +167,7 @@
     { group: "Navegação", label: "Skills", key: "S", run: openTopic("skills") },
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
     { group: "Navegação", label: "Setup", key: "U", run: goSetup },
+    { group: "Navegação", label: "Curiosidades & indicações", hint: "livros, séries, filmes", run: openTopic("indicacoes") },
     { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },

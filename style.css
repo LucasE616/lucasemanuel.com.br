@@ -297,6 +297,45 @@ kbd {
 .copy:hover,
 .pill:hover { color: var(--text); border-color: var(--muted); }
 
+/* Curiosidades & indicações */
+.readme-note { margin: 0 0 0.9rem; color: var(--muted); }
+
+.readme-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.readme-button span { transition: transform 0.2s; }
+.readme-button:hover { border-color: var(--muted); }
+.readme-button:hover span { transform: translateX(3px); }
+
+.picks { margin: 0; padding: 0; list-style: none; }
+
+.picks li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.picks li:last-child { border-bottom: 0; }
+
+.pick-meta {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
 /* Página de setup */
 .page-intro { padding: clamp(3rem, 12vh, 7rem) 0 1rem; }
 
@@ -542,6 +581,7 @@ kbd {
 }
 
 .modal-body .contacts { margin-top: 0.75rem; }
+.modal-body .readme-note { margin-top: 1rem; }
 
 body.modal-open { overflow: hidden; }
 
