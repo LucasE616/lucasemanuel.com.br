@@ -134,6 +134,19 @@
   );
 
   document.querySelectorAll("[data-close-modal]").forEach((b) => b.addEventListener("click", closeModal));
+  // Atalhos de seção dentro do modal (ex.: Livros · Séries · Filmes · Produtos)
+  document.addEventListener("click", (e) => {
+    const jump = e.target.closest("[data-jump]");
+    if (!jump) return;
+    const body = jump.closest(".modal-body");
+    const target = body?.querySelector(`[data-section="${jump.dataset.jump}"]`);
+    if (!target) return;
+    const bar = jump.closest(".modal-jump");
+    const top =
+      target.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - bar.offsetHeight;
+    body.scrollTo({ top, behavior: "smooth" });
+  });
+
   document.querySelectorAll("[data-open-topic]").forEach((b) =>
     b.addEventListener("click", () => openTopic(b.dataset.openTopic)())
   );
