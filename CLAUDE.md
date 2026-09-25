@@ -34,7 +34,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `style.css` | Estilos compartilhados pelas duas páginas |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
-| `ROADMAP.md` | Melhorias planejadas (21 itens) |
+| `ROADMAP.md` | Melhorias planejadas (22 itens) |
 
 ## Visual
 

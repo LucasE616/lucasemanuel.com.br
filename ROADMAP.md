@@ -24,6 +24,14 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito
 13. ⬜ **Estatísticas do GitHub** (médio). Linguagens mais usadas, repositórios recentes.
 14. ⬜ **Alternar tema claro/escuro** (médio).
 
+## Visual
+
+22. ⬜ **Fonte Verdana** (baixo). Trocar a fonte do site para Verdana.
+    - A Verdana já vem instalada no Windows e no macOS, então não precisa carregar nada do Google Fonts (e ela nem está lá). Android, iOS e Linux geralmente não têm Verdana, por isso a regra precisa de alternativas: `Verdana, Geneva, "DejaVu Sans", sans-serif`.
+    - Decidir o alcance: só o texto (hoje Inter), também os títulos (hoje Inter Tight) ou o site inteiro. A JetBrains Mono dos rótulos e códigos provavelmente continua, por causa do estilo README.
+    - Se a Inter e a Inter Tight saírem, remover o link do Google Fonts correspondente. O site fica mais leve.
+    - A Verdana é bem mais larga que a Inter. Rodar o checklist de testes em 320px: nome em uma linha, menu com 4 links em uma linha e barra de atalhos do modal de indicações.
+
 ## Técnico
 
 15. ⬜ **Imagem de prévia (Open Graph)** (baixo). Hoje o link compartilhado no LinkedIn/WhatsApp aparece sem imagem.
@@ -66,7 +74,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito
 
 ## Ordem sugerida
 
-1. **Itens rápidos juntos:** 15, 9, 16 e 17 (prévia, 404, sitemap e versão nos arquivos).
+1. **Itens rápidos juntos:** 15, 9, 16, 17 e 22 (prévia, 404, sitemap, versão nos arquivos e fonte Verdana).
 2. **Área administrativa (21)**, começando pelos pré-requisitos.
 3. **Página de Projetos (1)**, já com os dados editáveis pelo painel.
 4. **Currículo em PDF e versão em inglês** (2 e 8).
