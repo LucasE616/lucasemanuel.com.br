@@ -29,6 +29,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 27. ⬜ **Tema escuro / claro / sistema** (médio). Seletor com três opções, como o do akitaonrails.com. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
+30. ⬜ **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
 
 ## Visual
 
@@ -272,6 +273,45 @@ Substitui os itens 2 e 3.
 
 - Os arquivos não são escritos à mão: são gerados a partir dos mesmos arquivos de dados do item 21, a cada commit, no GitHub Actions. Assim o XML e o JSON nunca ficam diferentes do que está no site.
 - Validar os arquivos gerados (XML bem formado, JSON válido e o RSS no validador do W3C) no próprio GitHub Actions (item 20).
+
+### Detalhes do item 30: jogos contra a máquina
+
+**Onde:** página `/jogos` com os dois jogos, item no menu ou só na paleta (para não pesar o menu), atalho **J** e comandos `play velha` e `play damas` no terminal do item 23.
+
+**Jogo da velha** (esforço baixo):
+
+- Tabuleiro 3×3. O visitante escolhe se começa ou se deixa a máquina começar, e se joga com X ou O.
+- **IA com minimax.** O jogo da velha é pequeno o bastante para a máquina calcular todas as jogadas possíveis. No nível máximo ela nunca perde: o melhor resultado possível para o visitante é empatar.
+- **Níveis de dificuldade**, para não ser frustrante:
+  - **Fácil:** jogadas aleatórias.
+  - **Médio:** às vezes escolhe a melhor jogada, às vezes não.
+  - **Impossível:** minimax completo.
+- Destacar a linha vencedora e mostrar o placar (vitórias, empates e derrotas).
+
+**Damas em tabuleiro reduzido** (esforço médio-alto):
+
+- **Tabuleiro 6×6** com 6 peças para cada lado, nas casas escuras das duas primeiras fileiras. O tabuleiro menor deixa as partidas curtas e a IA mais rápida. Um 8×8 opcional pode vir depois.
+- **Regras** (base nas damas brasileiras, a definir e explicar numa tela de ajuda):
+  - Captura obrigatória, e a peça comum pode capturar para trás.
+  - Captura em sequência (várias peças na mesma jogada).
+  - **Dama voadora**, que anda várias casas na diagonal. Pode ser simplificada para uma casa por vez, se ficar complexo.
+  - **Lei da maioria** (é obrigatório capturar o maior número possível de peças). Também pode ser simplificada.
+  - Empate por repetição ou por um número de lances sem captura, para a partida não ficar infinita.
+- **IA com minimax e poda alfa-beta**, limitada por profundidade (quantos lances à frente ela pensa). A dificuldade é essa profundidade. A função de avaliação considera peças, damas, avanço e controle do centro.
+- **Web Worker:** a IA calcula em segundo plano, para a página não travar enquanto ela "pensa". Mostrar um indicador "pensando…".
+- Destacar os movimentos possíveis da peça selecionada e a última jogada da máquina.
+
+**Para os dois jogos:**
+
+- **Mouse, toque e teclado:** setas para mover o cursor e Enter para jogar, com `aria-label` em cada casa e anúncio da jogada da máquina para leitores de tela.
+- **Placar salvo** no `localStorage`, com botão para zerar.
+- **Visual** seguindo o site (e o tema do item 27). Animações leves, respeitando `prefers-reduced-motion`.
+- **Sem dependências:** JavaScript puro, como o resto do site.
+
+**Ideia para o portfólio:**
+
+- Uma aba **"Como a IA pensa"** explicando o minimax e a poda alfa-beta em poucas linhas, com link para o código no GitHub. Isso transforma o jogo numa demonstração de algoritmos.
+- **Opcional:** escrever a IA das damas em **C** e compilar para **WebAssembly**. Mostra a sua skill em C rodando no navegador e compara a velocidade com a versão em JavaScript. Exige um passo de build (Emscripten), que poderia rodar no GitHub Actions.
 
 ## Fora da lista (já feito)
 
