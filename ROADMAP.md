@@ -2,7 +2,7 @@
 
 Ideias de melhorias para o site. Esforço: **baixo**, **médio** ou **alto**.
 
-Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro item
+Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro item · ⏸ arquivado (saiu do site, pode voltar)
 
 ## Conteúdo
 
@@ -14,6 +14,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 6. ⬜ **Página "Agora"** (baixo). O que está estudando ou construindo no momento.
 7. ⬜ **Notas ou blog** (alto). Publicar notas do Obsidian (Markdown) como páginas do site.
 24. ⬜ **Menu Educação / Currículo** (médio). Página com diplomas, certificados, livros técnicos lidos e experiências profissionais. Detalhes abaixo.
+25. ⏸ **Curiosidades & indicações** (baixo para restaurar). Existiu no site e foi removido a pedido. Pode voltar quando o Lucas quiser. Detalhes abaixo.
 
 ## Funcionalidades
 
@@ -25,9 +26,13 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 13. ⬜ **Estatísticas do GitHub** (médio). Linguagens mais usadas, repositórios recentes.
 14. ⬜ **Alternar tema claro/escuro** (médio).
 23. ⬜ **Site em linha de comando** (médio). Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
+27. ⬜ **Tema escuro / claro / sistema** (médio). Seletor com três opções, como o do akitaonrails.com. Detalhes abaixo.
+28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
+29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
 
 ## Visual
 
+26. ⬜ **Setup com a identidade visual do akitaonrails.com** (médio). A página `/setup` deixa o layout atual (escuro, estilo README) e passa a seguir o visual do akitaonrails.com. Detalhes abaixo.
 22. ⬜ **Fonte Verdana** (baixo). Trocar a fonte do site para Verdana.
     - A Verdana já vem instalada no Windows e no macOS, então não precisa carregar nada do Google Fonts (e ela nem está lá). Android, iOS e Linux geralmente não têm Verdana, por isso a regra precisa de alternativas: `Verdana, Geneva, "DejaVu Sans", sans-serif`.
     - Decidir o alcance: só o texto (hoje Inter), também os títulos (hoje Inter Tight) ou o site inteiro. A JetBrains Mono dos rótulos e códigos provavelmente continua, por causa do estilo README.
@@ -161,6 +166,112 @@ Substitui os itens 2 e 3.
 **Privacidade:** não publicar fotos de diplomas ou certificados com CPF, RG, matrícula ou assinatura. Preferir texto com link de verificação e, se usar imagem, tarjar esses dados.
 
 **Conteúdo:** tudo informado pelo Lucas, nada inventado. O ideal é já nascer como arquivo de dados (`data/curriculo.json`), pensando no item 21.
+
+### Detalhes do item 25: Curiosidades & indicações (arquivado)
+
+**O que era:** um bloco no fim do README da home com o botão `abrir indicacoes.md →`, que abria um modal com:
+
+- **Livros (45)**, das abas "Meus livros" e "PDF" da planilha `D:\Control Spreadsheets\Livros LCS.xlsx`, em 7 tópicos: Programação e computação, Ciência e matemática, Negócios e finanças, Clássicos, Ficção, HQs e Referência. Só título e autor.
+- **Séries (9), filmes (14) e produtos (9)**, em etiquetas.
+- Barra fixa de atalhos no modal (Livros · Séries · Filmes · Produtos), livros em duas colunas a partir de 640px e comando na paleta.
+
+**Como restaurar:** tudo, conteúdo e código, está no commit `71df592` (a remoção foi no `074f545`). Dá para ver com `git show 71df592` e trazer de volta tudo ou só uma parte, por exemplo só os livros.
+
+**Decisões que ficaram em aberto:**
+
+- Incluir a aba "Lista de desejos" da planilha (49 livros) numa seção "Quero ler"?
+- Manter os livros de "Referência" (Constituição e dicionário ilustrado de inglês)?
+- "Curiosidades": o título prometia fatos sobre o Lucas, mas só havia indicações. Se voltar, pedir os fatos a ele.
+- Atalho de teclado sugerido: **R** (recomendações).
+- Se o item 26 (visual do akitaonrails.com) for feito antes, as indicações podem voltar já nesse visual, talvez como página própria em vez de modal.
+
+### Detalhes do item 26: setup com a identidade visual do akitaonrails.com
+
+**Decisão:** a página `/setup` não segue mais o layout atual (fundo escuro e bloco `setup.md` em estilo README). Ela passa a seguir a identidade visual do [akitaonrails.com](https://akitaonrails.com/).
+
+**Como é o visual do akitaonrails.com** (analisado em 25/09/2026; o site é feito em Hugo com o tema Hextra):
+
+- **Fundo creme** `#faf7f0`, como papel, com texto marrom-escuro `#2a2622`.
+- **Texto com serifa:** Source Serif 4, em 19px, confortável para leitura longa.
+- **Títulos sem serifa e em negrito:** Source Sans 3, com um traço fino embaixo das seções.
+- **Links cor de ferrugem** `#a63a1e`, sublinhados.
+- **Listas com marcador em losango** ◆ na cor dos links e **tags pequenas e discretas** no formato `#tag`.
+- **Barra superior clara:** nome do site à esquerda; à direita, links, busca com atalho Ctrl K, RSS, seletor PT | EN com opção "auto" e botão de tema.
+- **Sumário lateral** ("On this page") com âncoras para cada seção.
+- **Alternância Lista / Grade** para ver os itens de formas diferentes.
+- **Bloco recolhível** ("Featured" com botão Show).
+
+**Como adaptar ao setup:**
+
+- Cada categoria (Notebook, Periféricos, Mesa, Áudio, Mobile, Papelaria, Ferramentas) vira uma seção com título sem serifa e itens com ◆.
+- O rótulo de cada item (Mouse, Monitor…) pode virar a tag discreta, no formato `#mouse`.
+- Sumário lateral com as categorias no computador. No celular, ele vira uma lista no topo.
+- Alternância Lista / Grade: na grade, cada item vira um cartão (bom para uma futura foto do equipamento).
+- O Notebook pode ser o bloco em destaque, com as especificações recolhíveis.
+
+**Pontos para decidir:**
+
+- **Só o setup muda?** A home continuaria escura. Isso cria dois estilos no mesmo site. Dá para aceitar como "página com personalidade própria", fazer uma transição suave entre as duas ou, no futuro, levar o visual para o site todo.
+- **Tema escuro:** o akitaonrails.com também tem versão escura. Com o item 27, o setup ganharia as duas versões nesse visual.
+- **Fontes:** Source Serif 4 e Source Sans 3 estão no Google Fonts. Isso conflita com o item 22 (Verdana); decidir qual vale para o setup.
+- **Não copiar:** seguir a identidade (cores, tipografia, organização), não copiar código nem textos do site dele.
+
+### Detalhes do item 27: tema escuro / claro / sistema
+
+**Referência:** o botão de tema do akitaonrails.com abre um menu com **Light**, **Dark** e **System**.
+
+- **Três opções:** Claro, Escuro e Sistema (segue a configuração do aparelho via `prefers-color-scheme`, inclusive quando ela muda com o site aberto).
+- **Onde fica:** botão com ícone (sol/lua) na barra superior, em todas as páginas, mais comandos na paleta (e no terminal do item 23, `theme dark`).
+- **Guarda a escolha** no `localStorage`. O padrão para quem nunca escolheu é **Sistema**.
+- **Sem piscar:** um pequeno script no `<head>` aplica o tema antes de a página aparecer, para não mostrar o tema errado por um instante.
+- **Implementação:** as cores já estão em variáveis CSS no `:root`, então basta um segundo conjunto de valores para `[data-theme="light"]`. O tema claro da home precisa ser desenhado (o atual só existe escuro). O setup no visual do item 26 já nasce claro e precisa de uma versão escura.
+- **Contraste:** conferir legibilidade (WCAG AA) nos dois temas, principalmente cinzas e links.
+
+### Detalhes do item 28: idiomas
+
+**Idiomas:** português (padrão), inglês, espanhol, japonês, italiano e alemão.
+
+**Referência:** o akitaonrails.com tem o seletor **PT | EN** na barra superior, com URL própria por idioma (`/` e `/en/`), e um interruptor **"auto"** que redireciona o visitante para o idioma do navegador e guarda a preferência num cookie por um ano.
+
+**Como fazer aqui:**
+
+- **Uma URL por idioma:** `/` (pt), `/en/`, `/es/`, `/ja/`, `/it/` e `/de/`. Isso é melhor para o Google do que trocar o texto via JavaScript na mesma URL.
+- **Seletor** na barra superior: com seis idiomas, um menu suspenso funciona melhor que os links lado a lado do akitaonrails.com.
+- **Detecção automática opcional**, como o "auto" do akitaonrails.com: usa `navigator.languages` e guarda a escolha (`localStorage` ou cookie). A escolha manual sempre vence.
+- **SEO:** `<link rel="alternate" hreflang="...">` para cada idioma em todas as páginas, e `<html lang="...">` correto.
+- **Organização:** textos da interface num arquivo por idioma (`i18n/pt.json`, `i18n/en.json`…) e o conteúdo gerado a partir deles. Com seis idiomas, gerar as páginas no GitHub Actions (item 21) evita manter seis cópias de cada HTML à mão.
+
+**Cuidados:**
+
+- **Tradução:** nomes de produtos, tecnologias e marcas não se traduzem. Textos pessoais precisam ser revisados pelo Lucas ou por alguém fluente, porque tradução automática sem revisão pode dizer algo que ele não disse.
+- **Japonês:** precisa de uma fonte com os caracteres japoneses, como a Noto Sans JP. Verdana, Inter e Source Serif não têm. Também muda a quebra de linha e o espaçamento.
+- **Alemão:** palavras longas podem estourar botões e o menu. Testar em 320px.
+- **Atalhos de teclado:** as letras I, S, C e U vêm de palavras em português. Decidir se mudam por idioma ou ficam fixas.
+- **Esforço alto** pelo volume: seis versões de cada página e de cada atualização futura.
+
+### Detalhes do item 29: exportar o site em XML e JSON
+
+**Referência:** o akitaonrails.com publica o feed RSS em `/index.xml` (e `/en/index.xml`) e o mapa do site em `/sitemap.xml`, com um ícone de RSS na barra superior. Ele **não** tem versão em JSON (`/index.json` retorna 404), então o JSON seria um diferencial.
+
+**Arquivos propostos:**
+
+- **`/index.xml` (RSS):** feed de novidades, como novos projetos, itens de setup e certificados. Quem usa leitor de RSS acompanha as atualizações.
+- **`/sitemap.xml`:** lista de páginas para os buscadores (cobre o item 16).
+- **`/site.json`:** o conteúdo inteiro do site em JSON (perfil, skills, contatos, setup, projetos, currículo), para quem quiser consumir via API.
+- **`/feed.json`:** a versão JSON do feed, no padrão [JSON Feed](https://www.jsonfeed.org/).
+- **`/resume.json`:** o currículo (item 24) no padrão [JSON Resume](https://jsonresume.org/), aceito por várias ferramentas e temas de currículo.
+- Com o item 28, uma versão por idioma (`/en/index.xml`, `/en/site.json`…).
+
+**Como oferecer:**
+
+- Ícones de RSS e `{ }` (JSON) na barra superior ou no rodapé, como o RSS do akitaonrails.com.
+- `<link rel="alternate">` no `<head>` para os navegadores e leitores de feed encontrarem sozinhos.
+- Comandos na paleta ("Ver JSON do site", "Assinar RSS") e no terminal do item 23 (`curl lucasemanuel.com.br/site.json`).
+
+**Como gerar:**
+
+- Os arquivos não são escritos à mão: são gerados a partir dos mesmos arquivos de dados do item 21, a cada commit, no GitHub Actions. Assim o XML e o JSON nunca ficam diferentes do que está no site.
+- Validar os arquivos gerados (XML bem formado, JSON válido e o RSS no validador do W3C) no próprio GitHub Actions (item 20).
 
 ## Fora da lista (já feito)
 
