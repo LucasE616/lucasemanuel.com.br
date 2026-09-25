@@ -8,6 +8,7 @@
   --accent: #50fa7b;
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --header-h: 4.5rem;
+  --title-size: clamp(2.5rem, 2.5vw + 1.75rem, 4.5rem);
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --display: "Inter Tight", "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
@@ -110,10 +111,11 @@ button { font: inherit; color: inherit; }
   padding: 2rem 0;
 }
 
+/* Tamanhos crescem com a largura: iguais no celular, maiores em notebooks e monitores */
 .hero h1 {
   margin: 0 0 1rem;
   font-family: var(--display);
-  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  font-size: var(--title-size);
   line-height: 1.05;
   letter-spacing: -0.03em;
 }
@@ -121,12 +123,13 @@ button { font: inherit; color: inherit; }
 .role {
   margin: 0;
   font-weight: 500;
-  font-size: 1.05rem;
+  font-size: clamp(1.05rem, 0.5vw + 0.9rem, 1.35rem);
 }
 
 .stack {
   margin: 0.25rem 0 2rem;
   color: var(--muted);
+  font-size: clamp(1rem, 0.4vw + 0.85rem, 1.25rem);
 }
 
 .start {
@@ -137,7 +140,7 @@ button { font: inherit; color: inherit; }
   border: 0;
   background: none;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: clamp(0.95rem, 0.3vw + 0.85rem, 1.1rem);
   cursor: pointer;
 }
 
@@ -150,7 +153,7 @@ kbd {
   background: var(--surface-2);
   border: 1px solid var(--border);
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: 0.8em;
   color: var(--muted);
 }
 
@@ -392,7 +395,7 @@ kbd {
 .page-intro h1 {
   margin: 0 0 0.5rem;
   font-family: var(--display);
-  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  font-size: var(--title-size);
   line-height: 1.05;
   letter-spacing: -0.03em;
 }
