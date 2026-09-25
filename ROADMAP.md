@@ -30,7 +30,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito
     - A Verdana já vem instalada no Windows e no macOS, então não precisa carregar nada do Google Fonts (e ela nem está lá). Android, iOS e Linux geralmente não têm Verdana, por isso a regra precisa de alternativas: `Verdana, Geneva, "DejaVu Sans", sans-serif`.
     - Decidir o alcance: só o texto (hoje Inter), também os títulos (hoje Inter Tight) ou o site inteiro. A JetBrains Mono dos rótulos e códigos provavelmente continua, por causa do estilo README.
     - Se a Inter e a Inter Tight saírem, remover o link do Google Fonts correspondente. O site fica mais leve.
-    - A Verdana é bem mais larga que a Inter. Rodar o checklist de testes em 320px: nome em uma linha, menu com 4 links em uma linha e barra de atalhos do modal de indicações.
+    - A Verdana é bem mais larga que a Inter. Rodar o checklist de testes em 320px: nome em uma linha e menu com 4 links em uma linha.
 
 ## Técnico
 
@@ -67,7 +67,6 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito
 
 ## Fora da lista (já feito)
 
-- ✅ Curiosidades & indicações: 45 livros, 9 séries, 14 filmes e 9 produtos, com barra de atalhos no modal
 - ✅ Modais para Skills e Contato; atalhos I, S, C e U
 - ✅ HTTPS com domínio próprio e redirecionamento HTTP → HTTPS
 - ✅ Texto da apresentação maior em monitores

@@ -29,7 +29,7 @@ status dos itens no mesmo commit em que forem concluídos.
 
 | Arquivo | Conteúdo |
 |---|---|
-| `index.html` | Home: apresentação (hero), README com skills, contatos e curiosidades & indicações, modal e paleta |
+| `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
 | `style.css` | Estilos compartilhados pelas duas páginas |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
@@ -46,19 +46,16 @@ status dos itens no mesmo commit em que forem concluídos.
 - Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup (40px no celular, 72px em
   1920px). No celular os tamanhos devem continuar iguais.
 - Blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`, `setup.md`,
-  `skills.md`, `contato.md`, `indicacoes.md`).
+  `skills.md`, `contato.md`).
 
 ## Padrões de código
 
 - **Hero:** ocupa exatamente `100svh - var(--header-h)`. O README **nunca** pode aparecer na primeira
   tela, em nenhum tamanho de tela.
 - **Modais de tópico:** o conteúdo vem do README por `data-topic="nome"` e é clonado para o modal, sem
-  duplicar HTML. Conteúdo que só existe no modal fica num `<template data-topic="...">`, como as
-  indicações. Os tópicos são registrados no objeto `topics` de `script.js`.
-- **Botões que abrem modal:** usam `data-open-topic="nome"`. Atalhos de seção dentro do modal usam
-  `data-jump` (no botão) e `data-section` (no destino).
-- **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills, Contato e
-  Indicações levam para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
+  duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
+- **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
+  para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
 - **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato) e U (Setup).
   São ignorados enquanto se digita e com a paleta aberta. Cada comando fica no array `commands` de
   `script.js`, que também alimenta a paleta.
@@ -66,8 +63,6 @@ status dos itens no mesmo commit em que forem concluídos.
   botões usam `data-copy` com delegação de eventos, para funcionarem também dentro dos modais.
 - **Listas do setup:** `<ul class="gear">` com linhas `<span class="label">` + `<span class="value">`.
   Especificações do notebook em `<dl class="gear-specs">`.
-- **Indicações:** livros em `<h4>` por tópico + `<ul class="picks">` (`pick-name` e `pick-meta`), em duas
-  colunas a partir de 640px. Séries, filmes e produtos em `<ul class="tags">`.
 - **Acessibilidade:** foco preso dentro do modal com Tab e devolvido ao elemento de origem ao fechar;
   `aria-current="page"` no menu; `prefers-reduced-motion` desliga as animações.
 
@@ -114,10 +109,6 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 
 - Cadeira do setup: modelo ainda não informado.
 - "Wh" no suporte de headset: confirmar se é a marca.
-- "Lista de desejos" da planilha de livros (49 livros): ficou de fora; o Lucas pode querer uma seção "Quero ler".
-- Livros de "Referência" (Constituição e dicionário ilustrado de inglês): confirmar se devem ficar nas indicações.
-- "Curiosidades": o título promete fatos sobre o Lucas, mas por enquanto só há indicações.
-- Atalho de teclado para as indicações: sugerido **R**, ainda não criado.
 
 ## Histórico resumido
 
@@ -127,5 +118,8 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 4. Skills e Contato passaram a abrir em modal em vez de rolar a página.
 5. Página `/setup` com Notebook, Periféricos, Mesa, Áudio, Mobile, Papelaria e Ferramentas; atalho U.
 6. Curiosidades & indicações: 45 livros (abas "Meus livros" e "PDF" da planilha `D:\Control Spreadsheets\Livros LCS.xlsx`),
-   9 séries, 14 filmes e 9 produtos.
+   9 séries, 14 filmes e 9 produtos, num modal com barra de atalhos de seção.
 7. Tipografia maior em monitores; ROADMAP.md com 21 itens, incluindo a área administrativa (item 21).
+8. Item 22 (fonte Verdana) no roadmap; CLAUDE.md criado.
+9. **Curiosidades & indicações removido do site** a pedido do Lucas. Não recriar sem ele pedir. Se pedir
+   de volta, o conteúdo e o código completos estão no commit `71df592` (`git show 71df592`).

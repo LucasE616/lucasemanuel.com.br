@@ -62,7 +62,6 @@
   const topics = {
     skills: { title: "Skills", file: "skills.md" },
     contato: { title: "Contato", file: "contato.md" },
-    indicacoes: { title: "Curiosidades & indicações", file: "indicacoes.md" },
   };
 
   const modal = document.getElementById("modal");
@@ -79,10 +78,8 @@
       location.href = `${root}#${name}`;
       return;
     }
-    // <template> guarda conteúdo que só existe no modal (ex.: indicações)
-    const clone =
-      source instanceof HTMLTemplateElement ? source.content.cloneNode(true) : source.cloneNode(true);
-    clone.removeAttribute?.("data-topic");
+    const clone = source.cloneNode(true);
+    clone.removeAttribute("data-topic");
     clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
 
     modalTitle.textContent = topics[name].title;
@@ -134,22 +131,6 @@
   );
 
   document.querySelectorAll("[data-close-modal]").forEach((b) => b.addEventListener("click", closeModal));
-  // Atalhos de seção dentro do modal (ex.: Livros · Séries · Filmes · Produtos)
-  document.addEventListener("click", (e) => {
-    const jump = e.target.closest("[data-jump]");
-    if (!jump) return;
-    const body = jump.closest(".modal-body");
-    const target = body?.querySelector(`[data-section="${jump.dataset.jump}"]`);
-    if (!target) return;
-    const bar = jump.closest(".modal-jump");
-    const top =
-      target.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - bar.offsetHeight;
-    body.scrollTo({ top, behavior: "smooth" });
-  });
-
-  document.querySelectorAll("[data-open-topic]").forEach((b) =>
-    b.addEventListener("click", () => openTopic(b.dataset.openTopic)())
-  );
 
   // Vindo de outra página (ex.: /setup → Skills), abre o modal pedido e limpa o hash
   if (isHome && topics[location.hash.slice(1)]) {
@@ -179,9 +160,7 @@
     { group: "Navegação", label: "Início", key: "I", run: goHome },
     { group: "Navegação", label: "Skills", key: "S", run: openTopic("skills") },
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
-    { group: "Navegação", label: "Setup", key: "U", run: goSetup },
-    { group: "Navegação", label: "Curiosidades & indicações", hint: "livros, séries, filmes", run: openTopic("indicacoes") },
-    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
+    { group: "Navegação", label: "Setup", key: "U", run: goSetup },    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },
     { group: "Contato", label: "Conversar no WhatsApp", hint: "(38) 99813-0581", run: open("https://wa.me/5538998130581") },

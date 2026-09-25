@@ -300,95 +300,6 @@ kbd {
 .copy:hover,
 .pill:hover { color: var(--text); border-color: var(--muted); }
 
-/* Curiosidades & indicações */
-.readme-note { margin: 0 0 0.9rem; color: var(--muted); }
-
-.readme-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.9rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface-2);
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-
-.readme-button span { transition: transform 0.2s; }
-.readme-button:hover { border-color: var(--muted); }
-.readme-button:hover span { transform: translateX(3px); }
-
-.modal-body h4 {
-  margin: 1.5rem 0 0.25rem;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.modal-body h3 + h4 { margin-top: 0.5rem; }
-
-.modal-jump {
-  position: sticky;
-  top: -1.5rem; /* compensa o padding-top do .modal-body */
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0 0 -0.5rem;
-  padding: 0.9rem 0 0.75rem;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-jump button {
-  padding: 0.2rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface-2);
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--muted);
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.modal-jump button:hover { color: var(--text); border-color: var(--muted); }
-
-@media (min-width: 640px) {
-  .modal-body .picks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1.5rem;
-  }
-
-  /* Na última linha com dois itens, o da esquerda também perde a borda */
-  .modal-body .picks li:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
-}
-
-.picks { margin: 0; padding: 0; list-style: none; }
-
-.picks li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px dashed var(--border);
-}
-
-.picks li:last-child { border-bottom: 0; }
-
-.pick-meta {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
 /* Página de setup */
 .page-intro { padding: clamp(3rem, 12vh, 7rem) 0 1rem; }
 
@@ -634,7 +545,6 @@ kbd {
 }
 
 .modal-body .contacts { margin-top: 0.75rem; }
-.modal-body .readme-note { margin-top: 1rem; }
 
 body.modal-open { overflow: hidden; }
 
@@ -669,8 +579,6 @@ body.modal-open { overflow: hidden; }
 
 @media (max-width: 360px) {
   .nav a { padding: 0.4rem 0.3rem; font-size: 0.66rem; letter-spacing: 0.03em; }
-  .modal-jump { gap: 0.25rem; }
-  .modal-jump button { padding: 0.15rem 0.35rem; font-size: 0.7rem; }
   .cmd-trigger { width: 32px; }
 }
 
