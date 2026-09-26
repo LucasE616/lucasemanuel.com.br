@@ -316,8 +316,13 @@ sequências de lances possíveis (3.922 partidas), o nível Impossível nunca pe
 distância. Cada fileira bloqueia no máximo 2 faixas, e o espaço entre fileiras cresce com a velocidade para
 sempre dar tempo de trocar duas faixas (um piloto automático de teste andou 20 × ~10 min sem bater).
 Controles: ←/→ ou A/D, toque no lado da pista, botões ◀ ▶, Espaço/P pausa. Pausa sozinho ao trocar de aba,
-ao perder o foco e com a paleta aberta. Recorde em `carrinho-recorde` no `localStorage`. No terminal,
-`play carrinho` abre a página. Ideia futura: versão em texto dentro do terminal.
+ao perder o foco e com a paleta aberta. Recorde em `carrinho-recorde` no `localStorage`. As abas da página
+mostram um jogo por vez (`/jogos/#carrinho` abre direto no carrinho).
+
+**Carrinho no terminal:** `play carrinho` roda uma versão em texto (pista de 3 faixas com caracteres de caixa,
+14 linhas), com as mesmas regras. ←/→ ou A/D (ou toque nos lados da pista), `q` ou Ctrl+C sai. A velocidade
+vai de 150 a 60 ms por linha. Recorde próprio (`carrinho-terminal-recorde`), porque a distância não se compara
+com a da página.
 
 **Onde:** página `/jogos` com os dois jogos, item no menu ou só na paleta (para não pesar o menu), atalho **J** e comandos `play velha` e `play damas` no terminal do item 23.
 

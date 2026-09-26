@@ -356,6 +356,149 @@
     return m;
   };
 
+  // ---------- Carrinho (play carrinho) ----------
+  // Versão em texto do jogo de /jogos/#carrinho, com as mesmas regras: 3 faixas, cada fileira bloqueia
+  // no máximo 2, o espaço entre fileiras cresce com a velocidade e a partida acaba na batida.
+  // Recorde separado do da página, porque as distâncias não se comparam.
+  const CAR_KEY = "carrinho-terminal-recorde";
+  const carGame = () =>
+    new Promise((done) => {
+      const ROWS = 14;
+      const LANES = 3;
+      const LW = 7; // largura de cada faixa, em caracteres
+      const PY = ROWS - 3; // linha de cima do carrinho do jogador
+      const SPRITES = { player: ["╔▲╗", "╚═╝"], car: ["╔═╗", "╚▼╝"], barrier: ["▓▓▓▓▓"] };
+      let best = 0;
+      try {
+        best = Math.max(0, parseInt(localStorage.getItem(CAR_KEY), 10) || 0);
+      } catch {}
+      let lane = 1;
+      let obs = [];
+      let rows = 0;
+      let next = 6;
+      let tick = 150; // ms por linha: diminui até 60
+      let timer;
+      let over = false;
+      let crashed = false;
+
+      say("Carrinho: ← → ou A/D trocam de faixa (no celular, toque nos lados da pista). q ou Ctrl+C sai.", "t-dim");
+      const board = print("");
+      board.classList.add("t-car");
+      const hud = print("");
+      const meters = () => rows * 2;
+      const kmh = () => Math.round((2 / (tick / 1000)) * 3.6);
+
+      const cell = (l, r) => {
+        if (l === lane && r >= PY && r < PY + 2) return span(crashed ? "t-err" : "t-accent", `  ${crashed ? "✖✖✖" : SPRITES.player[r - PY]}  `);
+        const o = obs.find((o) => o.lane === l && r >= o.y && r < o.y + o.h);
+        if (!o) return " ".repeat(LW);
+        const s = SPRITES[o.type][r - o.y];
+        const pad = " ".repeat((LW - s.length) / 2);
+        return [pad, span(o.type === "car" ? "t-err" : "t-warn", s), pad];
+      };
+
+      const render = () => {
+        const nodes = [];
+        for (let r = 0; r < ROWS; r++) {
+          nodes.push(span("t-dim", "│"));
+          for (let l = 0; l < LANES; l++) {
+            nodes.push(...[cell(l, r)].flat());
+            // Faixas tracejadas que "andam" junto com a pista
+            if (l < LANES - 1) nodes.push(span("t-dim", (r + rows) % 2 ? " " : "┊"));
+          }
+          nodes.push(span("t-dim", "│"), "\n");
+        }
+        board.replaceChildren(...nodes.map((n) => (n instanceof Node ? n : document.createTextNode(n))));
+        hud.textContent = `${meters()} m   ${kmh()} km/h   recorde ${best} m`;
+      };
+
+      const hit = () => obs.some((o) => o.lane === lane && o.y < PY + 2 && o.y + o.h > PY);
+
+      const spawn = () => {
+        const double = Math.random() < Math.min(0.55, 0.15 + rows / 600);
+        const lanes = [0, 1, 2].sort(() => Math.random() - 0.5).slice(0, double ? 2 : 1);
+        lanes.forEach((l) => {
+          const type = Math.random() < 0.6 ? "car" : "barrier";
+          const h = SPRITES[type].length;
+          obs.push({ lane: l, type, h, y: -h });
+        });
+      };
+      // Pelo menos 5 linhas livres entre fileiras, e mais conforme acelera
+      const gap = () => 5 + Math.round((150 - tick) / 30) + Math.floor(Math.random() * 4);
+
+      const finish = (reason) => {
+        if (over) return;
+        over = true;
+        clearTimeout(timer);
+        removeEventListener("keydown", onKey);
+        board.removeEventListener("pointerdown", onTouch);
+        crashed = !reason;
+        const m = meters();
+        const record = crashed && m > best;
+        if (record) {
+          best = m;
+          try {
+            localStorage.setItem(CAR_KEY, String(best));
+          } catch {}
+        }
+        render();
+        if (reason) say(`Partida ${reason} em ${m} m.`, "t-dim");
+        else {
+          print(span("t-err", "Bateu! "), `${m} m`);
+          if (record) say("Novo recorde!", "t-accent");
+          else say(`Recorde: ${best} m`, "t-dim");
+        }
+        say("Digite play carrinho para jogar de novo, ou abra a versão com gráficos em /jogos/#carrinho.", "t-dim");
+        done();
+      };
+
+      const step = () => {
+        if (aborted) return finish("interrompida");
+        if (!document.hidden) {
+          rows++;
+          obs.forEach((o) => o.y++);
+          obs = obs.filter((o) => o.y < ROWS);
+          if (--next <= 0) {
+            spawn();
+            next = gap();
+          }
+          tick = Math.max(60, 150 - rows * 0.25);
+          if (hit()) return finish();
+          render();
+        }
+        timer = setTimeout(step, tick);
+      };
+
+      const move = (d) => {
+        if (over) return;
+        lane = Math.max(0, Math.min(LANES - 1, lane + d));
+        if (hit()) return finish();
+        render();
+      };
+
+      const onKey = (e) => {
+        const k = e.key.toLowerCase();
+        if (k === "arrowleft" || k === "a") move(-1);
+        else if (k === "arrowright" || k === "d") move(1);
+        else if ((k === "q" || k === "escape") && !e.ctrlKey) finish("encerrada");
+        else return;
+        e.preventDefault();
+      };
+      // Toque: à esquerda ou à direita do carrinho
+      const onTouch = (e) => {
+        const r = board.getBoundingClientRect();
+        const width = 1 + LANES * (LW + 1);
+        const carCenter = r.left + (r.width * (1 + lane * (LW + 1) + LW / 2)) / width;
+        move(e.clientX < carCenter ? -1 : 1);
+      };
+
+      addEventListener("keydown", onKey);
+      board.addEventListener("pointerdown", onTouch);
+      render();
+      scrollDown();
+      timer = setTimeout(step, 700);
+    });
+
   // ---------- Utilidades ----------
   const distance = (a, b) => {
     const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
@@ -439,7 +582,7 @@
     ]],
     ["Jogos", [
       ["play velha [nível]", "jogo da velha: facil, medio ou impossivel (+ o, maquina)"],
-      ["play carrinho", "abre o jogo do carrinho"],
+      ["play carrinho", "desvie dos obstáculos (← →) até bater"],
     ]],
     ["Terminal", [
       ["history, clear", "histórico e limpar a tela (Ctrl+L)"],
@@ -748,11 +891,7 @@
     },
     play: async (args) => {
       const words = args.map((a) => a.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""));
-      if (words[0] === "carrinho") {
-        say("O carrinho precisa de gráficos: abrindo a página de jogos…", "t-dim");
-        location.href = "../jogos/#carrinho";
-        return;
-      }
+      if (words[0] === "carrinho") return carGame();
       if (words[0] !== "velha") return say("uso: play velha [facil|medio|impossivel] [x|o] [maquina] | play carrinho", "t-err");
       if (!V) return say("play: não foi possível carregar o jogo.", "t-err");
       const level = V.LEVELS.find((l) => words.includes(l)) || "medio";
