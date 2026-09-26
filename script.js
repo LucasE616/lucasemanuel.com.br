@@ -58,6 +58,93 @@
   const page = document.body.dataset.page || "home";
   const isHome = page === "home";
 
+  // Tema: "light", "dark" ou "system" (padrão). O <head> já aplicou o tema antes de desenhar;
+  // aqui ficam o menu, a troca e o acompanhamento do sistema quando a escolha é "Sistema".
+  const html = document.documentElement;
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  const prefersLight = matchMedia("(prefers-color-scheme: light)");
+  const themeNames = { light: "claro", dark: "escuro", system: "do sistema" };
+
+  const getThemePref = () => {
+    try {
+      const pref = localStorage.getItem("theme");
+      return pref === "light" || pref === "dark" ? pref : "system";
+    } catch {
+      return "system";
+    }
+  };
+
+  const applyTheme = () => {
+    const pref = getThemePref();
+    const theme = pref === "system" ? (prefersLight.matches ? "light" : "dark") : pref;
+    html.dataset.theme = theme;
+    themeMeta?.setAttribute("content", theme === "light" ? "#faf7f0" : "#08070b");
+    document
+      .querySelectorAll("[data-theme-choice]")
+      .forEach((b) => b.setAttribute("aria-checked", String(b.dataset.themeChoice === pref)));
+    document.querySelector(".theme-toggle")?.setAttribute("aria-label", `Tema ${themeNames[pref]}`);
+  };
+
+  const setTheme = (pref) => {
+    try {
+      if (pref === "system") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", pref);
+    } catch {
+      // armazenamento bloqueado: o tema muda só nesta visita
+    }
+    applyTheme();
+  };
+
+  prefersLight.addEventListener("change", () => getThemePref() === "system" && applyTheme());
+  applyTheme();
+
+  const themeToggle = document.querySelector(".theme-toggle");
+  const themeMenu = document.getElementById("theme-menu");
+  const themeItems = [...document.querySelectorAll("[data-theme-choice]")];
+
+  const closeThemeMenu = (returnFocus = false) => {
+    if (!themeMenu || themeMenu.hidden) return false;
+    themeMenu.hidden = true;
+    themeToggle.setAttribute("aria-expanded", "false");
+    if (returnFocus) themeToggle.focus();
+    return true;
+  };
+
+  const openThemeMenu = () => {
+    themeMenu.hidden = false;
+    themeToggle.setAttribute("aria-expanded", "true");
+    (themeItems.find((b) => b.getAttribute("aria-checked") === "true") || themeItems[0]).focus();
+  };
+
+  themeToggle?.addEventListener("click", () => (themeMenu.hidden ? openThemeMenu() : closeThemeMenu()));
+  themeItems.forEach((b) =>
+    b.addEventListener("click", () => {
+      setTheme(b.dataset.themeChoice);
+      closeThemeMenu(true);
+    })
+  );
+  themeMenu?.addEventListener("keydown", (e) => {
+    const i = themeItems.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const next = (i + (e.key === "ArrowDown" ? 1 : -1) + themeItems.length) % themeItems.length;
+      themeItems[next].focus();
+    } else if (e.key === "Tab") {
+      closeThemeMenu();
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".theme-switch")) closeThemeMenu();
+  });
+
+  // Data da "edição" no README em estilo de jornal (tema claro)
+  const today = new Date();
+  document.querySelectorAll("[data-today]").forEach((el) => {
+    const text = new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(today);
+    el.textContent = text.charAt(0).toUpperCase() + text.slice(1);
+    el.dateTime = today.toISOString().slice(0, 10);
+  });
+
   // Modal dos tópicos: o conteúdo vem do README ([data-topic]), sem duplicar HTML
   const topics = {
     skills: { title: "Skills", file: "skills.md" },
@@ -160,7 +247,10 @@
     { group: "Navegação", label: "Início", key: "I", run: goHome },
     { group: "Navegação", label: "Skills", key: "S", run: openTopic("skills") },
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
-    { group: "Navegação", label: "Setup", key: "U", run: goSetup },    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
+    { group: "Navegação", label: "Setup", key: "U", run: goSetup },
+    { group: "Tema", label: "Tema claro", hint: "light", run: () => setTheme("light") },
+    { group: "Tema", label: "Tema escuro", hint: "dark", run: () => setTheme("dark") },
+    { group: "Tema", label: "Tema do sistema", hint: "system", run: () => setTheme("system") },    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },
     { group: "Contato", label: "Conversar no WhatsApp", hint: "(38) 99813-0581", run: open("https://wa.me/5538998130581") },
@@ -265,7 +355,8 @@
       e.preventDefault();
       palette.hidden ? openPalette() : closePalette();
     } else if (e.key === "Escape") {
-      // Esc fecha primeiro o que estiver por cima: paleta, depois modal
+      // Esc fecha primeiro o que estiver por cima: menu de tema, paleta, depois modal
+      if (closeThemeMenu(true)) return;
       if (!palette.hidden) closePalette();
       else closeModal();
     }

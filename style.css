@@ -17,6 +17,33 @@
   --display: var(--sans);
   --serif: "Times New Roman", Times, "Liberation Serif", serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+/* Tema claro (item 27): as cores creme e ferrugem da primeira versão do setup, inspiradas no
+   akitaonrails.com. O tema é aplicado em <html data-theme> por um script no <head>. */
+:root[data-theme="light"] {
+  --bg: #faf7f0;
+  --surface: #fffdf8;
+  --surface-2: #f2ece0;
+  --border: #e4dccc;
+  --text: #2a2622;
+  --muted: #6f665c;
+  --accent: #a63a1e;
+  --backdrop: rgba(42, 38, 34, 0.3);
+  --shadow: 0 18px 50px rgba(42, 38, 34, 0.18);
+  color-scheme: light;
+}
+
+/* Fonte no estilo do cabeçalho do New York Times (OFL 1.1), usada só no README do tema claro.
+   O navegador só baixa a fonte quando ela é usada. */
+@font-face {
+  font-family: "Chomsky";
+  src: url("https://cdn.jsdelivr.net/gh/ctrlcctrlv/chomsky@30d941bc825bdb488e36622e86ed913271fe1837/dist/Chomsky.woff2")
+    format("woff2");
+  font-display: swap;
 }
 
 * { box-sizing: border-box; }
@@ -91,8 +118,73 @@ button { font: inherit; color: inherit; }
 .nav a:hover { color: var(--text); background: var(--surface-2); }
 .nav a[aria-current="page"] { color: var(--text); }
 
-.cmd-trigger {
+.header-actions {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Seletor de tema: Claro / Escuro / Sistema */
+.theme-switch { position: relative; }
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* O ícone mostra o tema em uso: lua no escuro, sol no claro */
+.theme-toggle .icon-sun,
+:root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+.theme-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 150px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.theme-menu[hidden] { display: none; }
+
+.theme-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.45rem 0.7rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme-menu button:hover,
+.theme-menu button:focus-visible { background: var(--surface-2); }
+.theme-menu button[aria-checked="true"] { color: var(--accent); }
+.theme-menu button[aria-checked="true"]::after { content: "✓"; }
+
+.cmd-trigger {
   display: grid;
   place-items: center;
   width: 36px;
@@ -313,6 +405,11 @@ kbd {
    =================================================================== */
 body[data-page="setup"] {
   --accent: #e8805f;
+}
+
+/* No tema claro volta o ferrugem original do akitaonrails.com */
+:root[data-theme="light"] body[data-page="setup"] {
+  --accent: #a63a1e;
 }
 
 body[data-page="setup"] .site-header {
@@ -614,7 +711,7 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
 .palette-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--backdrop);
   backdrop-filter: blur(4px);
 }
 
@@ -628,7 +725,7 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow);
   overflow: hidden;
   animation: pop 0.15s ease-out;
 }
@@ -702,7 +799,7 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
 .modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--backdrop);
   backdrop-filter: blur(4px);
 }
 
@@ -716,7 +813,7 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow);
   overflow: hidden;
   animation: pop 0.15s ease-out;
 }
@@ -784,6 +881,138 @@ body.modal-open { overflow: hidden; }
 
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+/* ===================================================================
+   README no tema claro: primeira página de jornal, no estilo do
+   New York Times. Título em Chomsky (letra gótica do cabeçalho do
+   NYT), linha de data entre fios, texto em Times New Roman e as
+   seções correndo em colunas separadas por fios verticais.
+   =================================================================== */
+.readme-dateline { display: none; }
+
+:root[data-theme="light"] #skills .container { max-width: 1040px; }
+
+:root[data-theme="light"] .readme {
+  border-radius: 2px;
+  box-shadow: 0 14px 34px rgba(42, 38, 34, 0.08);
+}
+
+:root[data-theme="light"] .readme-bar {
+  padding: 0.9rem clamp(1.25rem, 4vw, 2.5rem) 0;
+  border-bottom: 0;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+:root[data-theme="light"] .readme-body {
+  padding: 0.25rem clamp(1.25rem, 4vw, 2.5rem) 2.5rem;
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  columns: 3 220px;
+  column-gap: 2.5rem;
+  column-rule: 1px solid var(--border);
+}
+
+:root[data-theme="light"] .readme-body h2 {
+  column-span: all;
+  margin: 0.1rem 0 0.6rem;
+  padding: 0;
+  border: 0;
+  font-family: "Chomsky", var(--serif);
+  font-size: clamp(2rem, 5.2vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  text-align: center;
+}
+
+:root[data-theme="light"] .readme-body .wave { display: none; }
+
+:root[data-theme="light"] .readme-dateline {
+  column-span: all;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.75rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid var(--text);
+  border-bottom: 3px double var(--text);
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.readme-dateline > * { flex: 1; }
+.readme-dateline > :nth-child(2) { text-align: center; }
+.readme-dateline > :last-child { text-align: right; }
+
+:root[data-theme="light"] .readme-body h3 {
+  margin: 0 0 0.7rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--text);
+  font-size: 1.3rem;
+  break-after: avoid;
+}
+
+:root[data-theme="light"] .readme-body .tags,
+:root[data-theme="light"] .readme-body .list,
+:root[data-theme="light"] .readme-body .contacts {
+  margin-bottom: 1.75rem;
+}
+
+/* Linguagens e Experiência ficam inteiras; os contatos podem continuar na coluna seguinte,
+   como uma matéria de jornal, mas nenhum contato é partido ao meio */
+:root[data-theme="light"] .readme-body .tags,
+:root[data-theme="light"] .readme-body .list,
+:root[data-theme="light"] .readme-body .contacts li {
+  break-inside: avoid;
+}
+
+/* Linguagens viram texto corrido separado por pontos, como num jornal */
+:root[data-theme="light"] .readme-body .tags { gap: 0 0.5rem; }
+
+:root[data-theme="light"] .readme-body .tags li {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--serif);
+  font-size: 1.08rem;
+}
+
+:root[data-theme="light"] .readme-body .tags li + li::before {
+  content: "·";
+  margin-right: 0.5rem;
+  color: var(--muted);
+}
+
+:root[data-theme="light"] .readme-body .contacts li {
+  grid-template-columns: 1fr;
+  gap: 0.1rem;
+}
+
+:root[data-theme="light"] .readme-body .contacts .label {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+:root[data-theme="light"] .readme-body .printf {
+  column-span: all;
+  margin-top: 0.5rem;
+  background: var(--surface-2);
+}
+
+@media (max-width: 900px) {
+  :root[data-theme="light"] .readme-dateline {
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: center;
+  }
+
+  :root[data-theme="light"] .readme-dateline > * { text-align: center; }
+}
+
 @media (max-width: 520px) {
   .site-header { grid-template-columns: auto 1fr auto; gap: 0.5rem; }
   .nav { justify-content: center; }
@@ -795,9 +1024,18 @@ body.modal-open { overflow: hidden; }
   body[data-page="setup"] .nav a { font-size: 0.8rem; padding: 0.4rem 0.4rem; }
 }
 
+/* Com o seletor de tema, o cabeçalho tem dois botões de ícone: em telas pequenas eles
+   estreitam (mínimo de 28px, acima dos 24px recomendados para toque) para tudo caber */
+@media (max-width: 400px) {
+  .header-actions { gap: 0; }
+  .theme-toggle,
+  .cmd-trigger:not(.cmd-search) { width: 30px; }
+}
+
 @media (max-width: 360px) {
   .nav a { padding: 0.4rem 0.3rem; font-size: 0.66rem; letter-spacing: 0.03em; }
-  .cmd-trigger { width: 32px; }
+  .theme-toggle,
+  .cmd-trigger { width: 28px; }
   body[data-page="setup"] .nav a { font-size: 0.74rem; padding: 0.4rem 0.25rem; }
 }
 

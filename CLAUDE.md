@@ -40,8 +40,17 @@ status dos itens no mesmo commit em que forem concluídos.
 
 - Referências escolhidas pelo Lucas: **waldir.dev** (fundo escuro, nome grande, paleta Ctrl+K, redes no
   rodapé) e o antigo **lucasmontano.com** (site em estilo README do GitHub).
-- Cores em variáveis no `:root` de `style.css`: `--bg #08070b`, `--surface`, `--surface-2`, `--border`,
-  `--text #f2f2f2`, `--muted #8f9ba8` e `--accent #50fa7b` (verde do `printf`).
+- **Dois temas** (item 27), escolhidos no seletor do cabeçalho ou na paleta: Claro, Escuro ou Sistema (padrão).
+  - **Escuro:** variáveis no `:root` de `style.css`: `--bg #08070b`, `--surface`, `--surface-2`, `--border`,
+    `--text #f2f2f2`, `--muted #8f9ba8` e `--accent #50fa7b` (verde do `printf`).
+  - **Claro:** `:root[data-theme="light"]`, com creme `#faf7f0`, texto `#2a2622` e ferrugem `#a63a1e`
+    (as cores da primeira versão do setup).
+  - Nunca use cor fixa em componentes: use as variáveis (`--backdrop` e `--shadow` existem para fundos
+    translúcidos e sombras), senão o elemento quebra num dos temas.
+- **README da home no tema claro = primeira página do New York Times** (pedido do Lucas): título na fonte
+  Chomsky (imitação livre, OFL, da letra gótica do cabeçalho do NYT, via jsDelivr), linha de data com a
+  data do dia entre fios, texto em Times e seções em colunas com fios. Os estilos ficam em
+  `:root[data-theme="light"] .readme...`; no escuro o README continua no estilo GitHub.
 - **Fontes** (variáveis no `:root`):
   - `--sans` / `--display`: **Verdana** (fonte de sistema), para o texto e os títulos de página (nome, "Setup").
   - `--serif`: **Times New Roman** (fonte de sistema), para os títulos dos tópicos: `h2`/`h3` do README,
@@ -63,6 +72,9 @@ status dos itens no mesmo commit em que forem concluídos.
   tela, em nenhum tamanho de tela.
 - **Modais de tópico:** o conteúdo vem do README por `data-topic="nome"` e é clonado para o modal, sem
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
+- **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
+  `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
+  Chaves no `localStorage`: `theme` e `setup-view`.
 - **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
   para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
 - **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato) e U (Setup).
@@ -104,6 +116,11 @@ status dos itens no mesmo commit em que forem concluídos.
   com `fetch(url, {cache: 'reload'})` ou troque o `href` com `?v=`. Isso já causou vários falsos alarmes.
 - **Painel de navegador oculto:** quando o painel está escondido, o Chromium congela a renderização, e
   rolagem e screenshots falham. Verifique pelo DOM (medidas e contagens) antes de concluir que há bug.
+  Transições CSS também congelam: ao medir cores depois de trocar o tema, desligue as transições
+  (`*{transition:none!important}`) ou a medição mostra a cor antiga. `IntersectionObserver` e
+  `requestAnimationFrame` também param, então prefira lógica baseada em eventos de rolagem.
+- **Testar os dois temas:** troque `document.documentElement.dataset.theme` entre `light` e `dark` e rode o
+  checklist em cada um.
 - **Conferir o deploy:** depois do push, consulte o site com `curl.exe -s "https://lucasemanuel.com.br/...?t=aleatorio"`
   até o conteúdo novo aparecer.
 - O `gh` CLI não está instalado. O Git usa o Git Credential Manager.
@@ -139,3 +156,5 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     XML/JSON e jogos). Fonte trocada para Verdana, com títulos dos tópicos em Times New Roman (item 22).
 11. Página `/setup` refeita com a identidade visual do akitaonrails.com (item 26), mantendo as fontes.
     Logo depois, o Lucas pediu o fundo escuro do resto do site no lugar do creme.
+12. Tema claro/escuro/sistema no site todo (item 27), com o creme e o ferrugem no claro e o README da
+    home em estilo de primeira página do New York Times no tema claro.

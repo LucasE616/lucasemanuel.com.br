@@ -24,9 +24,9 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 11. ↪ **Terminal interativo**. Incorporado ao item 23.
 12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio.
 13. ⬜ **Estatísticas do GitHub** (médio). Linguagens mais usadas, repositórios recentes.
-14. ⬜ **Alternar tema claro/escuro** (médio).
+14. ↪ **Alternar tema claro/escuro**. Feito junto com o item 27.
 23. ⬜ **Site em linha de comando** (médio). Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
-27. ⬜ **Tema escuro / claro / sistema** (médio). Seletor com três opções, como o do akitaonrails.com. Detalhes abaixo.
+27. ✅ **Tema escuro / claro / sistema** (médio). Feito em 26/09/2026, com o README da home em estilo de jornal no tema claro. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
 30. ⬜ **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
@@ -228,6 +228,20 @@ Substitui os itens 2 e 3.
 - **Não copiar:** seguir a identidade (cores, tipografia, organização), não copiar código nem textos do site dele.
 
 ### Detalhes do item 27: tema escuro / claro / sistema
+
+**O que foi implementado (26/09/2026):**
+
+- **Seletor** (ícone de lua/sol) no cabeçalho das duas páginas, com menu Claro / Escuro / Sistema, e três comandos na paleta ("Tema claro", "Tema escuro", "Tema do sistema"). O padrão é **Sistema**.
+- A escolha fica no `localStorage` (chave `theme`; "Sistema" apaga a chave). Um script no `<head>` de cada página aplica `<html data-theme="light|dark">` antes de desenhar, para não piscar.
+- **Cores do tema claro:** as da primeira versão do setup (creme `#faf7f0`, texto `#2a2622`, ferrugem `#a63a1e`), definidas em `:root[data-theme="light"]`. No escuro, o setup usa o ferrugem clareado `#e8805f`; no claro, o original `#a63a1e`.
+- **README da home no tema claro, em estilo de primeira página do New York Times**, a pedido do Lucas:
+  - "Olá, eu sou o Lucas Emanuel" na fonte **Chomsky**, que imita a letra gótica do cabeçalho do NYT. O logotipo real do NYT é exclusivo do jornal. A Chomsky tem licença OFL 1.1 e é carregada pelo jsDelivr, fixada no commit `30d941b` do repositório `ctrlcctrlv/chomsky`, e só é baixada no tema claro.
+  - Linha de data entre fio simples e fio duplo: cargo, data do dia (gerada pelo JavaScript) e o domínio.
+  - Texto em Times New Roman, seções em até 3 colunas com fios verticais (os contatos continuam na coluna seguinte, como numa matéria), linguagens como texto corrido separado por "·" e o emoji 👋 escondido.
+  - No celular, uma coluna só, com a linha de data empilhada.
+- No celular, os dois botões de ícone do cabeçalho estreitam (até 28px) para caber junto com o menu.
+
+**Planejamento original:**
 
 **Referência:** o botão de tema do akitaonrails.com abre um menu com **Light**, **Dark** e **System**.
 
