@@ -214,6 +214,14 @@
     location.href = `${root}terminal/`;
   };
 
+  const goJogos = () => {
+    if (page === "jogos") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    location.href = `${root}jogos/`;
+  };
+
   const navActions = { "#inicio": goHome, "#skills": openTopic("skills"), "#contato": openTopic("contato") };
 
   document.querySelectorAll('a[href^="#"]').forEach((a) =>
@@ -257,6 +265,7 @@
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
     { group: "Navegação", label: "Setup", key: "U", run: goSetup },
     { group: "Navegação", label: "Terminal", key: "T", run: goTerminal },
+    { group: "Navegação", label: "Jogo da velha", key: "J", run: goJogos },
     { group: "Tema", label: "Tema claro", hint: "light", run: () => setTheme("light") },
     { group: "Tema", label: "Tema escuro", hint: "dark", run: () => setTheme("dark") },
     { group: "Tema", label: "Tema do sistema", hint: "system", run: () => setTheme("system") },    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
@@ -371,7 +380,7 @@
     }
   });
 
-  // Atalhos de uma tecla (I, S, C, U, T) — ignorados enquanto se digita ou com a paleta aberta.
+  // Atalhos de uma tecla (I, S, C, U, T, J) — ignorados enquanto se digita ou com a paleta aberta.
   // Com o modal aberto continuam valendo: S/C trocam o tópico e I fecha e volta ao topo.
   const shortcuts = Object.fromEntries(commands.filter((c) => c.key).map((c) => [c.key.toLowerCase(), c]));
   shortcuts["`"] = shortcuts.t; // crase abre o terminal, como o console de um jogo

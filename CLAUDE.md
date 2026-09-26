@@ -34,6 +34,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `style.css` | Estilos compartilhados pelas duas páginas |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
+| `jogos/` | Página `/jogos` (item 30): jogo da velha. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
@@ -77,17 +78,18 @@ status dos itens no mesmo commit em que forem concluídos.
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
-  Chaves no `localStorage`: `theme`, `setup-view` e `term-prefs`.
+  Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs` e `velha-placar` (compartilhada entre `/jogos` e o terminal).
 - **Personalização do terminal:** `term-prefs` guarda `{layout, bg, fg, font}`. O layout vai em
   `data-layout` no `.term` (`classic`, padrão; `full`; `minimal`, sem barra nem borda, mas com a engrenagem
   visível para voltar). Cores e fonte viram as variáveis `--term-bg`, `--term-fg` e `--term-font` no `.term`,
   com as cores do tema como plano B; as fontes ficam no objeto `FONTS` de `terminal.js`. As bolinhas da
   barra são as únicas cores fixas de propósito (`#ff5f56`, `#ffbd2e`, `#27c93f`).
 - **Botão flutuante do terminal:** `<a class="term-fab">` no canto inferior direito, em `index.html` e
-  `setup/index.html` (não na página do terminal). Página nova deve recebê-lo também.
+  `setup/index.html` e `jogos/index.html` (não na página do terminal). Página nova deve recebê-lo também.
 - **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
   para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
-- **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup) e T ou crase (Terminal).
+- **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup), T ou crase (Terminal) e J (Jogos). A página `/jogos` fica fora do menu,
+  para ele continuar cabendo numa linha.
   São ignorados enquanto se digita e com a paleta aberta. Cada comando fica no array `commands` de
   `script.js`, que também alimenta a paleta.
 - **Copiar:** `navigator.clipboard` só existe em HTTPS, então há um plano B com `execCommand`. Os
@@ -123,8 +125,8 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Servidor local:** `python -m http.server 5500` na raiz do projeto. A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
 - **Versão dos arquivos (obrigatório):** os dois HTMLs pedem `style.css?v=AAAAMMDD.N` e `script.js?v=AAAAMMDD.N`.
-  **Sempre que mudar `style.css`, `script.js` ou `terminal/terminal.js`, aumente o `?v=` nos quatro HTMLs** (`index.html`,
-  `terminal/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
+  **Sempre que mudar `style.css`, `script.js`, `terminal/terminal.js` ou os arquivos de `jogos/`, aumente o `?v=` em
+  todos os HTMLs** (`index.html`, `setup/index.html`, `terminal/index.html`, `jogos/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
   (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
   Isso aconteceu em 26/09/2026: o botão de tema não funcionava e o cabeçalho ficou sem estilo.
 - **Cache no teste local:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
@@ -176,3 +178,5 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 13. Versão nos arquivos (`?v=`) depois que o cache misturou versões e quebrou o botão de tema (item 17).
 14. Terminal: botão flutuante no canto inferior direito, painel com 3 layouts, cores de fundo e letras e
     fonte, e bolinhas vermelha/amarela/verde na barra (commit `cbfe725`).
+15. Jogo da velha (item 30): página `/jogos` com 3 níveis (minimax no Impossível), escolha de X/O e de quem
+    começa, placar salvo, e o comando `play velha` no terminal.

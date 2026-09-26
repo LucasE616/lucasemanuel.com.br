@@ -279,6 +279,83 @@
     },
   };
 
+  // ---------- Jogo da velha (play velha) ----------
+  // Regras, IA e placar vêm de ../jogos/velha-ia.js, os mesmos da página /jogos
+  const V = window.Velha;
+  const showBoard = (b, winLine = []) => {
+    blank();
+    for (let r = 0; r < 3; r++) {
+      const parts = [" "];
+      for (let c = 0; c < 3; c++) {
+        const i = r * 3 + c;
+        if (c) parts.push(span("t-dim", " │ "));
+        if (winLine.includes(i)) parts.push(span("t-head", b[i]));
+        else if (b[i]) parts.push(span(b[i] === "X" ? "t-accent" : "", b[i]));
+        else parts.push(span("t-dim", String(i + 1)));
+      }
+      print(...parts);
+      if (r < 2) say("───┼───┼───", "t-dim");
+    }
+    blank();
+  };
+  const showScore = () => {
+    const s = V.loadScore();
+    say(`Placar: ${s.vitorias} vitória(s), ${s.empates} empate(s), ${s.derrotas} derrota(s)`, "t-dim");
+  };
+
+  const velhaMode = (level, human, machineFirst) => {
+    const ai = V.other(human);
+    const board = Array(9).fill(null);
+    const end = (r) => {
+      showBoard(board, r === "empate" ? [] : r.line);
+      V.record(r, human);
+      if (r === "empate") say("Empate.", "t-head");
+      else if (r.player === human) say("Você venceu! 🎉", "t-accent");
+      else say("A máquina venceu.", "t-err");
+      showScore();
+      say("Digite play velha para jogar de novo.", "t-dim");
+      mode = null;
+    };
+    const aiPlay = async () => {
+      say("A máquina está pensando…", "t-dim");
+      await sleep(300);
+      const i = V.bestMove(board, ai, level);
+      board[i] = ai;
+      say(`A máquina jogou na casa ${i + 1}.`);
+      const r = V.result(board);
+      if (!r) return false;
+      end(r);
+      return true;
+    };
+    const m = {
+      prompt: `velha (${human})>`,
+      title: "jogo da velha",
+      start: async () => {
+        say(`Jogo da velha, nível ${V.LEVEL_NAMES[level]}. Você joga com ${human}.`, "t-head");
+        say("Digite o número da casa (1 a 9). placar mostra o placar e sair encerra.", "t-dim");
+        if (machineFirst && (await aiPlay())) return;
+        showBoard(board);
+      },
+      handle: async (line) => {
+        const cmd = line.toLowerCase();
+        if (["sair", "q", "exit", "quit"].includes(cmd)) {
+          mode = null;
+          return say("Partida encerrada.", "t-dim");
+        }
+        if (cmd === "placar") return showScore();
+        const n = Number(cmd);
+        if (!Number.isInteger(n) || n < 1 || n > 9) return say("Digite um número de 1 a 9 (ou sair).", "t-err");
+        if (board[n - 1]) return say(`A casa ${n} já está ocupada.`, "t-err");
+        board[n - 1] = human;
+        const r = V.result(board);
+        if (r) return end(r);
+        if (await aiPlay()) return;
+        showBoard(board);
+      },
+    };
+    return m;
+  };
+
   // ---------- Utilidades ----------
   const distance = (a, b) => {
     const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
@@ -359,6 +436,9 @@
     ["Navegação", [
       ["ls, cd, pwd, tree", "explorar as \"pastas\" do site"],
       ["cat <arquivo>", "ler um arquivo"],
+    ]],
+    ["Jogos", [
+      ["play velha [nível]", "jogo da velha: facil, medio ou impossivel (+ o, maquina)"],
     ]],
     ["Terminal", [
       ["history, clear", "histórico e limpar a tela (Ctrl+L)"],
@@ -664,6 +744,16 @@
       }
       say("ACESSO CONCEDIDO", "t-head");
       say("(brincadeira: nada foi acessado)", "t-dim");
+    },
+    play: async (args) => {
+      const words = args.map((a) => a.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""));
+      if (words[0] !== "velha") return say("uso: play velha [facil|medio|impossivel] [x|o] [maquina]", "t-err");
+      if (!V) return say("play: não foi possível carregar o jogo.", "t-err");
+      const level = V.LEVELS.find((l) => words.includes(l)) || "medio";
+      const human = words.includes("o") ? "O" : "X";
+      mode = velhaMode(level, human, words.includes("maquina"));
+      setPrompt();
+      await mode.start();
     },
     date: async () => say(dateFmt(new Date())),
     echo: async (args) => say(args.join(" ")),

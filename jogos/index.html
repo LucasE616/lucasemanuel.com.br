@@ -3,15 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>404 — Lucas Emanuel</title>
-    <meta name="description" content="Página não encontrada." />
+    <title>Jogos — Lucas Emanuel</title>
+    <meta name="description" content="Jogo da velha contra a máquina, com IA minimax em três níveis de dificuldade." />
     <meta name="author" content="Lucas Emanuel" />
-    <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#08070b" />
+    <link rel="canonical" href="https://lucasemanuel.com.br/jogos/" />
 
-    <!-- O GitHub Pages serve este arquivo em qualquer endereço inexistente (/a/b/c),
-         então todos os caminhos aqui são absolutos -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jogos — Lucas Emanuel" />
+    <meta property="og:description" content="Jogo da velha contra a máquina, com IA minimax." />
+    <meta property="og:url" content="https://lucasemanuel.com.br/jogos/" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,16 +33,16 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="/style.css?v=20260926.5" />
+    <link rel="stylesheet" href="../style.css?v=20260926.5" />
   </head>
-  <body data-page="404" data-root="/">
+  <body data-page="jogos" data-root="../">
     <header class="site-header">
-      <a href="/" class="logo" aria-label="Início">le</a>
+      <a href="../" class="logo" aria-label="Início">le</a>
       <nav class="nav" aria-label="Principal">
-        <a href="/" title="Atalho: I" aria-keyshortcuts="I">Início</a>
-        <a href="/#skills" title="Atalho: S" aria-keyshortcuts="S">Skills</a>
-        <a href="/#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
-        <a href="/setup/" title="Atalho: U" aria-keyshortcuts="U">Setup</a>
+        <a href="../" title="Atalho: I" aria-keyshortcuts="I">Início</a>
+        <a href="../#skills" title="Atalho: S" aria-keyshortcuts="S">Skills</a>
+        <a href="../#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
+        <a href="../setup/" title="Atalho: U" aria-keyshortcuts="U">Setup</a>
       </nav>
       <div class="header-actions">
         <div class="theme-switch">
@@ -66,20 +70,47 @@
       </div>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="container">
-          <p class="nf-code reveal" aria-hidden="true">404</p>
-          <h1 class="reveal">Página não encontrada</h1>
-          <pre class="nf-cmd reveal" aria-label="Erro no terminal"><code><span class="nf-prompt">lucas@lucasemanuel:~$</span> cd <span class="nf-path">/</span>
-bash: cd: <span class="nf-path">/</span>: arquivo ou diretório inexistente</code></pre>
-          <p class="stack reveal">O endereço não existe ou mudou de lugar.</p>
-          <p class="nf-actions reveal">
-            <a class="start" href="/">Voltar ao início <span aria-hidden="true">→</span></a>
-            <a class="start" href="/terminal/">Abrir o terminal <span aria-hidden="true">→</span></a>
-          </p>
-        </div>
+    <main class="container games">
+      <h1 class="games-title">Jogo da velha</h1>
+      <p class="games-lead">Você contra a máquina. No nível Impossível, o melhor que dá para fazer é empatar.</p>
+
+      <form class="velha-opts" id="velha-opts">
+        <fieldset>
+          <legend>Você joga com</legend>
+          <label><input type="radio" name="simbolo" value="X" checked /> X</label>
+          <label><input type="radio" name="simbolo" value="O" /> O</label>
+        </fieldset>
+        <fieldset>
+          <legend>Quem começa</legend>
+          <label><input type="radio" name="inicio" value="voce" checked /> Você</label>
+          <label><input type="radio" name="inicio" value="maquina" /> Máquina</label>
+        </fieldset>
+        <fieldset>
+          <legend>Nível</legend>
+          <label><input type="radio" name="nivel" value="facil" /> Fácil</label>
+          <label><input type="radio" name="nivel" value="medio" checked /> Médio</label>
+          <label><input type="radio" name="nivel" value="impossivel" /> Impossível</label>
+        </fieldset>
+      </form>
+
+      <p class="velha-status" id="velha-status" role="status" aria-live="polite"></p>
+
+      <div class="velha-board" id="velha-board" role="group" aria-label="Tabuleiro do jogo da velha (setas movem entre as casas)"></div>
+
+      <div class="velha-actions">
+        <button class="velha-btn" id="velha-new" type="button">Nova partida</button>
+      </div>
+
+      <section class="velha-score" aria-label="Placar">
+        <dl>
+          <div><dt>Vitórias</dt><dd id="score-vitorias">0</dd></div>
+          <div><dt>Empates</dt><dd id="score-empates">0</dd></div>
+          <div><dt>Derrotas</dt><dd id="score-derrotas">0</dd></div>
+        </dl>
+        <button class="velha-reset" id="velha-reset" type="button">zerar placar</button>
       </section>
+
+      <p class="games-tip">Também dá para jogar no <a href="../terminal/">terminal</a>: digite <code>play velha</code>.</p>
     </main>
 
     <!-- Paleta de comandos (Ctrl/⌘ + K) -->
@@ -101,16 +132,16 @@ bash: cd: <span class="nf-path">/</span>: arquivo ou diretório inexistente</cod
       </div>
     </div>
 
+    <a class="term-fab" href="../terminal/" aria-label="Abrir o terminal" title="Terminal (T)">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM7 10l3 2-3 2M12 15h5" />
+      </svg>
+    </a>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="/script.js?v=20260926.5"></script>
-    <script>
-      // Mostra qual endereço não foi encontrado (textContent: nada do endereço vira HTML)
-      (() => {
-        const path = location.pathname + location.search;
-        document.querySelectorAll(".nf-path").forEach((el) => (el.textContent = path));
-        document.title = `404 — ${path} — Lucas Emanuel`;
-      })();
-    </script>
+    <script src="../script.js?v=20260926.5"></script>
+    <script src="velha-ia.js?v=20260926.5"></script>
+    <script src="jogos.js?v=20260926.5"></script>
   </body>
 </html>
