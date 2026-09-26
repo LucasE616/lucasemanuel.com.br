@@ -33,7 +33,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20260926.7" />
+    <link rel="stylesheet" href="../style.css?v=20260926.8" />
   </head>
   <body data-page="jogos" data-root="../">
     <header class="site-header">
@@ -72,9 +72,10 @@
 
     <main class="container games">
       <h1 class="games-title">Jogos</h1>
+      <!-- Abas: o jogos.js mostra só a seção do link ativo (#velha ou #carrinho) -->
       <nav class="games-nav" aria-label="Jogos">
-        <a href="#velha">Jogo da velha</a>
-        <a href="#carrinho">Carrinho</a>
+        <a href="#velha" data-game-tab="velha">Jogo da velha</a>
+        <a href="#carrinho" data-game-tab="carrinho">Carrinho</a>
       </nav>
 
       <section class="game" id="velha" aria-labelledby="velha-title">
@@ -177,9 +178,9 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20260926.7"></script>
-    <script src="velha-ia.js?v=20260926.7"></script>
-    <script src="jogos.js?v=20260926.7"></script>
-    <script src="carrinho.js?v=20260926.7"></script>
+    <script src="../script.js?v=20260926.8"></script>
+    <script src="velha-ia.js?v=20260926.8"></script>
+    <script src="jogos.js?v=20260926.8"></script>
+    <script src="carrinho.js?v=20260926.8"></script>
   </body>
 </html>

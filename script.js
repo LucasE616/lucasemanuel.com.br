@@ -216,8 +216,8 @@
 
   const goJogos = (id = "") => () => {
     if (page === "jogos") {
-      const el = id && document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      // A página troca de aba pelo hash (jogos/jogos.js)
+      if (id) location.hash = id;
       else window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }

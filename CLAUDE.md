@@ -34,7 +34,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `style.css` | Estilos compartilhados pelas duas páginas |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
-| `jogos/` | Página `/jogos` (item 30): jogo da velha e carrinho, cada um numa `<section class="game" id="...">`. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface da velha; `carrinho.js` é o jogo de carrinho em canvas |
+| `jogos/` | Página `/jogos` (item 30): jogo da velha e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface da velha; `carrinho.js` é o jogo de carrinho em canvas |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |

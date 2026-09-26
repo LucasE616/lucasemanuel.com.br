@@ -25,6 +25,8 @@
   const KEY = "carrinho-recorde";
 
   const laneX = (l) => l * LANE_W + LANE_W / 2;
+  // A página mostra um jogo por vez (abas); fora da aba do carrinho, ele pausa e ignora o teclado
+  const offTab = () => !!canvas.closest("[hidden]");
   const meters = (px) => Math.floor(px / PX_PER_M);
 
   let best = 0;
@@ -224,7 +226,7 @@
   const loop = (t) => {
     if (state !== "running") return;
     // Abrir a paleta (Ctrl+K) pausa, para o carro não bater enquanto ela está aberta
-    if (palette && !palette.hidden) return pause();
+    if ((palette && !palette.hidden) || offTab()) return pause();
     // dt limitado: se a aba ficar parada, o carro não "teleporta" para dentro de um obstáculo
     const dt = Math.min(0.05, (t - last) / 1000);
     last = t;
@@ -307,7 +309,7 @@
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey || e.metaKey || e.altKey || (palette && !palette.hidden)) return;
+    if (e.ctrlKey || e.metaKey || e.altKey || (palette && !palette.hidden) || offTab()) return;
     const t = e.target;
     if (t.closest?.(".velha-board, .velha-opts") || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
     const k = e.key.toLowerCase();

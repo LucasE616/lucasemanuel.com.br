@@ -1280,10 +1280,12 @@ body.modal-open { overflow: hidden; }
 .velha-reset { padding: 0; border: 0; background: none; color: var(--muted); font: 0.75rem var(--mono); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .velha-reset:hover { color: var(--accent); }
 
-.games-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin: 0 0 2rem; font: 0.85rem var(--mono); }
-.games-nav a { color: var(--accent); text-underline-offset: 3px; }
+/* Abas dos jogos: um jogo por vez, escolhido pelo hash (#velha, #carrinho) */
+.games-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 2rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--border); font: 0.85rem var(--mono); }
+.games-nav a { padding: 0.4rem 0.9rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--muted); text-decoration: none; }
+.games-nav a:hover { color: var(--text); border-color: var(--muted); }
+.games-nav a[aria-current="true"] { border-color: var(--accent); color: var(--accent); }
 .game { scroll-margin-top: calc(var(--header-h) + 1rem); }
-.game + .game { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
 .game-title { margin: 0 0 0.35rem; font-family: var(--serif); font-size: clamp(1.4rem, 0.6vw + 1.2rem, 1.75rem); }
 
 .car-canvas {
