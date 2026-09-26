@@ -48,7 +48,7 @@
   // ---------- Tempo e animação ----------
   let busy = false;
   let aborted = false;
-  let fast = false; // pula a animação de boot ao apertar qualquer tecla
+  let fast = false; // acelera a animação em andamento (boot ou comando) ao apertar qualquer tecla
   class Abort extends Error {}
   const sleep = (ms) =>
     new Promise((resolve, reject) =>
@@ -788,6 +788,7 @@
 
     busy = true;
     aborted = false;
+    fast = false;
     input.readOnly = true;
     try {
       if (mode) await mode.handle(line);
@@ -867,9 +868,9 @@
     }
   });
 
-  // Ctrl+C também interrompe animações (com a entrada travada)
+  // Durante uma animação, qualquer tecla a acelera e Ctrl+C a interrompe (a entrada fica travada)
   document.addEventListener("keydown", (e) => {
-    fast = true;
+    if (busy) fast = true;
     if (busy && e.ctrlKey && e.key.toLowerCase() === "c") aborted = true;
   });
 
@@ -997,7 +998,7 @@
       blank();
     } finally {
       busy = false;
-      fast = true;
+      fast = false;
       input.readOnly = false;
       setPrompt();
       input.focus();
