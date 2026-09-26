@@ -51,10 +51,11 @@ status dos itens no mesmo commit em que forem concluídos.
   1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
 - Na home, os blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`,
   `skills.md`, `contato.md`).
-- **A página `/setup` tem outra identidade**, a do akitaonrails.com (item 26 do roadmap): fundo creme
-  `#faf7f0`, texto `#2a2622`, links cor de ferrugem `#a63a1e`, marcadores ◆, tags `#tag`, sumário lateral
-  e alternância Lista/Grade. As cores vêm das mesmas variáveis, redefinidas em `body[data-page="setup"]`.
-  As fontes continuam Verdana e Times New Roman. A home continua escura.
+- **A página `/setup` usa a estrutura do akitaonrails.com** (item 26 do roadmap): marcadores ◆, tags
+  `#tag`, sumário lateral, alternância Lista/Grade e bloco em destaque. **O fundo é o mesmo escuro do
+  resto do site**, por pedido do Lucas (o fundo creme do akitaonrails.com foi descartado). Só o destaque
+  muda: `--accent: #e8805f` em `body[data-page="setup"]`, um ferrugem clareado para ter ~7:1 de contraste
+  no fundo escuro (o `#a63a1e` original teria ~3:1). As fontes continuam Verdana e Times New Roman.
 
 ## Padrões de código
 
@@ -137,3 +138,4 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 10. Roadmap ampliado até o item 30 (terminal, currículo, visual do akitaonrails.com no setup, temas, idiomas,
     XML/JSON e jogos). Fonte trocada para Verdana, com títulos dos tópicos em Times New Roman (item 22).
 11. Página `/setup` refeita com a identidade visual do akitaonrails.com (item 26), mantendo as fontes.
+    Logo depois, o Lucas pediu o fundo escuro do resto do site no lugar do creme.

@@ -304,22 +304,15 @@ kbd {
 .pill:hover { color: var(--text); border-color: var(--muted); }
 
 /* ===================================================================
-   Página de setup: identidade visual do akitaonrails.com (item 26)
-   Papel creme, texto marrom, links ferrugem, marcadores ◆, tags #tag,
-   sumário lateral e alternância Lista/Grade. As fontes continuam
-   Verdana (texto) e Times New Roman (títulos dos tópicos).
-   As cores são trocadas redefinindo as variáveis, então cabeçalho,
-   paleta, rodapé e toast acompanham sozinhos.
+   Página de setup: estrutura inspirada no akitaonrails.com (item 26)
+   Marcadores ◆, tags #tag, sumário lateral, alternância Lista/Grade e
+   bloco em destaque, sobre o mesmo fundo escuro do resto do site.
+   Fontes: Verdana (texto) e Times New Roman (títulos dos tópicos).
+   Só o destaque muda: o ferrugem do akitaonrails.com (#a63a1e) foi
+   clareado para ter contraste de leitura no fundo escuro (~7:1).
    =================================================================== */
 body[data-page="setup"] {
-  --bg: #faf7f0;
-  --surface: #fffdf8;
-  --surface-2: #f2ece0;
-  --border: #e4dccc;
-  --text: #2a2622;
-  --muted: #6f665c;
-  --accent: #a63a1e;
-  color-scheme: light;
+  --accent: #e8805f;
 }
 
 body[data-page="setup"] .site-header {
@@ -358,8 +351,6 @@ body[data-page="setup"] .nav a[aria-current="page"] { color: var(--accent); }
 .cmd-search-text { min-width: 7rem; text-align: left; }
 .cmd-search-kbd { font-size: 0.68rem; background: var(--surface); white-space: nowrap; }
 
-body[data-page="setup"] .palette-backdrop { background: rgba(42, 38, 34, 0.25); }
-body[data-page="setup"] .palette-box { box-shadow: 0 18px 50px rgba(42, 38, 34, 0.18); }
 body[data-page="setup"] .site-footer { border-top: 1px solid var(--border); }
 body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
 
@@ -422,9 +413,8 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
 }
 
 .view-toggle button[aria-pressed="true"] {
-  background: var(--surface);
+  background: var(--bg);
   color: var(--accent);
-  box-shadow: 0 1px 2px rgba(42, 38, 34, 0.08);
 }
 
 .paper-section { scroll-margin-top: calc(var(--header-h) + 1rem); }

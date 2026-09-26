@@ -213,19 +213,18 @@ Substitui os itens 2 e 3.
 
 **O que foi implementado (26/09/2026):**
 
-- Fundo creme, texto marrom e links cor de ferrugem, trocados só no setup redefinindo as variáveis de cor em `body[data-page="setup"]`. Cabeçalho, paleta, rodapé e toast acompanham sozinhos.
+- **Fundo:** começou creme, como o do akitaonrails.com, mas o Lucas pediu o **mesmo fundo escuro do resto do site**. O que ficou do akitaonrails.com é a estrutura e o destaque ferrugem, clareado para `#e8805f` (contraste ~7:1 no escuro; o `#a63a1e` original teria ~3:1). Ele é definido em `body[data-page="setup"]`.
 - Barra superior clara, com os links à direita e uma **caixa de busca "Buscar… Ctrl K"** que abre a paleta. No celular, vira só o ícone.
 - Seções com título em Times New Roman, itens com ◆ em ferrugem e tag discreta (`#mouse`).
 - **Notebook em destaque** (`<details>`), com o botão "Mostrar/Ocultar" das especificações. Começa fechado, como o "Featured" do akitaonrails.com.
 - **Sumário "Nesta página"** na lateral a partir de 1024px, acompanhando a rolagem e marcando a seção atual. Abaixo disso, vira uma lista no topo.
 - **Alternância Lista / Grade**, com a escolha guardada no `localStorage` (chave `setup-view`).
 - **Fontes:** Verdana e Times New Roman, por decisão do Lucas, no lugar da Source Serif 4 e da Source Sans 3 do akitaonrails.com.
-- A home continua escura. O site tem dois estilos por enquanto.
+- Com o fundo escuro, home e setup ficaram com a mesma base de cores. A diferença é a estrutura e o destaque ferrugem.
 
 **Pontos que continuam para decidir:**
 
-- **Só o setup muda?** A home continuaria escura. Isso cria dois estilos no mesmo site. Dá para aceitar como "página com personalidade própria", fazer uma transição suave entre as duas ou, no futuro, levar o visual para o site todo.
-- **Tema escuro:** o akitaonrails.com também tem versão escura. Com o item 27, o setup ganharia as duas versões nesse visual.
+- **Tema claro:** com o item 27, o setup pode ganhar uma versão clara, e o creme do akitaonrails.com seria o candidato natural.
 - **Não copiar:** seguir a identidade (cores, tipografia, organização), não copiar código nem textos do site dele.
 
 ### Detalhes do item 27: tema escuro / claro / sistema
