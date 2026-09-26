@@ -34,7 +34,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `style.css` | Estilos compartilhados pelas duas páginas |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
-| `jogos/` | Página `/jogos` (item 30): jogo da velha. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface |
+| `jogos/` | Página `/jogos` (item 30): jogo da velha e carrinho, cada um numa `<section class="game" id="...">`. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface da velha; `carrinho.js` é o jogo de carrinho em canvas |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
@@ -78,7 +78,9 @@ status dos itens no mesmo commit em que forem concluídos.
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
-  Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs` e `velha-placar` (compartilhada entre `/jogos` e o terminal).
+  Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre `/jogos` e o terminal) e `carrinho-recorde`.
+- **Canvas e tema:** o carrinho lê as cores das variáveis CSS (`--surface-2`, `--accent`...) e redesenha quando
+  `data-theme` muda. Só os outros carros e a barreira têm cores fixas, que funcionam nos dois temas.
 - **Personalização do terminal:** `term-prefs` guarda `{layout, bg, fg, font}`. O layout vai em
   `data-layout` no `.term` (`classic`, padrão; `full`; `minimal`, sem barra nem borda, mas com a engrenagem
   visível para voltar). Cores e fonte viram as variáveis `--term-bg`, `--term-fg` e `--term-font` no `.term`,
@@ -122,7 +124,7 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Shell:** PowerShell 5.1. Mensagens de commit com aspas quebram no `-m`; escreva a mensagem num
   arquivo e use `git commit -F arquivo`.
 - **Caminhos longos:** se a pasta tiver caminho longo, rode `git config core.longpaths true`.
-- **Servidor local:** `python -m http.server 5500` na raiz do projeto. A config de preview fica em
+- **Servidor local:** `py -m http.server 5500` na raiz do projeto (neste PC o comando `python` não existe; use o `py`). A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
 - **Versão dos arquivos (obrigatório):** os dois HTMLs pedem `style.css?v=AAAAMMDD.N` e `script.js?v=AAAAMMDD.N`.
   **Sempre que mudar `style.css`, `script.js`, `terminal/terminal.js` ou os arquivos de `jogos/`, aumente o `?v=` em
@@ -180,3 +182,4 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     fonte, e bolinhas vermelha/amarela/verde na barra (commit `cbfe725`).
 15. Jogo da velha (item 30): página `/jogos` com 3 níveis (minimax no Impossível), escolha de X/O e de quem
     começa, placar salvo, e o comando `play velha` no terminal.
+16. Jogo de carrinho infinito na página `/jogos`, com recorde salvo e comando `play carrinho` no terminal.

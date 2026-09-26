@@ -439,6 +439,7 @@
     ]],
     ["Jogos", [
       ["play velha [nível]", "jogo da velha: facil, medio ou impossivel (+ o, maquina)"],
+      ["play carrinho", "abre o jogo do carrinho"],
     ]],
     ["Terminal", [
       ["history, clear", "histórico e limpar a tela (Ctrl+L)"],
@@ -747,7 +748,12 @@
     },
     play: async (args) => {
       const words = args.map((a) => a.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""));
-      if (words[0] !== "velha") return say("uso: play velha [facil|medio|impossivel] [x|o] [maquina]", "t-err");
+      if (words[0] === "carrinho") {
+        say("O carrinho precisa de gráficos: abrindo a página de jogos…", "t-dim");
+        location.href = "../jogos/#carrinho";
+        return;
+      }
+      if (words[0] !== "velha") return say("uso: play velha [facil|medio|impossivel] [x|o] [maquina] | play carrinho", "t-err");
       if (!V) return say("play: não foi possível carregar o jogo.", "t-err");
       const level = V.LEVELS.find((l) => words.includes(l)) || "medio";
       const human = words.includes("o") ? "O" : "X";

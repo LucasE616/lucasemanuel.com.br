@@ -29,7 +29,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 27. ✅ **Tema escuro / claro / sistema** (médio). Feito em 26/09/2026, com o README da home em estilo de jornal no tema claro. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
-30. 🟡 **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). Jogo da velha feito em 26/09/2026: página `/jogos` (atalho J) e `play velha` no terminal. Faltam as damas e a aba "Como a IA pensa". O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
+30. 🟡 **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). Jogo da velha feito em 26/09/2026: página `/jogos` (atalho J) e `play velha` no terminal. Na mesma data, entrou também um jogo de carrinho (fora do plano original). Faltam as damas e a aba "Como a IA pensa". O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
 
 ## Visual
 
@@ -310,6 +310,14 @@ Substitui os itens 2 e 3.
 (`play velha [facil|medio|impossivel] [o] [maquina]`). O placar (`velha-placar` no `localStorage`) é o mesmo
 na página e no terminal. A página fica só na paleta e no atalho J, fora do menu. Testado: em todas as
 sequências de lances possíveis (3.922 partidas), o nível Impossível nunca perde.
+
+**Carrinho** (pedido do Lucas, fora do plano original): na mesma página, em `jogos/carrinho.js`. Canvas com
+3 faixas, outros carros e barreiras aleatórios, sem fim, e velocidade que sobe de 230 a 720 px/s com a
+distância. Cada fileira bloqueia no máximo 2 faixas, e o espaço entre fileiras cresce com a velocidade para
+sempre dar tempo de trocar duas faixas (um piloto automático de teste andou 20 × ~10 min sem bater).
+Controles: ←/→ ou A/D, toque no lado da pista, botões ◀ ▶, Espaço/P pausa. Pausa sozinho ao trocar de aba,
+ao perder o foco e com a paleta aberta. Recorde em `carrinho-recorde` no `localStorage`. No terminal,
+`play carrinho` abre a página. Ideia futura: versão em texto dentro do terminal.
 
 **Onde:** página `/jogos` com os dois jogos, item no menu ou só na paleta (para não pesar o menu), atalho **J** e comandos `play velha` e `play damas` no terminal do item 23.
 

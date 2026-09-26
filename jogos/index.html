@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Jogos — Lucas Emanuel</title>
-    <meta name="description" content="Jogo da velha contra a máquina, com IA minimax em três níveis de dificuldade." />
+    <meta name="description" content="Jogo da velha contra a máquina, com IA minimax em três níveis, e um jogo de carrinho infinito." />
     <meta name="author" content="Lucas Emanuel" />
     <meta name="theme-color" content="#08070b" />
     <link rel="canonical" href="https://lucasemanuel.com.br/jogos/" />
@@ -33,7 +33,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20260926.6" />
+    <link rel="stylesheet" href="../style.css?v=20260926.7" />
   </head>
   <body data-page="jogos" data-root="../">
     <header class="site-header">
@@ -71,7 +71,14 @@
     </header>
 
     <main class="container games">
-      <h1 class="games-title">Jogo da velha</h1>
+      <h1 class="games-title">Jogos</h1>
+      <nav class="games-nav" aria-label="Jogos">
+        <a href="#velha">Jogo da velha</a>
+        <a href="#carrinho">Carrinho</a>
+      </nav>
+
+      <section class="game" id="velha" aria-labelledby="velha-title">
+      <h2 class="game-title" id="velha-title">Jogo da velha</h2>
       <p class="games-lead">Você contra a máquina. No nível Impossível, o melhor que dá para fazer é empatar.</p>
 
       <form class="velha-opts" id="velha-opts">
@@ -111,6 +118,36 @@
       </section>
 
       <p class="games-tip">Também dá para jogar no <a href="../terminal/">terminal</a>: digite <code>play velha</code>.</p>
+      </section>
+
+      <section class="game" id="carrinho" aria-labelledby="car-title">
+        <h2 class="game-title" id="car-title">Carrinho</h2>
+        <p class="games-lead">Desvie dos obstáculos. A estrada não acaba e fica cada vez mais rápida, até você bater.</p>
+
+        <canvas
+          class="car-canvas"
+          id="car-canvas"
+          tabindex="0"
+          aria-label="Jogo do carrinho. Espaço começa ou pausa; setas esquerda e direita (ou A e D) trocam de faixa."
+        ></canvas>
+
+        <div class="car-controls">
+          <button class="car-btn" id="car-left" type="button" aria-label="Faixa da esquerda">◀</button>
+          <button class="velha-btn" id="car-start" type="button">Começar</button>
+          <button class="car-btn" id="car-right" type="button" aria-label="Faixa da direita">▶</button>
+        </div>
+
+        <p class="velha-status" id="car-status" role="status" aria-live="polite"></p>
+
+        <div class="velha-score">
+          <dl>
+            <div><dt>Recorde</dt><dd id="car-best">0 m</dd></div>
+          </dl>
+          <button class="velha-reset" id="car-reset" type="button">zerar recorde</button>
+        </div>
+
+        <p class="games-tip">Teclado: <code>←</code> <code>→</code> ou <code>A</code> <code>D</code> trocam de faixa, <code>Espaço</code> ou <code>P</code> pausa. No celular, toque no lado da pista para onde quer ir.</p>
+      </section>
     </main>
 
     <!-- Paleta de comandos (Ctrl/⌘ + K) -->
@@ -140,8 +177,9 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20260926.6"></script>
-    <script src="velha-ia.js?v=20260926.6"></script>
-    <script src="jogos.js?v=20260926.6"></script>
+    <script src="../script.js?v=20260926.7"></script>
+    <script src="velha-ia.js?v=20260926.7"></script>
+    <script src="jogos.js?v=20260926.7"></script>
+    <script src="carrinho.js?v=20260926.7"></script>
   </body>
 </html>

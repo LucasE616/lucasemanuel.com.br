@@ -214,12 +214,14 @@
     location.href = `${root}terminal/`;
   };
 
-  const goJogos = () => {
+  const goJogos = (id = "") => () => {
     if (page === "jogos") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const el = id && document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    location.href = `${root}jogos/`;
+    location.href = `${root}jogos/${id && `#${id}`}`;
   };
 
   const navActions = { "#inicio": goHome, "#skills": openTopic("skills"), "#contato": openTopic("contato") };
@@ -265,7 +267,9 @@
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
     { group: "Navegação", label: "Setup", key: "U", run: goSetup },
     { group: "Navegação", label: "Terminal", key: "T", run: goTerminal },
-    { group: "Navegação", label: "Jogo da velha", key: "J", run: goJogos },
+    { group: "Navegação", label: "Jogos", key: "J", run: goJogos() },
+    { group: "Jogos", label: "Jogo da velha", hint: "velha", run: goJogos("velha") },
+    { group: "Jogos", label: "Carrinho", hint: "corrida", run: goJogos("carrinho") },
     { group: "Tema", label: "Tema claro", hint: "light", run: () => setTheme("light") },
     { group: "Tema", label: "Tema escuro", hint: "dark", run: () => setTheme("dark") },
     { group: "Tema", label: "Tema do sistema", hint: "system", run: () => setTheme("system") },    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
