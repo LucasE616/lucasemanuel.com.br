@@ -1044,3 +1044,109 @@ body.modal-open { overflow: hidden; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ===================================================================
+   Terminal (item 23): página /terminal, com os comandos do site.
+   Usa só as variáveis de tema, então funciona no claro e no escuro.
+   =================================================================== */
+.term-page {
+  display: flex;
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
+  padding: 0 var(--gutter) var(--gutter);
+}
+
+.term {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 980px;
+  min-height: 0;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.term-dots { display: flex; gap: 0.35rem; }
+.term-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+.term-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.term-screen {
+  flex: 1;
+  min-height: 0;
+  padding: 0.9rem 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.t-out { min-height: 1.55em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.t-prompt { color: var(--accent); }
+.t-head { color: var(--text); font-weight: 500; }
+.t-dim { color: var(--muted); }
+.t-accent { color: var(--accent); }
+.t-err { color: #ff6b6b; }
+.t-warn { color: #d9a400; }
+:root[data-theme="light"] .t-err { color: #b3261e; }
+:root[data-theme="light"] .t-warn { color: #8a6500; }
+.t-link { color: var(--accent); text-underline-offset: 3px; }
+
+.term-input-line { display: flex; align-items: baseline; gap: 0.6ch; margin: 0; }
+.term-prompt { flex: none; color: var(--accent); white-space: nowrap; }
+
+.term-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  caret-color: var(--accent);
+  font: inherit;
+}
+
+.term-quick {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.term-quick button {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: 0.78rem var(--mono);
+  cursor: pointer;
+}
+
+.term-quick button:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (pointer: coarse), (max-width: 640px) {
+  .term-quick { display: flex; }
+  .term-screen { font-size: 0.8rem; }
+}
+
+.term-matrix { position: fixed; inset: 0; z-index: 50; width: 100vw; height: 100vh; background: #000; cursor: pointer; }

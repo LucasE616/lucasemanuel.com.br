@@ -25,7 +25,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio.
 13. ⬜ **Estatísticas do GitHub** (médio). Linguagens mais usadas, repositórios recentes.
 14. ↪ **Alternar tema claro/escuro**. Feito junto com o item 27.
-23. ⬜ **Site em linha de comando** (médio). Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
+23. 🟡 **Site em linha de comando** (médio). Feito em 26/09/2026: formas A (`/terminal`, atalho T ou crase) e B (`/cli`). Falta a forma C (`npx lucasemanuel`) e os comandos `sl`, `projetos` e `curriculo`. Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
 27. ✅ **Tema escuro / claro / sistema** (médio). Feito em 26/09/2026, com o README da home em estilo de jornal no tema claro. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
@@ -75,6 +75,8 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 **Ordem:** fazer **antes da Página de Projetos (1)**, para os projetos já nascerem como dados editáveis pelo painel.
 
 ### Detalhes do item 23: site em linha de comando
+
+**Status:** feitas as formas A e B. A `/terminal` está em `terminal/index.html` e `terminal/terminal.js`; o `/cli` é o arquivo `cli`, com cores ANSI. O `sl` só mostra uma dica e o `matrix` respeita `prefers-reduced-motion`.
 
 Substitui o item 11. A ideia é o visitante poder navegar pelo portfólio como se estivesse num terminal Linux.
 

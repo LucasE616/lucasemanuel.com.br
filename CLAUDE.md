@@ -32,6 +32,8 @@ status dos itens no mesmo commit em que forem concluídos.
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
 | `style.css` | Estilos compartilhados pelas duas páginas |
+| `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/` |
+| `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
 | `ROADMAP.md` | Melhorias planejadas (30 itens) |
@@ -77,7 +79,7 @@ status dos itens no mesmo commit em que forem concluídos.
   Chaves no `localStorage`: `theme` e `setup-view`.
 - **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
   para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
-- **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato) e U (Setup).
+- **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup) e T ou crase (Terminal).
   São ignorados enquanto se digita e com a paleta aberta. Cada comando fica no array `commands` de
   `script.js`, que também alimenta a paleta.
 - **Copiar:** `navigator.clipboard` só existe em HTTPS, então há um plano B com `execCommand`. Os
@@ -113,8 +115,8 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Servidor local:** `python -m http.server 5500` na raiz do projeto. A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
 - **Versão dos arquivos (obrigatório):** os dois HTMLs pedem `style.css?v=AAAAMMDD.N` e `script.js?v=AAAAMMDD.N`.
-  **Sempre que mudar `style.css` ou `script.js`, aumente o `?v=` nos dois HTMLs** (`index.html` e
-  `setup/index.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
+  **Sempre que mudar `style.css`, `script.js` ou `terminal/terminal.js`, aumente o `?v=` nos três HTMLs** (`index.html`,
+  `setup/index.html` e `terminal/index.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
   (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
   Isso aconteceu em 26/09/2026: o botão de tema não funcionava e o cabeçalho ficou sem estilo.
 - **Cache no teste local:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
