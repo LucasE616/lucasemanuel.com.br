@@ -8,9 +8,14 @@
   --accent: #50fa7b;
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --header-h: 4.5rem;
-  --title-size: clamp(2.5rem, 2.5vw + 1.75rem, 4.5rem);
-  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --display: "Inter Tight", "Inter", system-ui, sans-serif;
+  /* 40px no celular e até 72px em monitores; abaixo de ~385px encolhe (10.4vw) para o nome em
+     Verdana, que é larga, caber numa linha */
+  --title-size: clamp(2rem, min(10.4vw, max(2.5rem, 2.5vw + 1.75rem)), 4.5rem);
+  /* Verdana e Times New Roman são fontes de sistema (Windows/macOS); as demais são alternativas
+     para celular e Linux, que geralmente não as têm */
+  --sans: Verdana, Geneva, "DejaVu Sans", sans-serif;
+  --display: var(--sans);
+  --serif: "Times New Roman", Times, "Liberation Serif", serif;
   --mono: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
 }
 
@@ -198,9 +203,8 @@ kbd {
   margin: 0 0 0.5rem;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);
-  font-family: var(--display);
-  font-size: 1.6rem;
-  letter-spacing: -0.02em;
+  font-family: var(--serif);
+  font-size: 1.75rem;
 }
 
 .wave { display: inline-block; transform-origin: 70% 70%; animation: wave 2.4s ease-in-out 1s 2; }
@@ -218,8 +222,9 @@ kbd {
   margin: 2rem 0 0.8rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--border);
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 700;
   scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
@@ -539,9 +544,8 @@ kbd {
   margin: 0;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);
-  font-family: var(--display);
-  font-size: 1.6rem;
-  letter-spacing: -0.02em;
+  font-family: var(--serif);
+  font-size: 1.75rem;
 }
 
 .modal-body .contacts { margin-top: 0.75rem; }

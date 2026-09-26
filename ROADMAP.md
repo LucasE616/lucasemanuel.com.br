@@ -34,11 +34,12 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 ## Visual
 
 26. ⬜ **Setup com a identidade visual do akitaonrails.com** (médio). A página `/setup` deixa o layout atual (escuro, estilo README) e passa a seguir o visual do akitaonrails.com. Detalhes abaixo.
-22. ⬜ **Fonte Verdana** (baixo). Trocar a fonte do site para Verdana.
-    - A Verdana já vem instalada no Windows e no macOS, então não precisa carregar nada do Google Fonts (e ela nem está lá). Android, iOS e Linux geralmente não têm Verdana, por isso a regra precisa de alternativas: `Verdana, Geneva, "DejaVu Sans", sans-serif`.
-    - Decidir o alcance: só o texto (hoje Inter), também os títulos (hoje Inter Tight) ou o site inteiro. A JetBrains Mono dos rótulos e códigos provavelmente continua, por causa do estilo README.
-    - Se a Inter e a Inter Tight saírem, remover o link do Google Fonts correspondente. O site fica mais leve.
-    - A Verdana é bem mais larga que a Inter. Rodar o checklist de testes em 320px: nome em uma linha e menu com 4 links em uma linha.
+22. ✅ **Fonte Verdana** (baixo). Feito em 26/09/2026.
+    - **Texto e títulos de página** (nome, "Setup"): Verdana, com alternativas `Verdana, Geneva, "DejaVu Sans", sans-serif` para celular e Linux.
+    - **Títulos dos tópicos** (seções do README, títulos dos modais e categorias do setup): serifada, `"Times New Roman", Times, "Liberation Serif", serif`, em negrito e um pouco maiores, porque a Times parece menor que a Verdana no mesmo tamanho.
+    - **Rótulos e códigos:** continuam em JetBrains Mono, por causa do estilo README.
+    - Inter e Inter Tight saíram do Google Fonts. Agora só a JetBrains Mono é baixada.
+    - Como a Verdana é larga, o nome encolhe abaixo de ~385px (33px em 320px) para caber numa linha. A partir de ~385px continua com 40px, e no computador nada mudou.
 
 ## Técnico
 

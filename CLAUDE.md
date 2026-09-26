@@ -42,9 +42,13 @@ status dos itens no mesmo commit em que forem concluídos.
   rodapé) e o antigo **lucasmontano.com** (site em estilo README do GitHub).
 - Cores em variáveis no `:root` de `style.css`: `--bg #08070b`, `--surface`, `--surface-2`, `--border`,
   `--text #f2f2f2`, `--muted #8f9ba8` e `--accent #50fa7b` (verde do `printf`).
-- Fontes do Google Fonts: Inter (texto), Inter Tight (títulos) e JetBrains Mono (rótulos e código).
-- Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup (40px no celular, 72px em
-  1920px). No celular os tamanhos devem continuar iguais.
+- **Fontes** (variáveis no `:root`):
+  - `--sans` / `--display`: **Verdana** (fonte de sistema), para o texto e os títulos de página (nome, "Setup").
+  - `--serif`: **Times New Roman** (fonte de sistema), para os títulos dos tópicos: `h2`/`h3` do README,
+    títulos dos modais e categorias do setup. Em negrito e um pouco maior que o texto.
+  - `--mono`: **JetBrains Mono**, a única baixada do Google Fonts, para rótulos, tags e código.
+- Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup: 40px no celular, 72px em
+  1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
 - Blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`, `setup.md`,
   `skills.md`, `contato.md`).
 
@@ -123,3 +127,5 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 8. Item 22 (fonte Verdana) no roadmap; CLAUDE.md criado.
 9. **Curiosidades & indicações removido do site** a pedido do Lucas. Não recriar sem ele pedir. Se pedir
    de volta, o conteúdo e o código completos estão no commit `71df592` (`git show 71df592`).
+10. Roadmap ampliado até o item 30 (terminal, currículo, visual do akitaonrails.com no setup, temas, idiomas,
+    XML/JSON e jogos). Fonte trocada para Verdana, com títulos dos tópicos em Times New Roman (item 22).
