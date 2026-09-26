@@ -112,7 +112,12 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Caminhos longos:** se a pasta tiver caminho longo, rode `git config core.longpaths true`.
 - **Servidor local:** `python -m http.server 5500` na raiz do projeto. A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
-- **Cache no teste:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
+- **Versão dos arquivos (obrigatório):** os dois HTMLs pedem `style.css?v=AAAAMMDD.N` e `script.js?v=AAAAMMDD.N`.
+  **Sempre que mudar `style.css` ou `script.js`, aumente o `?v=` nos dois HTMLs** (`index.html` e
+  `setup/index.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
+  (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
+  Isso aconteceu em 26/09/2026: o botão de tema não funcionava e o cabeçalho ficou sem estilo.
+- **Cache no teste local:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
   com `fetch(url, {cache: 'reload'})` ou troque o `href` com `?v=`. Isso já causou vários falsos alarmes.
 - **Painel de navegador oculto:** quando o painel está escondido, o Chromium congela a renderização, e
   rolagem e screenshots falham. Verifique pelo DOM (medidas e contagens) antes de concluir que há bug.
@@ -158,3 +163,4 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     Logo depois, o Lucas pediu o fundo escuro do resto do site no lugar do creme.
 12. Tema claro/escuro/sistema no site todo (item 27), com o creme e o ferrugem no claro e o README da
     home em estilo de primeira página do New York Times no tema claro.
+13. Versão nos arquivos (`?v=`) depois que o cache misturou versões e quebrou o botão de tema (item 17).
