@@ -1065,9 +1065,11 @@ body.modal-open { overflow: hidden; }
   margin: 0 auto;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--surface);
+  background: var(--term-bg, var(--surface));
+  color: var(--term-fg, var(--text));
   box-shadow: var(--shadow);
   overflow: hidden;
+  position: relative;
 }
 
 .term-bar {
@@ -1083,7 +1085,10 @@ body.modal-open { overflow: hidden; }
 }
 
 .term-dots { display: flex; gap: 0.35rem; }
-.term-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+.term-dots i { width: 10px; height: 10px; border-radius: 50%; }
+.term-dots i:nth-child(1) { background: #ff5f56; }
+.term-dots i:nth-child(2) { background: #ffbd2e; }
+.term-dots i:nth-child(3) { background: #27c93f; }
 .term-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .term-screen {
@@ -1092,14 +1097,14 @@ body.modal-open { overflow: hidden; }
   padding: 0.9rem 1rem;
   overflow-y: auto;
   overflow-x: hidden;
-  font-family: var(--mono);
+  font-family: var(--term-font, var(--mono));
   font-size: 0.85rem;
   line-height: 1.55;
 }
 
 .t-out { min-height: 1.55em; white-space: pre-wrap; overflow-wrap: anywhere; }
 .t-prompt { color: var(--accent); }
-.t-head { color: var(--text); font-weight: 500; }
+.t-head { color: var(--term-fg, var(--text)); font-weight: 500; }
 .t-dim { color: var(--muted); }
 .t-accent { color: var(--accent); }
 .t-err { color: #ff6b6b; }
@@ -1118,7 +1123,7 @@ body.modal-open { overflow: hidden; }
   border: 0;
   outline: 0;
   background: transparent;
-  color: var(--text);
+  color: var(--term-fg, var(--text));
   caret-color: var(--accent);
   font: inherit;
 }
@@ -1148,6 +1153,75 @@ body.modal-open { overflow: hidden; }
   .term-quick { display: flex; }
   .term-screen { font-size: 0.8rem; }
 }
+
+/* Layouts do terminal: data-layout em .term (classic é o padrão) */
+.term[data-layout="full"] { max-width: none; border-radius: 0; }
+.term-page:has(.term[data-layout="full"]) { padding: 0; }
+.term[data-layout="minimal"] { max-width: 820px; border: 0; border-radius: 0; box-shadow: none; }
+.term[data-layout="minimal"] .term-bar { position: absolute; top: 0; right: 0; z-index: 4; padding: 0.4rem; border: 0; background: transparent; }
+.term[data-layout="minimal"] .term-dots, .term[data-layout="minimal"] .term-title { display: none; }
+.term[data-layout="minimal"] .term-screen { padding-top: 0.5rem; }
+
+.term-cfg-btn {
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.term-cfg-btn:hover, .term-cfg-btn[aria-expanded="true"] { color: var(--accent); }
+
+.term-cfg {
+  position: absolute;
+  top: 2.6rem;
+  right: 0.6rem;
+  z-index: 5;
+  display: grid;
+  gap: 0.8rem;
+  width: min(280px, calc(100% - 1.2rem));
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  font: 0.8rem var(--sans);
+}
+.term-cfg[hidden] { display: none; }
+.term[data-layout="minimal"] .term-cfg { top: 2.4rem; }
+.cfg-group { display: grid; gap: 0.5rem; margin: 0; padding: 0; border: 0; }
+.cfg-group legend { margin-bottom: 0.4rem; padding: 0; color: var(--muted); font: 0.7rem var(--mono); text-transform: uppercase; letter-spacing: 0.08em; }
+.cfg-group label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+.cfg-group small { color: var(--muted); }
+.cfg-group input[type="radio"] { accent-color: var(--accent); }
+.cfg-row { justify-content: space-between; }
+.cfg-row input[type="color"] { width: 44px; height: 26px; padding: 0; border: 1px solid var(--border); border-radius: 4px; background: none; cursor: pointer; }
+.cfg-row select { max-width: 150px; padding: 0.25rem 0.4rem; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-2); color: var(--text); font: inherit; }
+.cfg-reset { padding: 0.45rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-2); color: var(--text); font: inherit; cursor: pointer; }
+.cfg-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Botão flutuante que leva ao terminal (home e setup) */
+.term-fab {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--accent);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.term-fab:hover, .term-fab:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
 
 .term-matrix { position: fixed; inset: 0; z-index: 50; width: 100vw; height: 100vh; background: #000; cursor: pointer; }
 

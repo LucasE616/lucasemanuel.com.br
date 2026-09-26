@@ -796,6 +796,94 @@
     })
   );
 
+  // ---------- Personalização (layout, cores e fonte) ----------
+  const termEl = document.querySelector(".term");
+  const cfg = document.getElementById("term-cfg");
+  const cfgBtn = document.getElementById("term-cfg-btn");
+  const bgIn = document.getElementById("term-bg");
+  const fgIn = document.getElementById("term-fg");
+  const fontIn = document.getElementById("term-font");
+  const FONTS = {
+    jetbrains: '"JetBrains Mono", ui-monospace, monospace',
+    consolas: 'Consolas, "Courier New", monospace',
+    courier: '"Courier New", Courier, monospace',
+    lucida: '"Lucida Console", Monaco, monospace',
+    verdana: "Verdana, Geneva, sans-serif",
+    times: '"Times New Roman", Times, serif',
+  };
+  const LAYOUTS = ["classic", "full", "minimal"];
+  const HEX = /^#[0-9a-f]{6}$/i;
+  let prefs = {};
+  try {
+    const saved = JSON.parse(localStorage.getItem("term-prefs"));
+    if (saved && typeof saved === "object") prefs = saved;
+  } catch {}
+
+  const toHex = (rgb) => "#" + (rgb.match(/\d+/g) || [0, 0, 0]).slice(0, 3).map((n) => (+n).toString(16).padStart(2, "0")).join("");
+
+  const applyPrefs = () => {
+    termEl.dataset.layout = LAYOUTS.includes(prefs.layout) ? prefs.layout : "classic";
+    if (HEX.test(prefs.bg)) termEl.style.setProperty("--term-bg", prefs.bg);
+    else termEl.style.removeProperty("--term-bg");
+    if (HEX.test(prefs.fg)) termEl.style.setProperty("--term-fg", prefs.fg);
+    else termEl.style.removeProperty("--term-fg");
+    if (FONTS[prefs.font]) termEl.style.setProperty("--term-font", FONTS[prefs.font]);
+    else termEl.style.removeProperty("--term-font");
+  };
+
+  // Mostra no painel os valores em uso (inclusive os do tema, quando nada foi personalizado)
+  const syncPanel = () => {
+    const cs = getComputedStyle(termEl);
+    bgIn.value = HEX.test(prefs.bg) ? prefs.bg : toHex(cs.backgroundColor);
+    fgIn.value = HEX.test(prefs.fg) ? prefs.fg : toHex(cs.color);
+    fontIn.value = FONTS[prefs.font] ? prefs.font : "jetbrains";
+    const layout = LAYOUTS.includes(prefs.layout) ? prefs.layout : "classic";
+    cfg.querySelectorAll('input[name="term-layout"]').forEach((r) => (r.checked = r.value === layout));
+  };
+
+  const savePrefs = () => {
+    try {
+      localStorage.setItem("term-prefs", JSON.stringify(prefs));
+    } catch {}
+    applyPrefs();
+  };
+
+  const setCfgOpen = (open) => {
+    cfg.hidden = !open;
+    cfgBtn.setAttribute("aria-expanded", String(open));
+    if (open) syncPanel();
+  };
+
+  cfgBtn.addEventListener("click", () => setCfgOpen(cfg.hidden));
+  cfg.addEventListener("change", (e) => {
+    const t = e.target;
+    if (t.name === "term-layout") prefs.layout = t.value;
+    else if (t === bgIn) prefs.bg = t.value;
+    else if (t === fgIn) prefs.fg = t.value;
+    else if (t === fontIn) prefs.font = t.value;
+    savePrefs();
+  });
+  // Cores mudam ao vivo enquanto o seletor é arrastado
+  cfg.addEventListener("input", (e) => {
+    if (e.target === bgIn) termEl.style.setProperty("--term-bg", bgIn.value);
+    if (e.target === fgIn) termEl.style.setProperty("--term-fg", fgIn.value);
+  });
+  document.getElementById("term-reset").addEventListener("click", () => {
+    prefs = {};
+    savePrefs();
+    syncPanel();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !cfg.hidden) {
+      setCfgOpen(false);
+      input.focus();
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (!cfg.hidden && !e.target.closest("#term-cfg, #term-cfg-btn")) setCfgOpen(false);
+  });
+  applyPrefs();
+
   // ---------- Boot ----------
   (async () => {
     busy = true;
