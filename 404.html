@@ -3,19 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Terminal — Lucas Emanuel</title>
-    <meta name="description" content="O portfólio de Lucas Emanuel em linha de comando: digite help para começar." />
+    <title>404 — Lucas Emanuel</title>
+    <meta name="description" content="Página não encontrada." />
     <meta name="author" content="Lucas Emanuel" />
+    <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#08070b" />
-    <link rel="canonical" href="https://lucasemanuel.com.br/terminal/" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Terminal — Lucas Emanuel" />
-    <meta property="og:description" content="O portfólio em linha de comando." />
-    <meta property="og:url" content="https://lucasemanuel.com.br/terminal/" />
-    <meta property="og:locale" content="pt_BR" />
-
-    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <!-- O GitHub Pages serve este arquivo em qualquer endereço inexistente (/a/b/c),
+         então todos os caminhos aqui são absolutos -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -33,16 +29,16 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20260926.3" />
+    <link rel="stylesheet" href="/style.css?v=20260926.3" />
   </head>
-  <body data-page="terminal" data-root="../">
+  <body data-page="404" data-root="/">
     <header class="site-header">
-      <a href="../" class="logo" aria-label="Início">le</a>
+      <a href="/" class="logo" aria-label="Início">le</a>
       <nav class="nav" aria-label="Principal">
-        <a href="../" title="Atalho: I" aria-keyshortcuts="I">Início</a>
-        <a href="../#skills" title="Atalho: S" aria-keyshortcuts="S">Skills</a>
-        <a href="../#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
-        <a href="../setup/" title="Atalho: U" aria-keyshortcuts="U">Setup</a>
+        <a href="/" title="Atalho: I" aria-keyshortcuts="I">Início</a>
+        <a href="/#skills" title="Atalho: S" aria-keyshortcuts="S">Skills</a>
+        <a href="/#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
+        <a href="/setup/" title="Atalho: U" aria-keyshortcuts="U">Setup</a>
       </nav>
       <div class="header-actions">
         <div class="theme-switch">
@@ -70,39 +66,18 @@
       </div>
     </header>
 
-    <main class="term-page">
-      <section class="term" aria-label="Terminal">
-        <div class="term-bar" aria-hidden="true">
-          <span class="term-dots"><i></i><i></i><i></i></span>
-          <span class="term-title">lucas@lucasemanuel: ~</span>
-        </div>
-        <div class="term-screen" id="term-screen" role="log" aria-live="polite">
-          <form class="term-input-line" id="term-form" autocomplete="off">
-            <label class="term-prompt" id="term-prompt" for="term-input">lucas@lucasemanuel:~$</label>
-            <input
-              class="term-input"
-              id="term-input"
-              type="text"
-              autocomplete="off"
-              autocapitalize="none"
-              autocorrect="off"
-              spellcheck="false"
-              enterkeyhint="send"
-              aria-label="Comando"
-            />
-          </form>
-        </div>
-        <!-- Celular: digitar comandos é ruim, então há botões com os principais -->
-        <div class="term-quick" role="group" aria-label="Comandos rápidos">
-          <button type="button" data-run="help">help</button>
-          <button type="button" data-run="whoami">whoami</button>
-          <button type="button" data-run="skills">skills</button>
-          <button type="button" data-run="contato">contato</button>
-          <button type="button" data-run="setup">setup</button>
-          <button type="button" data-run="ls">ls</button>
-          <button type="button" data-run="neofetch">neofetch</button>
-          <button type="button" data-run="clear">clear</button>
-          <button type="button" data-run="gui">gui</button>
+    <main>
+      <section class="hero">
+        <div class="container">
+          <p class="nf-code reveal" aria-hidden="true">404</p>
+          <h1 class="reveal">Página não encontrada</h1>
+          <pre class="nf-cmd reveal" aria-label="Erro no terminal"><code><span class="nf-prompt">lucas@lucasemanuel:~$</span> cd <span class="nf-path">/</span>
+bash: cd: <span class="nf-path">/</span>: arquivo ou diretório inexistente</code></pre>
+          <p class="stack reveal">O endereço não existe ou mudou de lugar.</p>
+          <p class="nf-actions reveal">
+            <a class="start" href="/">Voltar ao início <span aria-hidden="true">→</span></a>
+            <a class="start" href="/terminal/">Abrir o terminal <span aria-hidden="true">→</span></a>
+          </p>
         </div>
       </section>
     </main>
@@ -128,7 +103,14 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20260926.3"></script>
-    <script src="terminal.js?v=20260926.3"></script>
+    <script src="/script.js?v=20260926.3"></script>
+    <script>
+      // Mostra qual endereço não foi encontrado (textContent: nada do endereço vira HTML)
+      (() => {
+        const path = location.pathname + location.search;
+        document.querySelectorAll(".nf-path").forEach((el) => (el.textContent = path));
+        document.title = `404 — ${path} — Lucas Emanuel`;
+      })();
+    </script>
   </body>
 </html>

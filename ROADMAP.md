@@ -19,7 +19,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 ## Funcionalidades
 
 8. ⬜ **Versão em inglês** (médio). Para vagas de fora e remotas.
-9. ⬜ **Página 404 personalizada** (baixo). O GitHub Pages usa o `404.html` automaticamente; mesmo visual e paleta.
+9. ✅ **Página 404 personalizada** (baixo). Feita em 26/09/2026: `404.html` com o mesmo visual, mostrando o endereço pedido no formato de erro do terminal.
 10. ⬜ **Mais comandos na paleta** (baixo). Baixar currículo, copiar o link do site, abrir cada projeto.
 11. ↪ **Terminal interativo**. Incorporado ao item 23.
 12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio.

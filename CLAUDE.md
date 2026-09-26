@@ -32,6 +32,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
 | `style.css` | Estilos compartilhados pelas duas páginas |
+| `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/` |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
@@ -115,8 +116,8 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Servidor local:** `python -m http.server 5500` na raiz do projeto. A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
 - **Versão dos arquivos (obrigatório):** os dois HTMLs pedem `style.css?v=AAAAMMDD.N` e `script.js?v=AAAAMMDD.N`.
-  **Sempre que mudar `style.css`, `script.js` ou `terminal/terminal.js`, aumente o `?v=` nos três HTMLs** (`index.html`,
-  `setup/index.html` e `terminal/index.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
+  **Sempre que mudar `style.css`, `script.js` ou `terminal/terminal.js`, aumente o `?v=` nos quatro HTMLs** (`index.html`,
+  `terminal/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
   (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
   Isso aconteceu em 26/09/2026: o botão de tema não funcionava e o cabeçalho ficou sem estilo.
 - **Cache no teste local:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
