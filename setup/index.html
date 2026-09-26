@@ -6,7 +6,7 @@
     <title>Setup — Lucas Emanuel</title>
     <meta name="description" content="Setup de Lucas Emanuel: notebook, periféricos, mesa, áudio, mobile, papelaria e ferramentas que uso no dia a dia." />
     <meta name="author" content="Lucas Emanuel" />
-    <meta name="theme-color" content="#08070b" />
+    <meta name="theme-color" content="#faf7f0" />
     <link rel="canonical" href="https://lucasemanuel.com.br/setup/" />
 
     <meta property="og:type" content="website" />
@@ -24,6 +24,7 @@
     />
     <link rel="stylesheet" href="../style.css" />
   </head>
+  <!-- Visual inspirado no akitaonrails.com (item 26 do ROADMAP), mantendo Verdana e Times New Roman -->
   <body data-page="setup" data-root="../">
     <header class="site-header">
       <a href="../" class="logo" aria-label="Início">le</a>
@@ -33,108 +34,145 @@
         <a href="../#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
         <a href="./" title="Atalho: U" aria-keyshortcuts="U" aria-current="page">Setup</a>
       </nav>
-      <button class="cmd-trigger" type="button" data-open-palette aria-label="Abrir paleta de comandos">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-            d="M18 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 0 0 0-6z" />
+      <button class="cmd-trigger cmd-search" type="button" data-open-palette aria-label="Buscar e abrir a paleta de comandos">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
         </svg>
+        <span class="cmd-search-text">Buscar…</span>
+        <kbd class="cmd-search-kbd"><span class="key-mod">Ctrl</span> K</kbd>
       </button>
     </header>
 
-    <main>
-      <section class="page-intro">
-        <div class="container">
-          <h1 class="reveal">Setup</h1>
-          <p class="stack reveal">Equipamentos e ferramentas que uso no dia a dia.</p>
-        </div>
-      </section>
+    <main class="paper">
+      <header class="paper-intro">
+        <h1 class="reveal">Setup</h1>
+        <p class="paper-lead reveal">Equipamentos e ferramentas que uso no dia a dia.</p>
+      </header>
 
-      <section class="section">
-        <div class="container">
-          <article class="readme">
-            <header class="readme-bar">
-              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-                <path fill="currentColor"
-                  d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z" />
+      <div class="paper-layout">
+        <article class="paper-content">
+          <div class="view-toggle" role="group" aria-label="Visualização">
+            <button type="button" data-view="list" aria-pressed="true">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
               </svg>
-              setup.md
-            </header>
+              Lista
+            </button>
+            <button type="button" data-view="grid" aria-pressed="false">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <rect x="2" y="2" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4" />
+                <rect x="9" y="2" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4" />
+                <rect x="2" y="9" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4" />
+                <rect x="9" y="9" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4" />
+              </svg>
+              Grade
+            </button>
+          </div>
 
-            <div class="readme-body setup-body">
-              <h3>Notebook</h3>
-              <div class="gear-feature">
-                <p class="gear-name">Lenovo IdeaPad 3i</p>
-                <dl class="gear-specs">
-                  <div><dt>CPU</dt><dd>Intel Core i7 10ª geração</dd></div>
-                  <div><dt>GPU</dt><dd>NVIDIA GeForce MX330</dd></div>
-                  <div><dt>RAM</dt><dd>12 GB (4 GB soldada + 8 GB Kingston)</dd></div>
-                  <div><dt>Armazenamento</dt><dd>SSD NVMe 256 GB + SSD SATA 120 GB</dd></div>
-                </dl>
-              </div>
+          <!-- Cada item: ◆ nome + tag. A tag é o rótulo do item em minúsculas, sem acento. -->
+          <section class="paper-section" id="notebook">
+            <h2>Notebook</h2>
+            <details class="featured">
+              <summary>
+                <span class="featured-name">Lenovo IdeaPad 3i</span>
+                <span class="featured-toggle" aria-hidden="true"></span>
+              </summary>
+              <dl class="specs">
+                <div><dt>CPU</dt><dd>Intel Core i7 10ª geração</dd></div>
+                <div><dt>GPU</dt><dd>NVIDIA GeForce MX330</dd></div>
+                <div><dt>RAM</dt><dd>12 GB (4 GB soldada + 8 GB Kingston)</dd></div>
+                <div><dt>Armazenamento</dt><dd>SSD NVMe 256 GB + SSD SATA 120 GB</dd></div>
+              </dl>
+            </details>
+          </section>
 
-              <h3>Periféricos</h3>
-              <ul class="gear">
-                <li><span class="label">Monitor</span><span class="value">Lenovo ThinkVision 21" Full HD</span></li>
-                <li><span class="label">Teclado</span><span class="value">Logitech K380</span></li>
-                <li><span class="label">Mouse</span><span class="value">Lenovo IdeaPad Gaming M100</span></li>
-                <li><span class="label">Mouse</span><span class="value">Logitech M170</span></li>
-                <li><span class="label">Webcam</span><span class="value">Lenovo Essential FHD</span></li>
-              </ul>
+          <section class="paper-section" id="perifericos">
+            <h2>Periféricos</h2>
+            <ul class="items">
+              <li><span class="item-name">Lenovo ThinkVision 21" Full HD</span><span class="item-tag">#monitor</span></li>
+              <li><span class="item-name">Logitech K380</span><span class="item-tag">#teclado</span></li>
+              <li><span class="item-name">Lenovo IdeaPad Gaming M100</span><span class="item-tag">#mouse</span></li>
+              <li><span class="item-name">Logitech M170</span><span class="item-tag">#mouse</span></li>
+              <li><span class="item-name">Lenovo Essential FHD</span><span class="item-tag">#webcam</span></li>
+            </ul>
+          </section>
 
-              <h3>Mesa</h3>
-              <ul class="gear">
-                <li><span class="label">Suporte</span><span class="value">Octoo Uptable (notebook)</span></li>
-                <li><span class="label">Suporte</span><span class="value">Onistek NB F80 (monitor, articulado)</span></li>
-                <li><span class="label">Suporte</span><span class="value">Wh (headset)</span></li>
-                <li><span class="label">Luminária</span><span class="value">LED de sobrepor, touch e magnética</span></li>
-                <li><span class="label">Mousepad</span><span class="value">Lenovo Legion XL</span></li>
-                <li><span class="label">Mousepad</span><span class="value">Multi Warrior</span></li>
-                <li><span class="label">Apoio de pulso</span><span class="value">Redragon Meteor (teclado)</span></li>
-                <li><span class="label">Apoio de pulso</span><span class="value">Antideslizante ergonômico (mouse)</span></li>
-              </ul>
+          <section class="paper-section" id="mesa">
+            <h2>Mesa</h2>
+            <ul class="items">
+              <li><span class="item-name">Octoo Uptable (notebook)</span><span class="item-tag">#suporte</span></li>
+              <li><span class="item-name">Onistek NB F80 (monitor, articulado)</span><span class="item-tag">#suporte</span></li>
+              <li><span class="item-name">Wh (headset)</span><span class="item-tag">#suporte</span></li>
+              <li><span class="item-name">LED de sobrepor, touch e magnética</span><span class="item-tag">#luminaria</span></li>
+              <li><span class="item-name">Lenovo Legion XL</span><span class="item-tag">#mousepad</span></li>
+              <li><span class="item-name">Multi Warrior</span><span class="item-tag">#mousepad</span></li>
+              <li><span class="item-name">Redragon Meteor (teclado)</span><span class="item-tag">#apoio-de-pulso</span></li>
+              <li><span class="item-name">Antideslizante ergonômico (mouse)</span><span class="item-tag">#apoio-de-pulso</span></li>
+            </ul>
+          </section>
 
-              <h3>Áudio</h3>
-              <ul class="gear">
-                <li><span class="label">Headset</span><span class="value">Lenovo Legion H200</span></li>
-                <li><span class="label">Fone</span><span class="value">Lenovo Analog In-Ear Headphones Gen II</span></li>
-                <li><span class="label">Fone</span><span class="value">Apple EarPods (Lightning)</span></li>
-                <li><span class="label">Fone</span><span class="value">Aiwa AWS-EB-04-B</span></li>
-                <li><span class="label">Fone</span><span class="value">Philips TAUE101BK/00</span></li>
-              </ul>
+          <section class="paper-section" id="audio">
+            <h2>Áudio</h2>
+            <ul class="items">
+              <li><span class="item-name">Lenovo Legion H200</span><span class="item-tag">#headset</span></li>
+              <li><span class="item-name">Lenovo Analog In-Ear Headphones Gen II</span><span class="item-tag">#fone</span></li>
+              <li><span class="item-name">Apple EarPods (Lightning)</span><span class="item-tag">#fone</span></li>
+              <li><span class="item-name">Aiwa AWS-EB-04-B</span><span class="item-tag">#fone</span></li>
+              <li><span class="item-name">Philips TAUE101BK/00</span><span class="item-tag">#fone</span></li>
+            </ul>
+          </section>
 
-              <h3>Mobile</h3>
-              <ul class="gear">
-                <li><span class="label">Celular</span><span class="value">iPhone 11 64 GB</span></li>
-                <li><span class="label">Power bank</span><span class="value">i2GO 10.000 mAh</span></li>
-              </ul>
+          <section class="paper-section" id="mobile">
+            <h2>Mobile</h2>
+            <ul class="items">
+              <li><span class="item-name">iPhone 11 64 GB</span><span class="item-tag">#celular</span></li>
+              <li><span class="item-name">i2GO 10.000 mAh</span><span class="item-tag">#power-bank</span></li>
+            </ul>
+          </section>
 
-              <h3>Papelaria</h3>
-              <ul class="gear">
-                <li><span class="label">Caderno</span><span class="value">Tilibra Zip</span></li>
-                <li><span class="label">Caderno</span><span class="value">Amazon Basics (quadriculado)</span></li>
-                <li><span class="label">Agenda</span><span class="value">Kaz</span></li>
-                <li><span class="label">Bloco de notas</span><span class="value">Genérico</span></li>
-                <li><span class="label">Lápis</span><span class="value">Faber-Castell EcoLápis</span></li>
-                <li><span class="label">Lapiseira</span><span class="value">Pentel P209 0,9 mm</span></li>
-                <li><span class="label">Caneta</span><span class="value">Pentel EnerGel Makuro 0,5 mm</span></li>
-                <li><span class="label">Caneta</span><span class="value">BIC</span></li>
-              </ul>
+          <section class="paper-section" id="papelaria">
+            <h2>Papelaria</h2>
+            <ul class="items">
+              <li><span class="item-name">Tilibra Zip</span><span class="item-tag">#caderno</span></li>
+              <li><span class="item-name">Amazon Basics (quadriculado)</span><span class="item-tag">#caderno</span></li>
+              <li><span class="item-name">Kaz</span><span class="item-tag">#agenda</span></li>
+              <li><span class="item-name">Genérico</span><span class="item-tag">#bloco-de-notas</span></li>
+              <li><span class="item-name">Faber-Castell EcoLápis</span><span class="item-tag">#lapis</span></li>
+              <li><span class="item-name">Pentel P209 0,9 mm</span><span class="item-tag">#lapiseira</span></li>
+              <li><span class="item-name">Pentel EnerGel Makuro 0,5 mm</span><span class="item-tag">#caneta</span></li>
+              <li><span class="item-name">BIC</span><span class="item-tag">#caneta</span></li>
+            </ul>
+          </section>
 
-              <h3>Ferramentas</h3>
-              <ul class="gear">
-                <li><span class="label">Editor</span><span class="value">VS Code, Dev-C++, <a href="https://github.com/PlummersSoftwareLLC/TinyRetroPad" target="_blank" rel="noopener">TinyRetroPad</a></span></li>
-                <li><span class="label">IA</span><span class="value">Claude Code (Pro)</span></li>
-                <li><span class="label">Terminal</span><span class="value">PowerShell, CMD, Cmder</span></li>
-                <li><span class="label">Versionamento</span><span class="value">Git / GitHub</span></li>
-                <li><span class="label">Notas</span><span class="value">Obsidian, Notion</span></li>
-                <li><span class="label">Diagramas</span><span class="value">Excalidraw</span></li>
-                <li><span class="label">Tarefas</span><span class="value">Trello</span></li>
-                <li><span class="label">Navegador</span><span class="value">Firefox</span></li>
-              </ul>
-            </div>
-          </article>
-        </div>
-      </section>
+          <section class="paper-section" id="ferramentas">
+            <h2>Ferramentas</h2>
+            <ul class="items">
+              <li><span class="item-name">VS Code, Dev-C++, <a href="https://github.com/PlummersSoftwareLLC/TinyRetroPad" target="_blank" rel="noopener">TinyRetroPad</a></span><span class="item-tag">#editor</span></li>
+              <li><span class="item-name">Claude Code (Pro)</span><span class="item-tag">#ia</span></li>
+              <li><span class="item-name">PowerShell, CMD, Cmder</span><span class="item-tag">#terminal</span></li>
+              <li><span class="item-name">Git / GitHub</span><span class="item-tag">#versionamento</span></li>
+              <li><span class="item-name">Obsidian, Notion</span><span class="item-tag">#notas</span></li>
+              <li><span class="item-name">Excalidraw</span><span class="item-tag">#diagramas</span></li>
+              <li><span class="item-name">Trello</span><span class="item-tag">#tarefas</span></li>
+              <li><span class="item-name">Firefox</span><span class="item-tag">#navegador</span></li>
+            </ul>
+          </section>
+        </article>
+
+        <aside class="toc" aria-labelledby="toc-title">
+          <p class="toc-title" id="toc-title">Nesta página</p>
+          <ul>
+            <li><a href="#notebook">Notebook</a></li>
+            <li><a href="#perifericos">Periféricos</a></li>
+            <li><a href="#mesa">Mesa</a></li>
+            <li><a href="#audio">Áudio</a></li>
+            <li><a href="#mobile">Mobile</a></li>
+            <li><a href="#papelaria">Papelaria</a></li>
+            <li><a href="#ferramentas">Ferramentas</a></li>
+          </ul>
+        </aside>
+      </div>
     </main>
 
     <footer class="site-footer">

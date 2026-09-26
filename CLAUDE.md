@@ -49,8 +49,12 @@ status dos itens no mesmo commit em que forem concluídos.
   - `--mono`: **JetBrains Mono**, a única baixada do Google Fonts, para rótulos, tags e código.
 - Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup: 40px no celular, 72px em
   1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
-- Blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`, `setup.md`,
+- Na home, os blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`,
   `skills.md`, `contato.md`).
+- **A página `/setup` tem outra identidade**, a do akitaonrails.com (item 26 do roadmap): fundo creme
+  `#faf7f0`, texto `#2a2622`, links cor de ferrugem `#a63a1e`, marcadores ◆, tags `#tag`, sumário lateral
+  e alternância Lista/Grade. As cores vêm das mesmas variáveis, redefinidas em `body[data-page="setup"]`.
+  As fontes continuam Verdana e Times New Roman. A home continua escura.
 
 ## Padrões de código
 
@@ -65,8 +69,11 @@ status dos itens no mesmo commit em que forem concluídos.
   `script.js`, que também alimenta a paleta.
 - **Copiar:** `navigator.clipboard` só existe em HTTPS, então há um plano B com `execCommand`. Os
   botões usam `data-copy` com delegação de eventos, para funcionarem também dentro dos modais.
-- **Listas do setup:** `<ul class="gear">` com linhas `<span class="label">` + `<span class="value">`.
-  Especificações do notebook em `<dl class="gear-specs">`.
+- **Setup:** cada categoria é uma `<section class="paper-section" id="...">` com `<h2>` e
+  `<ul class="items">`. Cada item é `<li><span class="item-name">Nome</span><span class="item-tag">#rotulo</span></li>`,
+  com a tag em minúsculas, sem acento e com hífen (`#apoio-de-pulso`). O notebook fica num
+  `<details class="featured">` com `<dl class="specs">`. Ao criar uma categoria, adicione também o link
+  no sumário (`<aside class="toc">`). O modo Grade é a classe `is-grid` nas `.items`, controlada pelo `script.js`.
 - **Acessibilidade:** foco preso dentro do modal com Tab e devolvido ao elemento de origem ao fechar;
   `aria-current="page"` no menu; `prefers-reduced-motion` desliga as animações.
 
@@ -129,3 +136,4 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
    de volta, o conteúdo e o código completos estão no commit `71df592` (`git show 71df592`).
 10. Roadmap ampliado até o item 30 (terminal, currículo, visual do akitaonrails.com no setup, temas, idiomas,
     XML/JSON e jogos). Fonte trocada para Verdana, com títulos dos tópicos em Times New Roman (item 22).
+11. Página `/setup` refeita com a identidade visual do akitaonrails.com (item 26), mantendo as fontes.

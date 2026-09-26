@@ -287,4 +287,48 @@
 
   document.querySelectorAll("[data-open-palette]").forEach((b) => b.addEventListener("click", openPalette));
   document.querySelectorAll("[data-close-palette]").forEach((b) => b.addEventListener("click", closePalette));
+
+  // Setup: alternância Lista/Grade (lembrada no navegador) e seção atual destacada no sumário
+  if (page === "setup") {
+    const viewButtons = document.querySelectorAll("[data-view]");
+    const setView = (view) => {
+      document.querySelectorAll(".items").forEach((ul) => ul.classList.toggle("is-grid", view === "grid"));
+      viewButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === view)));
+      try {
+        localStorage.setItem("setup-view", view);
+      } catch {
+        // navegação privada ou armazenamento bloqueado: só não lembra a escolha
+      }
+    };
+
+    let savedView = null;
+    try {
+      savedView = localStorage.getItem("setup-view");
+    } catch {
+      // idem
+    }
+    setView(savedView === "grid" ? "grid" : "list");
+    viewButtons.forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
+
+    // A seção atual é a última cujo topo já passou um pouco abaixo do cabeçalho
+    const tocLinks = [...document.querySelectorAll(".toc a")];
+    const sections = tocLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+    const header = document.querySelector(".site-header");
+    const markCurrent = () => {
+      const line = header.offsetHeight + 120;
+      let current = sections[0];
+      sections.forEach((s) => {
+        if (s.getBoundingClientRect().top <= line) current = s;
+      });
+      // No fim da página, a última seção pode não chegar à linha: marca ela mesmo assim
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        current = sections[sections.length - 1];
+      }
+      tocLinks.forEach((a) => a.setAttribute("aria-current", String(a.getAttribute("href") === `#${current.id}`)));
+    };
+    if (sections.length) {
+      markCurrent();
+      window.addEventListener("scroll", markCurrent, { passive: true });
+    }
+  }
 })();

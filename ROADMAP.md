@@ -33,7 +33,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 ## Visual
 
-26. ⬜ **Setup com a identidade visual do akitaonrails.com** (médio). A página `/setup` deixa o layout atual (escuro, estilo README) e passa a seguir o visual do akitaonrails.com. Detalhes abaixo.
+26. ✅ **Setup com a identidade visual do akitaonrails.com** (médio). Feito em 26/09/2026, mantendo Verdana (texto) e Times New Roman (títulos dos tópicos) no lugar das fontes do akitaonrails.com. Detalhes e decisões abaixo.
 22. ✅ **Fonte Verdana** (baixo). Feito em 26/09/2026.
     - **Texto e títulos de página** (nome, "Setup"): Verdana, com alternativas `Verdana, Geneva, "DejaVu Sans", sans-serif` para celular e Linux.
     - **Títulos dos tópicos** (seções do README, títulos dos modais e categorias do setup): serifada, `"Times New Roman", Times, "Liberation Serif", serif`, em negrito e um pouco maiores, porque a Times parece menor que a Verdana no mesmo tamanho.
@@ -211,11 +211,21 @@ Substitui os itens 2 e 3.
 - Alternância Lista / Grade: na grade, cada item vira um cartão (bom para uma futura foto do equipamento).
 - O Notebook pode ser o bloco em destaque, com as especificações recolhíveis.
 
-**Pontos para decidir:**
+**O que foi implementado (26/09/2026):**
+
+- Fundo creme, texto marrom e links cor de ferrugem, trocados só no setup redefinindo as variáveis de cor em `body[data-page="setup"]`. Cabeçalho, paleta, rodapé e toast acompanham sozinhos.
+- Barra superior clara, com os links à direita e uma **caixa de busca "Buscar… Ctrl K"** que abre a paleta. No celular, vira só o ícone.
+- Seções com título em Times New Roman, itens com ◆ em ferrugem e tag discreta (`#mouse`).
+- **Notebook em destaque** (`<details>`), com o botão "Mostrar/Ocultar" das especificações. Começa fechado, como o "Featured" do akitaonrails.com.
+- **Sumário "Nesta página"** na lateral a partir de 1024px, acompanhando a rolagem e marcando a seção atual. Abaixo disso, vira uma lista no topo.
+- **Alternância Lista / Grade**, com a escolha guardada no `localStorage` (chave `setup-view`).
+- **Fontes:** Verdana e Times New Roman, por decisão do Lucas, no lugar da Source Serif 4 e da Source Sans 3 do akitaonrails.com.
+- A home continua escura. O site tem dois estilos por enquanto.
+
+**Pontos que continuam para decidir:**
 
 - **Só o setup muda?** A home continuaria escura. Isso cria dois estilos no mesmo site. Dá para aceitar como "página com personalidade própria", fazer uma transição suave entre as duas ou, no futuro, levar o visual para o site todo.
 - **Tema escuro:** o akitaonrails.com também tem versão escura. Com o item 27, o setup ganharia as duas versões nesse visual.
-- **Fontes:** Source Serif 4 e Source Sans 3 estão no Google Fonts. Isso conflita com o item 22 (Verdana); decidir qual vale para o setup.
 - **Não copiar:** seguir a identidade (cores, tipografia, organização), não copiar código nem textos do site dele.
 
 ### Detalhes do item 27: tema escuro / claro / sistema
