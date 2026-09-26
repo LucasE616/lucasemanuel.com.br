@@ -139,6 +139,9 @@ Substitui o item 11. A ideia é o visitante poder navegar pelo portfólio como s
 - **Tab** autocompleta, **↑/↓** navega no histórico, **Ctrl+L** limpa e **Ctrl+C** cancela.
 - Sugestão para erros de digitação: "comando não encontrado: skils. Você quis dizer `skills`?"
 - No celular, botões com os comandos principais, porque digitar num terminal pelo celular é ruim.
+- ✅ **Personalização** (26/09/2026): engrenagem na barra abre um painel com 3 layouts (Clássico, Tela cheia e Minimalista), cor do fundo, cor das letras e fonte (JetBrains Mono, Consolas, Courier New, Lucida Console, Verdana e Times New Roman). As escolhas ficam salvas no navegador.
+- ✅ Bolinhas da barra em vermelho, amarelo e verde, como numa janela de macOS.
+- ✅ Botão flutuante no canto inferior direito da home e do `/setup` que abre o terminal.
 
 **Cuidados:**
 
@@ -344,6 +347,7 @@ Substitui os itens 2 e 3.
 - ✅ Modais para Skills e Contato; atalhos I, S, C e U
 - ✅ HTTPS com domínio próprio e redirecionamento HTTP → HTTPS
 - ✅ Texto da apresentação maior em monitores
+- ✅ Botão flutuante do terminal e personalização do terminal (layouts, cores e fonte), ver item 23
 
 ## Ordem sugerida
 

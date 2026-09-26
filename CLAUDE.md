@@ -33,7 +33,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
 | `style.css` | Estilos compartilhados pelas duas páginas |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
-| `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/` |
+| `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
@@ -77,7 +77,14 @@ status dos itens no mesmo commit em que forem concluídos.
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
-  Chaves no `localStorage`: `theme` e `setup-view`.
+  Chaves no `localStorage`: `theme`, `setup-view` e `term-prefs`.
+- **Personalização do terminal:** `term-prefs` guarda `{layout, bg, fg, font}`. O layout vai em
+  `data-layout` no `.term` (`classic`, padrão; `full`; `minimal`, sem barra nem borda, mas com a engrenagem
+  visível para voltar). Cores e fonte viram as variáveis `--term-bg`, `--term-fg` e `--term-font` no `.term`,
+  com as cores do tema como plano B; as fontes ficam no objeto `FONTS` de `terminal.js`. As bolinhas da
+  barra são as únicas cores fixas de propósito (`#ff5f56`, `#ffbd2e`, `#27c93f`).
+- **Botão flutuante do terminal:** `<a class="term-fab">` no canto inferior direito, em `index.html` e
+  `setup/index.html` (não na página do terminal). Página nova deve recebê-lo também.
 - **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
   para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
 - **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup) e T ou crase (Terminal).
@@ -167,3 +174,5 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 12. Tema claro/escuro/sistema no site todo (item 27), com o creme e o ferrugem no claro e o README da
     home em estilo de primeira página do New York Times no tema claro.
 13. Versão nos arquivos (`?v=`) depois que o cache misturou versões e quebrou o botão de tema (item 17).
+14. Terminal: botão flutuante no canto inferior direito, painel com 3 layouts, cores de fundo e letras e
+    fonte, e bolinhas vermelha/amarela/verde na barra (commit `cbfe725`).
