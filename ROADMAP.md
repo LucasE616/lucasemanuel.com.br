@@ -29,7 +29,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 27. ✅ **Tema escuro / claro / sistema** (médio). Feito em 26/09/2026, com o README da home em estilo de jornal no tema claro. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
-30. 🟡 **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). Jogo da velha feito em 26/09/2026: página `/jogos` (atalho J) e `play velha` no terminal. Na mesma data, entrou também um jogo de carrinho (fora do plano original). Faltam as damas e a aba "Como a IA pensa". O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
+30. 🟡 **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). Feito em 26/09/2026: página `/jogos` (atalho J), com abas para o jogo da velha e para um jogo de carrinho (fora do plano original), e os dois também no terminal (`play velha` e `play carrinho`). Faltam as damas e a aba "Como a IA pensa". O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
 
 ## Visual
 
@@ -139,6 +139,7 @@ Substitui o item 11. A ideia é o visitante poder navegar pelo portfólio como s
 - **Tab** autocompleta, **↑/↓** navega no histórico, **Ctrl+L** limpa e **Ctrl+C** cancela.
 - Sugestão para erros de digitação: "comando não encontrado: skils. Você quis dizer `skills`?"
 - No celular, botões com os comandos principais, porque digitar num terminal pelo celular é ruim.
+- ✅ **Jogos** (26/09/2026): `play velha` e `play carrinho`, com botões "velha" e "carrinho" no celular (item 30).
 - ✅ **Personalização** (26/09/2026): engrenagem na barra abre um painel com 3 layouts (Clássico, Tela cheia e Minimalista), cor do fundo, cor das letras e fonte (JetBrains Mono, Consolas, Courier New, Lucida Console, Verdana e Times New Roman). As escolhas ficam salvas no navegador.
 - ✅ Bolinhas da barra em vermelho, amarelo e verde, como numa janela de macOS.
 - ✅ Botão flutuante no canto inferior direito da home e do `/setup` que abre o terminal.
@@ -324,7 +325,8 @@ mostram um jogo por vez (`/jogos/#carrinho` abre direto no carrinho).
 vai de 150 a 60 ms por linha. Recorde próprio (`carrinho-terminal-recorde`), porque a distância não se compara
 com a da página.
 
-**Onde:** página `/jogos` com os dois jogos, item no menu ou só na paleta (para não pesar o menu), atalho **J** e comandos `play velha` e `play damas` no terminal do item 23.
+**Onde:** página `/jogos`, só na paleta e no atalho **J** (fora do menu, que precisa caber numa linha), com uma
+aba por jogo. No terminal do item 23: `play velha`, `play carrinho` e, quando existir, `play damas`.
 
 **Jogo da velha** (esforço baixo):
 
@@ -367,12 +369,15 @@ com a da página.
 - ✅ HTTPS com domínio próprio e redirecionamento HTTP → HTTPS
 - ✅ Texto da apresentação maior em monitores
 - ✅ Botão flutuante do terminal e personalização do terminal (layouts, cores e fonte), ver item 23
+- ✅ Jogo de carrinho infinito, na página `/jogos` e em texto no terminal, ver item 30
+- ✅ Animações do terminal (`hack`, barras de progresso, `ping`) voltaram a ter pausas depois do boot
 
 ## Ordem sugerida
 
-1. **Itens rápidos juntos:** 15, 9, 16, 17 e 22 (prévia, 404, sitemap, versão nos arquivos e fonte Verdana).
+1. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap). Os outros deste grupo (9, 17 e 22) já foram feitos.
 2. **Área administrativa (21)**, começando pelos pré-requisitos.
 3. **Página de Projetos (1)**, já com os dados editáveis pelo painel.
 4. **Menu Educação / Currículo (24)**, com o PDF.
-5. **Site em linha de comando (23)**. Dá para começar pelo `curl` (forma B), que é rápido, e depois fazer o terminal dentro do site.
+5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
 6. **Versão em inglês (8).**
+7. **Damas (30)** e a aba "Como a IA pensa". O jogo da velha e o carrinho já estão no ar.

@@ -31,7 +31,7 @@ status dos itens no mesmo commit em que forem concluídos.
 |---|---|
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
-| `style.css` | Estilos compartilhados pelas duas páginas |
+| `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
 | `jogos/` | Página `/jogos` (item 30): jogo da velha e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface da velha; `carrinho.js` é o jogo de carrinho em canvas |
@@ -78,8 +78,9 @@ status dos itens no mesmo commit em que forem concluídos.
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
-  Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre `/jogos` e o terminal), `carrinho-recorde` (página) e
-  `carrinho-terminal-recorde` (versão em texto do `play carrinho`, função `carGame` em `terminal.js`).
+  Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre
+  `/jogos` e o terminal), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
+  `play carrinho`, função `carGame` em `terminal.js`). Toda leitura e escrita fica em `try/catch`.
 - **Canvas e tema:** o carrinho lê as cores das variáveis CSS (`--surface-2`, `--accent`...) e redesenha quando
   `data-theme` muda. Só os outros carros e a barreira têm cores fixas, que funcionam nos dois temas.
 - **Personalização do terminal:** `term-prefs` guarda `{layout, bg, fg, font}`. O layout vai em
@@ -87,6 +88,12 @@ status dos itens no mesmo commit em que forem concluídos.
   visível para voltar). Cores e fonte viram as variáveis `--term-bg`, `--term-fg` e `--term-font` no `.term`,
   com as cores do tema como plano B; as fontes ficam no objeto `FONTS` de `terminal.js`. As bolinhas da
   barra são as únicas cores fixas de propósito (`#ff5f56`, `#ffbd2e`, `#27c93f`).
+- **Animações do terminal:** use o `sleep()` de `terminal.js`. Ele respeita `prefers-reduced-motion`, o
+  Ctrl+C (`aborted`) e a flag `fast`, que acelera só a animação em andamento quando se aperta uma tecla e é
+  zerada a cada comando. Até 26/09/2026 ela ficava ligada depois do boot e todas as animações saíam sem pausa.
+- **Jogos no terminal:** jogos por turno viram um `mode` (como `python` e `vim`: `play velha`); jogos em tempo
+  real rodam dentro do comando, com a entrada travada (`busy`), e resolvem a promise ao terminar
+  (`play carrinho`). O teclado do jogo é um `keydown` no `document`, removido no fim da partida.
 - **Botão flutuante do terminal:** `<a class="term-fab">` no canto inferior direito, em `index.html` e
   `setup/index.html` e `jogos/index.html` (não na página do terminal). Página nova deve recebê-lo também.
 - **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
@@ -127,7 +134,7 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Caminhos longos:** se a pasta tiver caminho longo, rode `git config core.longpaths true`.
 - **Servidor local:** `py -m http.server 5500` na raiz do projeto (neste PC o comando `python` não existe; use o `py`). A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
-- **Versão dos arquivos (obrigatório):** os dois HTMLs pedem `style.css?v=AAAAMMDD.N` e `script.js?v=AAAAMMDD.N`.
+- **Versão dos arquivos (obrigatório):** todos os HTMLs pedem os CSS/JS com `?v=AAAAMMDD.N` (ex.: `style.css?v=20260926.9`).
   **Sempre que mudar `style.css`, `script.js`, `terminal/terminal.js` ou os arquivos de `jogos/`, aumente o `?v=` em
   todos os HTMLs** (`index.html`, `setup/index.html`, `terminal/index.html`, `jogos/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
   (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
@@ -139,6 +146,11 @@ status dos itens no mesmo commit em que forem concluídos.
   Transições CSS também congelam: ao medir cores depois de trocar o tema, desligue as transições
   (`*{transition:none!important}`) ou a medição mostra a cor antiga. `IntersectionObserver` e
   `requestAnimationFrame` também param, então prefira lógica baseada em eventos de rolagem.
+- **Testar sem navegador:** o Lucas não usa a extensão Claude in Chrome. Os testes de 26/09/2026 foram
+  feitos com **jsdom** instalado na pasta temporária da sessão (fora do repositório, que não tem dependências),
+  contra o `py -m http.server 5500`: canvas trocado por um objeto vazio, `requestAnimationFrame`/`setTimeout`
+  controlados à mão e "pilotos automáticos" para os jogos. Isso testa lógica e DOM, não o visual; avise o
+  Lucas do que não foi visto num navegador de verdade.
 - **Testar os dois temas:** troque `document.documentElement.dataset.theme` entre `light` e `dark` e rode o
   checklist em cada um.
 - **Conferir o deploy:** depois do push, consulte o site com `curl.exe -s "https://lucasemanuel.com.br/...?t=aleatorio"`
@@ -182,6 +194,8 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 14. Terminal: botão flutuante no canto inferior direito, painel com 3 layouts, cores de fundo e letras e
     fonte, e bolinhas vermelha/amarela/verde na barra (commit `cbfe725`).
 15. Jogo da velha (item 30): página `/jogos` com 3 níveis (minimax no Impossível), escolha de X/O e de quem
-    começa, placar salvo, e o comando `play velha` no terminal.
-16. Jogo de carrinho infinito na página `/jogos`, com recorde salvo. Depois, a página ganhou abas (um jogo
-    por vez) e o terminal ganhou uma versão em texto do carrinho (`play carrinho`).
+    começa, placar salvo, e o comando `play velha` no terminal (commit `298cf0b`). Em seguida, correção das
+    animações do terminal, que tinham ficado sem pausa (`742ff52`).
+16. Jogo de carrinho infinito na página `/jogos`, com recorde salvo (`35fb955`). O Lucas avisou que o link do
+    carrinho mostrava o jogo da velha (o carrinho ficava abaixo, na mesma página), e a página ganhou abas,
+    um jogo por vez (`b400f09`). Depois, versão em texto do carrinho no terminal, `play carrinho` (`f99a828`).
