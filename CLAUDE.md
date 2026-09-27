@@ -31,7 +31,7 @@ status dos itens no mesmo commit em que forem concluídos.
 |---|---|
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
-| `curriculo/index.html` | Página `/curriculo` (item 24): experiência e formação em linha do tempo (`<ol class="timeline">`), cursos, habilidades, idiomas e livros técnicos, num bloco `curriculo.md`. O PDF é a própria página impressa (`@media print` em `style.css`, botão `data-print`) |
+| `curriculo/index.html` | Página `/curriculo` (item 24): experiência e formação em linha do tempo (`<ol class="timeline">`), cursos, habilidades, idiomas e livros técnicos, no design do `/setup`. O PDF é a própria página impressa (`@media print` em `style.css`, botão `data-print`) |
 | `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/`, `/setup/` e `/curriculo/`. Tem painel de personalização (engrenagem na barra) |
@@ -66,12 +66,18 @@ status dos itens no mesmo commit em que forem concluídos.
 - Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup: 40px no celular, 72px em
   1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
 - Na home, os blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`,
-  `skills.md`, `contato.md`).
+  `skills.md`, `contato.md`). **Esse visual de README é só da home** (pedido do Lucas em 27/09/2026): não
+  repetir o bloco de arquivo em outras páginas. Páginas de conteúdo novas seguem o design do `/setup`.
 - **A página `/setup` usa a estrutura do akitaonrails.com** (item 26 do roadmap): marcadores ◆, tags
   `#tag`, sumário lateral, alternância Lista/Grade e bloco em destaque. **O fundo é o mesmo escuro do
   resto do site**, por pedido do Lucas (o fundo creme do akitaonrails.com foi descartado). Só o destaque
   muda: `--accent: #e8805f` em `body[data-page="setup"]`, um ferrugem clareado para ter ~7:1 de contraste
   no fundo escuro (o `#a63a1e` original teria ~3:1). As fontes continuam Verdana e Times New Roman.
+- **Design do `/setup` em outras páginas:** `<body class="paper-page">` aplica o cabeçalho com borda, o menu em
+  letras normais à direita, a busca "Buscar… Ctrl K" (`.cmd-search`, copiar o bloco `.header-actions` do setup) e o
+  rodapé com borda. O conteúdo usa `.paper-intro`, `.paper-layout`, `.paper-content`, `.paper-section` e `.toc`.
+  Ações da página ficam no canto superior direito do conteúdo, em `.view-toggle` (Lista/Grade no setup,
+  "Baixar PDF" no currículo). O ferrugem é só do setup; o `/curriculo` usa o amarelo do site.
 
 ## Padrões de código
 
@@ -137,6 +143,8 @@ status dos itens no mesmo commit em que forem concluídos.
   Faber-Castell EcoLápis, Pentel EnerGel, John Wick, Baby Driver, Zack Snyder, The Glenlivet, Sestini e
   10.000 mAh. Se não tiver certeza de um nome, pergunte antes de publicar. Foi assim com o "Trpad", que
   era o TinyRetroPad.
+- **Visual de README só na home:** telas novas não repetem o bloco de arquivo (`nome.md` com borda). Seguem o
+  design do `/setup` (ver Visual).
 - Não publicar funcionalidade vazia (como um modal só com "Em breve"). Fazer o commit local e esperar o
   conteúdo.
 - Os commits vão direto para a `main` e são enviados logo, o que publica o site. Quando um PR foi

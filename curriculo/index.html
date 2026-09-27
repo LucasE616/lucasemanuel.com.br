@@ -86,11 +86,11 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20260927.5" />
+    <link rel="stylesheet" href="../style.css?v=20260927.6" />
   </head>
-  <!-- Currículo (item 24 do ROADMAP): mesma estrutura do /setup (seções, sumário lateral), com o conteúdo
-       num bloco de arquivo (curriculo.md). O PDF sai desta mesma página, pelo CSS de impressão. -->
-  <body data-page="curriculo" data-root="../">
+  <!-- Currículo (item 24 do ROADMAP): mesmo design do /setup (cabeçalho .paper-page, seções soltas e sumário
+       lateral), com o destaque amarelo do site. O PDF sai desta mesma página, pelo CSS de impressão. -->
+  <body class="paper-page" data-page="curriculo" data-root="../">
     <header class="site-header">
       <a href="../" class="logo" aria-label="Início">le</a>
       <nav class="nav" aria-label="Principal">
@@ -101,6 +101,14 @@
         <a class="nav-wide" href="./" title="Atalho: E" aria-keyshortcuts="E" aria-current="page">Currículo</a>
       </nav>
       <div class="header-actions">
+        <button class="cmd-trigger cmd-search" type="button" data-open-palette aria-label="Buscar e abrir a paleta de comandos">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="m20 20-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <span class="cmd-search-text">Buscar…</span>
+          <kbd class="cmd-search-kbd"><span class="key-mod">Ctrl</span> K</kbd>
+        </button>
         <div class="theme-switch">
           <button class="theme-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu" aria-label="Tema">
             <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -117,12 +125,6 @@
             <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="system">Sistema</button></li>
           </ul>
         </div>
-        <button class="cmd-trigger" type="button" data-open-palette aria-label="Abrir paleta de comandos">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-              d="M18 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 0 0 0-6z" />
-          </svg>
-        </button>
       </div>
     </header>
 
@@ -134,146 +136,142 @@
 
       <div class="paper-layout">
         <article class="cv paper-content">
-          <header class="cv-bar">
-            <span class="cv-file">
-              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-                <path fill="currentColor"
-                  d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z" />
+          <div class="view-toggle">
+            <button type="button" data-print title="Abre a janela de impressão: escolha &quot;Salvar como PDF&quot;">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <path d="M8 2v8m0 0-3-3m3 3 3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              curriculo.md
-            </span>
-            <button class="copy cv-print" type="button" data-print title="Abre a janela de impressão: escolha &quot;Salvar como PDF&quot;">baixar PDF</button>
-          </header>
-
-          <div class="cv-body">
-            <!-- Cabeçalho que só aparece no PDF (na tela, o cabeçalho do site já identifica a página) -->
-            <div class="cv-print-head">
-              <p class="cv-print-name">Lucas Emanuel</p>
-              <p>Dev Back-end &amp; Analista de Sistemas</p>
-              <p class="cv-print-contacts">
-                <span>lucase616@gmail.com</span>
-                <span>lucasemanuel.com.br</span>
-                <span>linkedin.com/in/lucas-emanuel-santos-martins-105304242</span>
-                <span>github.com/LucasE616</span>
-              </p>
-            </div>
-
-            <!-- Linha do tempo: cada <li> tem período, cargo (ou curso), empresa (ou instituição), descrição e detalhes -->
-            <section class="paper-section cv-section" id="experiencia">
-              <h2>Experiência profissional</h2>
-              <ol class="timeline">
-                <li>
-                  <p class="tl-date"><time datetime="2024-09">Set 2024</time> – Atual</p>
-                  <h3 class="tl-title">Analista de Sistemas / Suporte Técnico</h3>
-                  <p class="tl-org">e-paper</p>
-                  <p class="tl-desc">Empresa focada em digitalização de documentos, automação de processos e desenvolvimento de software.</p>
-                  <p class="tl-meta"><span>Montezuma-MG, Brasil</span><span>Área: Tecnologia</span></p>
-                </li>
-                <li>
-                  <p class="tl-date"><time datetime="2025-01">Jan 2025</time> – Atual</p>
-                  <h3 class="tl-title">Suporte Técnico</h3>
-                  <p class="tl-org">FizPay</p>
-                  <p class="tl-desc">Fintech focada em soluções de benefícios para funcionários de empresas e organizações do setor público.</p>
-                  <p class="tl-meta"><span>Montes Claros-MG, Brasil</span><span>Área: Financeira</span></p>
-                </li>
-                <li>
-                  <p class="tl-date"><time datetime="2024-12">Dez 2024</time> – Atual</p>
-                  <h3 class="tl-title">Desenvolvedor Backend Jr</h3>
-                  <p class="tl-org">Plant Evolution</p>
-                  <p class="tl-desc">Empresa focada em soluções de monitoramento remoto para máquinas industriais.</p>
-                  <p class="tl-meta"><span>São Paulo-SP, Brasil</span><span>Área: Automação Industrial</span></p>
-                </li>
-                <li>
-                  <p class="tl-date"><time datetime="2021-01">Jan 2021</time> – <time datetime="2022-06">Jun 2022</time></p>
-                  <h3 class="tl-title">Suporte Técnico</h3>
-                  <p class="tl-org">Rlv Tecnologia</p>
-                  <p class="tl-desc">Empresa focada em digitalização de documentos, automação de processos e desenvolvimento de software.</p>
-                  <p class="tl-meta"><span>Montezuma-MG, Brasil</span><span>Área: Tecnologia</span></p>
-                </li>
-              </ol>
-            </section>
-
-            <section class="paper-section cv-section" id="formacao">
-              <h2>Formação acadêmica</h2>
-              <ol class="timeline">
-                <li>
-                  <p class="tl-date"><time datetime="2023-11">Nov 2023</time> – <time datetime="2026-04">Abr 2026</time></p>
-                  <h3 class="tl-title">Análise e Desenvolvimento de Sistemas</h3>
-                  <p class="tl-org">Centro Universitário ETEP</p>
-                  <p class="tl-meta"><span>Graduado</span></p>
-                </li>
-                <li>
-                  <p class="tl-date"><time datetime="2018-02">Fev 2018</time> – <time datetime="2021-01">Jan 2021</time></p>
-                  <h3 class="tl-title">Ensino Médio</h3>
-                  <p class="tl-org">Escola Estadual Edson Alves Pereira</p>
-                  <p class="tl-meta"><span>Completo</span></p>
-                </li>
-              </ol>
-            </section>
-
-            <!-- Cursos: ◆ nome do curso + plataforma ou emissor -->
-            <section class="paper-section cv-section" id="cursos">
-              <h2>Cursos e certificados</h2>
-              <ul class="items">
-                <li><span class="item-name">Python</span><span class="item-tag">Curso em Vídeo</span></li>
-                <li><span class="item-name">JavaScript</span><span class="item-tag">Curso em Vídeo</span></li>
-                <li><span class="item-name">HTML &amp; CSS</span></li>
-                <li><span class="item-name">Dados em Python</span><span class="item-tag">Alura</span></li>
-                <li><span class="item-name">System Design</span><span class="item-tag">Fundação Bradesco</span></li>
-                <li><span class="item-name">React Foundations</span><span class="item-tag">Next.js</span></li>
-                <li><span class="item-name">Lógica de Programação e Algoritmos em C</span><span class="item-tag">Udemy</span></li>
-                <li><span class="item-name">Testes Automáticos + Testes de Software em Jest</span><span class="item-tag">Udemy</span></li>
-              </ul>
-            </section>
-
-            <section class="paper-section cv-section" id="habilidades">
-              <h2>Habilidades</h2>
-              <h3 class="cv-sub">Linguagens &amp; tecnologias</h3>
-              <ul class="tags">
-                <li>JavaScript</li>
-                <li>Node.js</li>
-                <li>Python</li>
-                <li>C</li>
-              </ul>
-              <h3 class="cv-sub">Ferramentas e competências</h3>
-              <ul class="items">
-                <li><span class="item-name">Git, Git Worktree, GitHub</span></li>
-                <li><span class="item-name">Office</span></li>
-                <li><span class="item-name">Microsoft 365</span></li>
-                <li><span class="item-name">Atlassian Workspace</span></li>
-                <li><span class="item-name">Entendimento em Design Systems</span></li>
-                <li><span class="item-name">Entendimento em Engenharia de Requisitos</span></li>
-                <li><span class="item-name">Entendimento em Pair Programming com IA</span></li>
-                <li><span class="item-name">Entendimento em Metodologias Ágeis, Scrum e Kanban</span></li>
-                <li><span class="item-name">Mentoria e liderança</span></li>
-                <li><span class="item-name">Capacidade de resolução de problemas, trabalho em equipe e facilidade de aprendizado</span></li>
-                <li><span class="item-name">Comunicativo, resiliente, organizado</span></li>
-              </ul>
-            </section>
-
-            <section class="paper-section cv-section" id="idiomas">
-              <h2>Idiomas</h2>
-              <dl class="specs cv-langs">
-                <div><dt>Português</dt><dd>Nativo</dd></div>
-                <div><dt>Inglês</dt><dd>Intermediário</dd></div>
-                <div><dt>Espanhol</dt><dd>Básico</dd></div>
-              </dl>
-            </section>
-
-            <!-- Livros da categoria Técnico da planilha "Livros LCS.xlsx", numa lista só, em ordem alfabética do título -->
-            <section class="paper-section cv-section" id="livros">
-              <h2>Livros técnicos</h2>
-              <ul class="items">
-                <li><span class="item-name">A Teoria da Relatividade</span><span class="item-tag">Albert Einstein · L&amp;PM Pocket</span></li>
-                <li><span class="item-name">Código Limpo</span><span class="item-tag">Robert C. Martin · Alta Books</span></li>
-                <li><span class="item-name">Entendendo Algoritmos</span><span class="item-tag">Aditya Y. Bhargava · Novatec</span></li>
-                <li><span class="item-name">Introdução à Programação com a Linguagem C</span><span class="item-tag">Rodrigo de Barros Paes · Novatec</span></li>
-                <li><span class="item-name">O Grande Livro de Matemática do Manual do Mundo</span><span class="item-tag">Mari Fulfaro &amp; Iberê Thenório · Sextante</span></li>
-                <li><span class="item-name">O Mítico Homem-Mês</span><span class="item-tag">Frederick P. Brooks Jr. · Alta Books</span></li>
-                <li><span class="item-name">O Programador Pragmático</span><span class="item-tag">Andrew Hunt &amp; David Thomas · Bookman</span></li>
-              </ul>
-            </section>
+              Baixar PDF
+            </button>
           </div>
+
+          <!-- Cabeçalho que só aparece no PDF (na tela, o cabeçalho do site já identifica a página) -->
+          <div class="cv-print-head">
+            <p class="cv-print-name">Lucas Emanuel</p>
+            <p>Dev Back-end &amp; Analista de Sistemas</p>
+            <p class="cv-print-contacts">
+              <span>lucase616@gmail.com</span>
+              <span>lucasemanuel.com.br</span>
+              <span>linkedin.com/in/lucas-emanuel-santos-martins-105304242</span>
+              <span>github.com/LucasE616</span>
+            </p>
+          </div>
+
+          <!-- Linha do tempo: cada <li> tem período, cargo (ou curso), empresa (ou instituição), descrição e detalhes -->
+          <section class="paper-section cv-section" id="experiencia">
+            <h2>Experiência profissional</h2>
+            <ol class="timeline">
+              <li>
+                <p class="tl-date"><time datetime="2024-09">Set 2024</time> – Atual</p>
+                <h3 class="tl-title">Analista de Sistemas / Suporte Técnico</h3>
+                <p class="tl-org">e-paper</p>
+                <p class="tl-desc">Empresa focada em digitalização de documentos, automação de processos e desenvolvimento de software.</p>
+                <p class="tl-meta"><span>Montezuma-MG, Brasil</span><span>Área: Tecnologia</span></p>
+              </li>
+              <li>
+                <p class="tl-date"><time datetime="2025-01">Jan 2025</time> – Atual</p>
+                <h3 class="tl-title">Suporte Técnico</h3>
+                <p class="tl-org">FizPay</p>
+                <p class="tl-desc">Fintech focada em soluções de benefícios para funcionários de empresas e organizações do setor público.</p>
+                <p class="tl-meta"><span>Montes Claros-MG, Brasil</span><span>Área: Financeira</span></p>
+              </li>
+              <li>
+                <p class="tl-date"><time datetime="2024-12">Dez 2024</time> – Atual</p>
+                <h3 class="tl-title">Desenvolvedor Backend Jr</h3>
+                <p class="tl-org">Plant Evolution</p>
+                <p class="tl-desc">Empresa focada em soluções de monitoramento remoto para máquinas industriais.</p>
+                <p class="tl-meta"><span>São Paulo-SP, Brasil</span><span>Área: Automação Industrial</span></p>
+              </li>
+              <li>
+                <p class="tl-date"><time datetime="2021-01">Jan 2021</time> – <time datetime="2022-06">Jun 2022</time></p>
+                <h3 class="tl-title">Suporte Técnico</h3>
+                <p class="tl-org">Rlv Tecnologia</p>
+                <p class="tl-desc">Empresa focada em digitalização de documentos, automação de processos e desenvolvimento de software.</p>
+                <p class="tl-meta"><span>Montezuma-MG, Brasil</span><span>Área: Tecnologia</span></p>
+              </li>
+            </ol>
+          </section>
+
+          <section class="paper-section cv-section" id="formacao">
+            <h2>Formação acadêmica</h2>
+            <ol class="timeline">
+              <li>
+                <p class="tl-date"><time datetime="2023-11">Nov 2023</time> – <time datetime="2026-04">Abr 2026</time></p>
+                <h3 class="tl-title">Análise e Desenvolvimento de Sistemas</h3>
+                <p class="tl-org">Centro Universitário ETEP</p>
+                <p class="tl-meta"><span>Graduado</span></p>
+              </li>
+              <li>
+                <p class="tl-date"><time datetime="2018-02">Fev 2018</time> – <time datetime="2021-01">Jan 2021</time></p>
+                <h3 class="tl-title">Ensino Médio</h3>
+                <p class="tl-org">Escola Estadual Edson Alves Pereira</p>
+                <p class="tl-meta"><span>Completo</span></p>
+              </li>
+            </ol>
+          </section>
+
+          <!-- Cursos: ◆ nome do curso + plataforma ou emissor -->
+          <section class="paper-section cv-section" id="cursos">
+            <h2>Cursos e certificados</h2>
+            <ul class="items">
+              <li><span class="item-name">Python</span><span class="item-tag">Curso em Vídeo</span></li>
+              <li><span class="item-name">JavaScript</span><span class="item-tag">Curso em Vídeo</span></li>
+              <li><span class="item-name">HTML &amp; CSS</span></li>
+              <li><span class="item-name">Dados em Python</span><span class="item-tag">Alura</span></li>
+              <li><span class="item-name">System Design</span><span class="item-tag">Fundação Bradesco</span></li>
+              <li><span class="item-name">React Foundations</span><span class="item-tag">Next.js</span></li>
+              <li><span class="item-name">Lógica de Programação e Algoritmos em C</span><span class="item-tag">Udemy</span></li>
+              <li><span class="item-name">Testes Automáticos + Testes de Software em Jest</span><span class="item-tag">Udemy</span></li>
+            </ul>
+          </section>
+
+          <section class="paper-section cv-section" id="habilidades">
+            <h2>Habilidades</h2>
+            <h3 class="cv-sub">Linguagens &amp; tecnologias</h3>
+            <ul class="tags">
+              <li>JavaScript</li>
+              <li>Node.js</li>
+              <li>Python</li>
+              <li>C</li>
+            </ul>
+            <h3 class="cv-sub">Ferramentas e competências</h3>
+            <ul class="items">
+              <li><span class="item-name">Git, Git Worktree, GitHub</span></li>
+              <li><span class="item-name">Office</span></li>
+              <li><span class="item-name">Microsoft 365</span></li>
+              <li><span class="item-name">Atlassian Workspace</span></li>
+              <li><span class="item-name">Entendimento em Design Systems</span></li>
+              <li><span class="item-name">Entendimento em Engenharia de Requisitos</span></li>
+              <li><span class="item-name">Entendimento em Pair Programming com IA</span></li>
+              <li><span class="item-name">Entendimento em Metodologias Ágeis, Scrum e Kanban</span></li>
+              <li><span class="item-name">Mentoria e liderança</span></li>
+              <li><span class="item-name">Capacidade de resolução de problemas, trabalho em equipe e facilidade de aprendizado</span></li>
+              <li><span class="item-name">Comunicativo, resiliente, organizado</span></li>
+            </ul>
+          </section>
+
+          <section class="paper-section cv-section" id="idiomas">
+            <h2>Idiomas</h2>
+            <dl class="specs cv-langs">
+              <div><dt>Português</dt><dd>Nativo</dd></div>
+              <div><dt>Inglês</dt><dd>Intermediário</dd></div>
+              <div><dt>Espanhol</dt><dd>Básico</dd></div>
+            </dl>
+          </section>
+
+          <!-- Livros da categoria Técnico da planilha "Livros LCS.xlsx", numa lista só, em ordem alfabética do título -->
+          <section class="paper-section cv-section" id="livros">
+            <h2>Livros técnicos</h2>
+            <ul class="items">
+              <li><span class="item-name">A Teoria da Relatividade</span><span class="item-tag">Albert Einstein · L&amp;PM Pocket</span></li>
+              <li><span class="item-name">Código Limpo</span><span class="item-tag">Robert C. Martin · Alta Books</span></li>
+              <li><span class="item-name">Entendendo Algoritmos</span><span class="item-tag">Aditya Y. Bhargava · Novatec</span></li>
+              <li><span class="item-name">Introdução à Programação com a Linguagem C</span><span class="item-tag">Rodrigo de Barros Paes · Novatec</span></li>
+              <li><span class="item-name">O Grande Livro de Matemática do Manual do Mundo</span><span class="item-tag">Mari Fulfaro &amp; Iberê Thenório · Sextante</span></li>
+              <li><span class="item-name">O Mítico Homem-Mês</span><span class="item-tag">Frederick P. Brooks Jr. · Alta Books</span></li>
+              <li><span class="item-name">O Programador Pragmático</span><span class="item-tag">Andrew Hunt &amp; David Thomas · Bookman</span></li>
+            </ul>
+          </section>
         </article>
 
         <aside class="toc" aria-labelledby="toc-title">
@@ -324,6 +322,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20260927.5"></script>
+    <script src="../script.js?v=20260927.6"></script>
   </body>
 </html>

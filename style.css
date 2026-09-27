@@ -403,6 +403,8 @@ kbd {
    Fontes: Verdana (texto) e Times New Roman (títulos dos tópicos).
    Só o destaque muda: o ferrugem do akitaonrails.com (#a63a1e) foi
    clareado para ter contraste de leitura no fundo escuro (~7:1).
+   O cabeçalho, o menu e o rodapé ficam na classe .paper-page (no <body>),
+   usada também pelo /curriculo; o ferrugem é só do setup.
    =================================================================== */
 body[data-page="setup"] {
   --accent: #e8805f;
@@ -413,15 +415,15 @@ body[data-page="setup"] {
   --accent: #a63a1e;
 }
 
-body[data-page="setup"] .site-header {
+body.paper-page .site-header {
   grid-template-columns: auto 1fr auto;
   gap: 1.5rem;
   border-bottom: 1px solid var(--border);
 }
 
-body[data-page="setup"] .nav { justify-self: end; }
+body.paper-page .nav { justify-self: end; }
 
-body[data-page="setup"] .nav a {
+body.paper-page .nav a {
   color: var(--text);
   font-size: 0.85rem;
   font-weight: 400;
@@ -429,8 +431,8 @@ body[data-page="setup"] .nav a {
   text-transform: none;
 }
 
-body[data-page="setup"] .nav a:hover { color: var(--accent); background: transparent; }
-body[data-page="setup"] .nav a[aria-current="page"] { color: var(--accent); }
+body.paper-page .nav a:hover { color: var(--accent); background: transparent; }
+body.paper-page .nav a[aria-current="page"] { color: var(--accent); }
 
 /* Caixa de busca que abre a paleta, como a busca "Ctrl K" do akitaonrails.com */
 .cmd-search {
@@ -449,8 +451,8 @@ body[data-page="setup"] .nav a[aria-current="page"] { color: var(--accent); }
 .cmd-search-text { min-width: 7rem; text-align: left; }
 .cmd-search-kbd { font-size: 0.68rem; background: var(--surface); white-space: nowrap; }
 
-body[data-page="setup"] .site-footer { border-top: 1px solid var(--border); }
-body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
+body.paper-page .site-footer { border-top: 1px solid var(--border); }
+body.paper-page .site-footer a:hover { color: var(--accent); }
 
 .paper-intro,
 .paper-layout {
@@ -668,34 +670,15 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
 }
 
 /* ===================================================================
-   Currículo (item 24): página /curriculo, na estrutura do /setup
-   (seções e sumário lateral), com o conteúdo num bloco de arquivo
-   (curriculo.md). Experiência e formação em linha do tempo. O PDF sai
-   da própria página, pelo @media print (fim deste bloco).
+   Currículo (item 24): página /curriculo, no mesmo design do /setup
+   (cabeçalho .paper-page, seções soltas e sumário lateral), com o
+   destaque amarelo do resto do site. Experiência e formação em linha do
+   tempo. O PDF sai da própria página, pelo @media print (fim deste bloco).
    =================================================================== */
-.cv {
-  margin-top: 1.75rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-}
-
-.cv-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 1.25rem;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.cv-file { display: inline-flex; align-items: center; gap: 0.5rem; }
-.cv-body { padding: 0.25rem clamp(1.25rem, 4vw, 2.25rem) 2rem; }
 .cv-print-head { display: none; }
-.cv .paper-section:first-of-type h2 { margin-top: 1.5rem; }
+
+/* Botão de PDF no lugar da alternância Lista/Grade do setup */
+.view-toggle button:hover { color: var(--accent); }
 
 .cv-sub {
   margin: 1.5rem 0 0.6rem;
@@ -727,7 +710,7 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
   top: 0.45rem;
   width: 9px;
   height: 9px;
-  border: 2px solid var(--surface);
+  border: 2px solid var(--bg);
   border-radius: 50%;
   background: var(--accent);
 }
@@ -791,11 +774,10 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
   .palette,
   .toc,
   .paper-intro,
-  .cv-bar { display: none !important; }
+  .view-toggle { display: none !important; }
 
   .paper-layout { display: block; max-width: none; padding: 0; }
-  .cv { max-width: none; border: 0; border-radius: 0; background: none; }
-  .cv-body { padding: 0; }
+  .cv { max-width: none; }
   .cv a { color: inherit; text-decoration: none; }
   .reveal { opacity: 1; transform: none; animation: none; }
 
@@ -1173,9 +1155,9 @@ body.modal-open { overflow: hidden; }
   .nav { gap: 0; }
   .nav a { padding: 0.4rem 0.45rem; letter-spacing: 0.06em; }
   .contacts li { grid-template-columns: 1fr; gap: 0.15rem; }
-  body[data-page="setup"] .site-header { gap: 0.5rem; }
-  body[data-page="setup"] .nav { justify-self: center; }
-  body[data-page="setup"] .nav a { font-size: 0.8rem; padding: 0.4rem 0.4rem; }
+  body.paper-page .site-header { gap: 0.5rem; }
+  body.paper-page .nav { justify-self: center; }
+  body.paper-page .nav a { font-size: 0.8rem; padding: 0.4rem 0.4rem; }
 }
 
 /* Com o seletor de tema, o cabeçalho tem dois botões de ícone: em telas pequenas eles
@@ -1190,7 +1172,7 @@ body.modal-open { overflow: hidden; }
   .nav a { padding: 0.4rem 0.3rem; font-size: 0.66rem; letter-spacing: 0.03em; }
   .theme-toggle,
   .cmd-trigger { width: 28px; }
-  body[data-page="setup"] .nav a { font-size: 0.74rem; padding: 0.4rem 0.25rem; }
+  body.paper-page .nav a { font-size: 0.74rem; padding: 0.4rem 0.25rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
