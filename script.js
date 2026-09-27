@@ -52,6 +52,66 @@
     if (btn) copy(btn.dataset.copy);
   });
 
+  // Contatos protegidos contra robôs de spam (item 36 do ROADMAP): ficam aqui em base64, fora do HTML,
+  // que só marca o lugar com data-contact. O e-mail do Yahoo é montado ao abrir a página; o telefone só
+  // aparece quando alguém clica em "mostrar". O Gmail continua em texto puro: ele já é público nos commits.
+  // O terminal usa o mesmo objeto (window.Contacts), porque lê a home com DOMParser, que não roda scripts.
+  const Contacts = (() => {
+    const CODES = { yahoo: "bHVjYXNlMzkzQHlhaG9vLmNvbQ==", phone: "NTUzODk5ODEzMDU4MQ==" };
+    const get = (key) => {
+      try {
+        return atob(CODES[key] || "");
+      } catch {
+        return "";
+      }
+    };
+    // Dígitos com código do país e DDD (55 DD 9XXXXXXXX) → (DD) 9XXXX-XXXX
+    const phone = () => {
+      const d = get("phone");
+      return { text: `(${d.slice(2, 4)}) ${d.slice(4, 9)}-${d.slice(9)}`, tel: `tel:+${d}`, whatsapp: `https://wa.me/${d}` };
+    };
+
+    const revealEmails = (root = document) =>
+      root.querySelectorAll('a[data-contact="yahoo"]').forEach((a) => {
+        const email = get("yahoo");
+        a.href = `mailto:${email}`;
+        a.textContent = email;
+        a.removeAttribute("data-contact");
+        const btn = a.parentElement.querySelector("[data-copy]");
+        if (btn) {
+          btn.dataset.copy = email;
+          btn.hidden = false;
+        }
+      });
+
+    // Troca todos os botões "mostrar telefone" (o do README e o da cópia no modal) pelos links
+    const revealPhones = (clicked) => {
+      const p = phone();
+      document.querySelectorAll('button[data-contact="phone"]').forEach((btn) => {
+        const tel = document.createElement("a");
+        tel.href = p.tel;
+        tel.textContent = p.text;
+        const wa = document.createElement("a");
+        wa.className = "pill";
+        wa.href = p.whatsapp;
+        wa.target = "_blank";
+        wa.rel = "noopener";
+        wa.textContent = "WhatsApp";
+        btn.replaceWith(tel, wa);
+        if (btn === clicked) tel.focus();
+      });
+    };
+
+    return { get, phone, revealEmails, revealPhones };
+  })();
+  window.Contacts = Contacts;
+
+  Contacts.revealEmails();
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest('button[data-contact="phone"]');
+    if (btn) Contacts.revealPhones(btn);
+  });
+
   // Páginas: a home tem o README e o modal; as outras (ex.: /setup) apontam para a
   // raiz via data-root e mandam Skills/Contato para a home, que abre o modal pelo hash.
   const root = document.body.dataset.root || "./";
@@ -273,11 +333,12 @@
     { group: "Jogos", label: "Carrinho", hint: "corrida", run: goJogos("carrinho") },
     { group: "Tema", label: "Tema claro", hint: "light", run: () => setTheme("light") },
     { group: "Tema", label: "Tema escuro", hint: "dark", run: () => setTheme("dark") },
-    { group: "Tema", label: "Tema do sistema", hint: "system", run: () => setTheme("system") },    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
+    { group: "Tema", label: "Tema do sistema", hint: "system", run: () => setTheme("system") },
+    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
     { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
-    { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy("lucase393@yahoo.com") },
-    { group: "Contato", label: "Conversar no WhatsApp", hint: "(38) 99813-0581", run: open("https://wa.me/5538998130581") },
-    { group: "Contato", label: "Copiar telefone", hint: "(38) 99813-0581", run: () => copy("(38) 99813-0581") },
+    { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy(Contacts.get("yahoo")) },
+    { group: "Contato", label: "Conversar no WhatsApp", hint: "whatsapp", run: () => open(Contacts.phone().whatsapp)() },
+    { group: "Contato", label: "Copiar telefone", hint: "telefone", run: () => copy(Contacts.phone().text) },
     { group: "Redes", label: "GitHub", hint: "lucase616", run: open("https://github.com/lucase616") },
     { group: "Redes", label: "LinkedIn", hint: "in", run: open("https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/") },
     { group: "Redes", label: "Instagram", hint: "@lucase616", run: open("https://instagram.com/lucase616") },

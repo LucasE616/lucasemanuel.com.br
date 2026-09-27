@@ -111,6 +111,12 @@ status dos itens no mesmo commit em que forem concluídos.
   `script.js`, que também alimenta a paleta.
 - **Copiar:** `navigator.clipboard` só existe em HTTPS, então há um plano B com `execCommand`. Os
   botões usam `data-copy` com delegação de eventos, para funcionarem também dentro dos modais.
+- **Contatos protegidos** (item 36): o telefone e o e-mail do Yahoo **não podem aparecer em texto puro** em
+  nenhum arquivo publicado (HTML, JS, `cli`, comentários). Eles ficam em base64 no objeto `Contacts` de
+  `script.js` (`window.Contacts`); o HTML só marca o lugar com `data-contact="yahoo"` (montado ao abrir a
+  página) ou `data-contact="phone"` (botão "mostrar telefone", revelado no clique). O terminal usa o mesmo
+  objeto, porque o `DOMParser` não roda scripts: `revealEmails(home)` no `loadData` e o comando `telefone`.
+  O Gmail fica em texto puro de propósito, porque já é público nos commits.
 - **Setup:** cada categoria é uma `<section class="paper-section" id="...">` com `<h2>` e
   `<ul class="items">`. Cada item é `<li><span class="item-name">Nome</span><span class="item-tag">#rotulo</span></li>`,
   com a tag em minúsculas, sem acento e com hífen (`#apoio-de-pulso`). O notebook fica num

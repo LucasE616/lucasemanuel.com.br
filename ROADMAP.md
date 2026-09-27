@@ -60,7 +60,7 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 33. ⬜ **README.md desatualizado** (baixo). Comando do servidor local, estrutura de pastas e atalhos estão defasados.
 34. ⬜ **Links do GitHub com o usuário antigo** (baixo). Trocar `github.com/lucase616` por `github.com/LucasE616`. Hoje funciona por redirecionamento.
 35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio.
-36. ⬜ **Contatos expostos a robôs de spam** (baixo, opcional). E-mails e telefone estão em texto puro no HTML. Decidir se vale proteger.
+36. ✅ **Contatos expostos a robôs de spam** (baixo). Feito em 27/09/2026: o telefone só aparece com um clique em "mostrar telefone", e o e-mail do Yahoo é montado pelo JavaScript. O Gmail continua em texto puro, porque já é público nos commits.
 
 ### Detalhes das correções (itens 31 a 36)
 
@@ -97,8 +97,14 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 
 **36. Contatos em texto puro:**
 
-- Os dois e-mails e o telefone estão no HTML e no `/cli`, e robôs conseguem coletá-los.
-- Opções: deixar como está (é um portfólio, e o contato fácil é o objetivo); montar os endereços pelo JavaScript; ou trocar parte deles pelo formulário de contato (item 12). Decisão do Lucas.
+- O problema: os dois e-mails e o telefone estavam em texto puro no HTML e no `script.js`, e robôs conseguiam coletá-los.
+- Opções avaliadas: deixar como está; montar pelo JavaScript (barra os robôs que só leem o HTML, que são a maioria); mostrar só com um clique (barra quase todos, inclusive os que rodam JavaScript); ou trocar pelo formulário de contato (item 12).
+- **Decisão do Lucas (27/09/2026), conforme a recomendação:**
+  - **Telefone:** mostrado com clique. O bloco de contato tem o botão "mostrar telefone"; o clique troca todos os botões (README e modal) pelo link `tel:` e pelo WhatsApp. É o que mais valia proteger, porque o número leva ao WhatsApp, onde chegam golpes.
+  - **Yahoo:** montado pelo JavaScript ao abrir a página. Sem JavaScript, aparece "ative o JavaScript para ver o e-mail".
+  - **Gmail:** continua em texto puro, inclusive no `/cli`. Ele já é público como e-mail de autor dos commits (a API do GitHub mostra). Para protegê-lo nos commits futuros, seria preciso usar o e-mail noreply do GitHub no `git config user.email`.
+- **Implementação:** objeto `Contacts` em `script.js` (exposto como `window.Contacts`), com os valores em base64 fora do HTML, que só marca o lugar com `data-contact="yahoo"` ou `data-contact="phone"`. A paleta ("Copiar e-mail (Yahoo)", "Conversar no WhatsApp", "Copiar telefone") usa o mesmo objeto. O terminal chama `Contacts.revealEmails()` no HTML lido pelo `DOMParser`, mostra o telefone como "oculto" no `contato` e ganhou o comando `telefone`; o `open whatsapp` continua funcionando.
+- **Limite:** protege contra coleta automática, não contra quem abre o site e clica. O base64 não é criptografia.
 
 ### Detalhes do item 21: área administrativa
 
@@ -443,7 +449,7 @@ Plano original:
 
 ## Ordem sugerida
 
-1. **Correções (31 a 34):** os dois bugs do terminal, o README.md e os links do GitHub. Os itens 35 e 36 dependem de decisão do Lucas.
+1. **Correções (31 a 34):** os dois bugs do terminal, o README.md e os links do GitHub. O item 35 depende de decisão do Lucas; o 36 já foi feito.
 2. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap). Os outros deste grupo (9, 17 e 22) já foram feitos.
 3. **Área administrativa (21)**, começando pelos pré-requisitos.
 4. **Página de Projetos (1)**, já com os dados editáveis pelo painel.

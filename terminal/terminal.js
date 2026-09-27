@@ -76,9 +76,13 @@
   const loadData = () => {
     dataPromise ??= (async () => {
       const [home, setup] = await Promise.all([parseDoc("../"), parseDoc("../setup/")]);
+      // O DOMParser não roda scripts: os contatos protegidos (item 36) são montados com o window.Contacts
+      // do script.js. O telefone fica como `hidden` até alguém digitar `telefone`.
+      window.Contacts?.revealEmails(home);
       const contacts = [...home.querySelectorAll('[data-topic="contato"] .contacts li')].map((li) => ({
         label: txt(li.querySelector(".label")),
-        links: [...li.querySelectorAll(".value a")].map((a) => ({ text: txt(a), href: a.getAttribute("href") })),
+        links: [...li.querySelectorAll(".value a[href]")].map((a) => ({ text: txt(a), href: a.getAttribute("href") })),
+        hidden: !!li.querySelector('[data-contact="phone"]'),
       }));
       // Redes para `open`: pelo rótulo (GitHub, LinkedIn, Instagram) e o link "WhatsApp"
       const socials = {};
@@ -133,6 +137,7 @@
   const showContato = (d, hint = true) => {
     d.contacts.forEach((c) => {
       const parts = [span("t-dim", c.label.padEnd(10))];
+      if (c.hidden) parts.push(span("t-dim", "oculto: digite "), span("t-accent", "telefone"), span("t-dim", " para mostrar"));
       c.links.forEach((l, i) => {
         if (i) parts.push("  ");
         parts.push(link(l.href, l.text));
@@ -662,6 +667,7 @@
       ["skills", "linguagens e experiência"],
       ["contato", "contatos com links clicáveis"],
       ["copy email", "copia o e-mail"],
+      ["telefone", "mostra o telefone e o WhatsApp"],
       ["setup", "equipamentos e ferramentas"],
       ["open <rede>", "github, linkedin, instagram ou whatsapp"],
     ]],
@@ -709,11 +715,19 @@
       copyText(d.email);
     },
 
+    telefone: async () => {
+      const p = window.Contacts?.phone();
+      if (!p) return say("telefone: não foi possível carregar o contato.", "t-err");
+      print(span("t-dim", "Telefone".padEnd(10)), link(p.tel, p.text), "  ", link(p.whatsapp, "WhatsApp"));
+    },
+
     open: async (args) => {
       const d = await loadData();
       const key = (args[0] || "").toLowerCase();
-      const url = d.socials[key];
-      if (!url) return say(`uso: open <${Object.keys(d.socials).join("|")}>`, "t-err");
+      // O WhatsApp vem do contato protegido (item 36), montado só quando pedido
+      const socials = { ...d.socials, ...(window.Contacts && { whatsapp: window.Contacts.phone().whatsapp }) };
+      const url = socials[key];
+      if (!url) return say(`uso: open <${Object.keys(socials).join("|")}>`, "t-err");
       say(`Abrindo ${url}`, "t-dim");
       window.open(url, "_blank", "noopener");
     },

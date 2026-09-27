@@ -33,7 +33,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="style.css?v=20260927.1" />
+    <link rel="stylesheet" href="style.css?v=20260927.2" />
   </head>
   <body>
     <header class="site-header">
@@ -131,18 +131,19 @@
                     <button class="copy" type="button" data-copy="lucase616@gmail.com">copiar</button>
                   </span>
                 </li>
+                <!-- Contatos protegidos contra robôs de spam (item 36): os valores ficam no script.js.
+                     O e-mail é montado ao abrir a página; o telefone só aparece com o clique em "mostrar" -->
                 <li>
                   <span class="label">E-mail</span>
                   <span class="value">
-                    <a href="mailto:lucase393@yahoo.com">lucase393@yahoo.com</a>
-                    <button class="copy" type="button" data-copy="lucase393@yahoo.com">copiar</button>
+                    <a data-contact="yahoo">ative o JavaScript para ver o e-mail</a>
+                    <button class="copy" type="button" data-copy="" hidden>copiar</button>
                   </span>
                 </li>
                 <li>
                   <span class="label">Telefone</span>
                   <span class="value">
-                    <a href="tel:+5538998130581">(38) 99813-0581</a>
-                    <a class="pill" href="https://wa.me/5538998130581" target="_blank" rel="noopener">WhatsApp</a>
+                    <button class="copy" type="button" data-contact="phone" aria-label="Mostrar telefone e WhatsApp">mostrar telefone</button>
                   </span>
                 </li>
                 <li>
@@ -216,6 +217,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="script.js?v=20260927.1"></script>
+    <script src="script.js?v=20260927.2"></script>
   </body>
 </html>
