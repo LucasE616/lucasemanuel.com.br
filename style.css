@@ -5,7 +5,8 @@
   --border: #25242c;
   --text: #f2f2f2;
   --muted: #8f9ba8;
-  --accent: #50fa7b;
+  /* Amarelo no site todo; a página do terminal continua com o verde (ver a seção do terminal) */
+  --accent: #ffbb00;
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --header-h: 4.5rem;
   /* 40px no celular e até 72px em monitores; abaixo de ~385px encolhe (10.4vw) para o nome em
@@ -1203,6 +1204,11 @@ body.modal-open { overflow: hidden; }
    Terminal (item 23): página /terminal, com os comandos do site.
    Usa só as variáveis de tema, então funciona no claro e no escuro.
    =================================================================== */
+/* No escuro, a página do terminal mantém o verde de antes (o resto do site passou para o amarelo #ffbb00);
+   no claro, continua o ferrugem de todas as páginas */
+body[data-page="terminal"] { --accent: #50fa7b; }
+:root[data-theme="light"] body[data-page="terminal"] { --accent: #a63a1e; }
+
 .term-page {
   display: flex;
   height: calc(100vh - var(--header-h));

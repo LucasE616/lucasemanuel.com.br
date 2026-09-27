@@ -47,7 +47,9 @@ status dos itens no mesmo commit em que forem concluídos.
   rodapé) e o antigo **lucasmontano.com** (site em estilo README do GitHub).
 - **Dois temas** (item 27), escolhidos no seletor do cabeçalho ou na paleta: Claro, Escuro ou Sistema (padrão).
   - **Escuro:** variáveis no `:root` de `style.css`: `--bg #08070b`, `--surface`, `--surface-2`, `--border`,
-    `--text #f2f2f2`, `--muted #8f9ba8` e `--accent #50fa7b` (verde do `printf`).
+    `--text #f2f2f2`, `--muted #8f9ba8` e `--accent #ffbb00` (amarelo, pedido do Lucas em 27/09/2026; antes era o
+    verde `#50fa7b`). **A página do terminal mantém o verde** (`body[data-page="terminal"]` na seção do terminal em
+    `style.css`), assim como o efeito `matrix`. O `/setup` usa o próprio ferrugem `#e8805f`.
   - **Claro:** `:root[data-theme="light"]`, com creme `#faf7f0`, texto `#2a2622` e ferrugem `#a63a1e`
     (as cores da primeira versão do setup).
   - Nunca use cor fixa em componentes: use as variáveis (`--backdrop` e `--shadow` existem para fundos
