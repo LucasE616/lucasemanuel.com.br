@@ -43,13 +43,62 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 ## Técnico
 
-15. ⬜ **Imagem de prévia (Open Graph)** (baixo). Hoje o link compartilhado no LinkedIn/WhatsApp aparece sem imagem.
-16. ⬜ **`sitemap.xml` e `robots.txt`** (baixo). Indexação no Google, incluindo `/setup`.
+15. ⬜ **Imagem de prévia (Open Graph)** (baixo). Hoje o link compartilhado no LinkedIn/WhatsApp aparece sem imagem. Conferido em 27/09/2026: nenhuma página tem `og:image`.
+16. ⬜ **`sitemap.xml` e `robots.txt`** (baixo). Indexação no Google, incluindo `/setup`, `/terminal` e `/jogos`. Conferido em 27/09/2026: os dois endereços dão 404.
 17. ✅ **Versão nos arquivos CSS e JS** (baixo). Feito em 26/09/2026 (`?v=AAAAMMDD.N`), depois que o cache misturou HTML novo com CSS/JS antigos e quebrou o botão de tema. A versão é trocada à mão a cada mudança no CSS ou no JS (regra no CLAUDE.md). Um próximo passo seria automatizar isso no GitHub Actions (item 20).
 18. ⬜ **Analytics sem cookies** (baixo). GoatCounter ou Cloudflare Web Analytics, sem banner de consentimento.
 19. ⬜ **Auditoria com Lighthouse** (baixo). Acessibilidade e desempenho.
-20. ⬜ **Verificação no GitHub Actions** (médio). Validar HTML e checar links quebrados a cada push.
+20. ⬜ **Verificação no GitHub Actions** (médio). Validar HTML e checar links quebrados a cada push. Também pode trocar o `?v=` sozinho: hoje ele é trocado à mão em 18 lugares (5 HTMLs), e um esquecimento já quebrou o site em 26/09/2026 (item 17).
 21. ⬜ **Área administrativa** (médio-alto). Editar o conteúdo do site por formulários, sem mexer no código.
+
+## Correções
+
+Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
+
+31. ⬜ **Bug: Ctrl+C no terminal dá dois lances seguidos ao visitante** (baixo). Em `play velha` e `play damas`, apertar Ctrl+C enquanto a máquina "pensa" cancela o lance dela, mas a partida continua, e o visitante joga de novo.
+32. ⬜ **Bug: terminal sem pastas se o boot falhar** (baixo). Se o conteúdo não carregar no boot, `ls`, `cd`, `cat` e `tree` dão erro mesmo depois que o conteúdo carrega.
+33. ⬜ **README.md desatualizado** (baixo). Comando do servidor local, estrutura de pastas e atalhos estão defasados.
+34. ⬜ **Links do GitHub com o usuário antigo** (baixo). Trocar `github.com/lucase616` por `github.com/LucasE616`. Hoje funciona por redirecionamento.
+35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio.
+36. ⬜ **Contatos expostos a robôs de spam** (baixo, opcional). E-mails e telefone estão em texto puro no HTML. Decidir se vale proteger.
+
+### Detalhes das correções (itens 31 a 36)
+
+**31. Ctrl+C durante o lance da máquina** (`terminal/terminal.js`, funções `aiPlay` de `velhaMode` e `damasMode`):
+
+- Como acontece: o visitante joga, a máquina chama `sleep(300)`, o Ctrl+C liga `aborted` e o `sleep` rejeita com `Abort`. O `execute` mostra `^C`, mas `mode` continua sendo o jogo, com a vez da máquina pulada. No jogo da velha, o visitante marca outra casa; nas damas, `DM.play` aceita o lance do lado 1 mesmo com `game.turn === -1`.
+- Correção sugerida: no `catch` do `execute`, se vier `Abort` com um jogo em andamento, encerrar a partida (`mode = null` e "Partida encerrada."). Outra opção é a máquina terminar o lance mesmo com o Ctrl+C.
+- Testar: jogar, apertar Ctrl+C logo depois e conferir que não dá para jogar de novo na mesma vez.
+
+**32. Boot sem conteúdo** (`terminal/terminal.js`, boot e `loadData`):
+
+- Como acontece: `fs = buildFs(d)` só roda no boot. Se o `loadData()` falhar ali (sem internet, por exemplo), `fs` fica `null`. Depois, `ls`, `cd`, `cat` e `tree` chamam `await loadData()`, que pode dar certo, mas `resolve()` lê `fs` nulo e dá `TypeError`.
+- Correção sugerida: montar o `fs` dentro do `loadData()` (ou depois de cada `await loadData()` quando `fs` for nulo).
+
+**33. README.md:**
+
+- `python -m http.server 5500` → `py -m http.server 5500` (neste PC o `python` não existe), ou citar os dois.
+- Estrutura: incluir `404.html`, `terminal/`, `jogos/`, `cli` e `favicon.svg`.
+- Atalhos: hoje diz I, S, C e U; faltam T (ou crase) e J.
+
+**34. Usuário do GitHub** (o Instagram continua `lucase616`):
+
+- `index.html`: contato (linha ~150) e rodapé (~171).
+- `setup/index.html`: rodapé (~209).
+- `script.js`: comando "GitHub" da paleta, link e `hint` (~281).
+- `cli`: linha do GitHub.
+- No mesmo commit, em `script.js` (~276), separar em duas linhas os comandos "Tema do sistema" e "Copiar e-mail", que ficaram grudados.
+- Como mexe em `script.js`, aumentar o `?v=` em todos os HTMLs.
+
+**35. Arquivos internos no site:**
+
+- O GitHub Pages publica tudo o que está na raiz do repositório (ver CLAUDE.md).
+- Opções: publicar só uma pasta (ex.: `site/`) pelo GitHub Actions, deixando `CLAUDE.md` e `ROADMAP.md` fora dela; ou manter como está e só evitar dados sensíveis nesses arquivos. Um `robots.txt` (item 16) com `Disallow` evita a indexação, mas não esconde os arquivos.
+
+**36. Contatos em texto puro:**
+
+- Os dois e-mails e o telefone estão no HTML e no `/cli`, e robôs conseguem coletá-los.
+- Opções: deixar como está (é um portfólio, e o contato fácil é o objetivo); montar os endereços pelo JavaScript; ou trocar parte deles pelo formulário de contato (item 12). Decisão do Lucas.
 
 ### Detalhes do item 21: área administrativa
 
@@ -394,10 +443,11 @@ Plano original:
 
 ## Ordem sugerida
 
-1. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap). Os outros deste grupo (9, 17 e 22) já foram feitos.
-2. **Área administrativa (21)**, começando pelos pré-requisitos.
-3. **Página de Projetos (1)**, já com os dados editáveis pelo painel.
-4. **Menu Educação / Currículo (24)**, com o PDF.
-5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
-6. **Versão em inglês (8).**
-7. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.
+1. **Correções (31 a 34):** os dois bugs do terminal, o README.md e os links do GitHub. Os itens 35 e 36 dependem de decisão do Lucas.
+2. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap). Os outros deste grupo (9, 17 e 22) já foram feitos.
+3. **Área administrativa (21)**, começando pelos pré-requisitos.
+4. **Página de Projetos (1)**, já com os dados editáveis pelo painel.
+5. **Menu Educação / Currículo (24)**, com o PDF.
+6. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
+7. **Versão em inglês (8).**
+8. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.
