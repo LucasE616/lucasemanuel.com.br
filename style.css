@@ -791,8 +791,7 @@ body[data-page="setup"] .site-footer a:hover { color: var(--accent); }
   .palette,
   .toc,
   .paper-intro,
-  .cv-bar,
-  .cv-shelf { display: none !important; }
+  .cv-bar { display: none !important; }
 
   .paper-layout { display: block; max-width: none; padding: 0; }
   .cv { max-width: none; border: 0; border-radius: 0; background: none; }

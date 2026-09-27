@@ -86,7 +86,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20260927.4" />
+    <link rel="stylesheet" href="../style.css?v=20260927.5" />
   </head>
   <!-- Currículo (item 24 do ROADMAP): mesma estrutura do /setup (seções, sumário lateral), com o conteúdo
        num bloco de arquivo (curriculo.md). O PDF sai desta mesma página, pelo CSS de impressão. -->
@@ -260,28 +260,18 @@
               </dl>
             </section>
 
-            <!-- Livros da categoria Técnico da planilha "Livros LCS.xlsx", pela coluna Lido (Sim / Lendo / Não).
-                 No PDF sai só o que foi lido ou está em leitura (a estante fica só na tela). -->
+            <!-- Livros da categoria Técnico da planilha "Livros LCS.xlsx", numa lista só, em ordem alfabética do título -->
             <section class="paper-section cv-section" id="livros">
               <h2>Livros técnicos</h2>
-              <h3 class="cv-sub">Lidos</h3>
               <ul class="items">
+                <li><span class="item-name">A Teoria da Relatividade</span><span class="item-tag">Albert Einstein · L&amp;PM Pocket</span></li>
+                <li><span class="item-name">Código Limpo</span><span class="item-tag">Robert C. Martin · Alta Books</span></li>
                 <li><span class="item-name">Entendendo Algoritmos</span><span class="item-tag">Aditya Y. Bhargava · Novatec</span></li>
-              </ul>
-              <h3 class="cv-sub">Lendo agora</h3>
-              <ul class="items">
                 <li><span class="item-name">Introdução à Programação com a Linguagem C</span><span class="item-tag">Rodrigo de Barros Paes · Novatec</span></li>
+                <li><span class="item-name">O Grande Livro de Matemática do Manual do Mundo</span><span class="item-tag">Mari Fulfaro &amp; Iberê Thenório · Sextante</span></li>
+                <li><span class="item-name">O Mítico Homem-Mês</span><span class="item-tag">Frederick P. Brooks Jr. · Alta Books</span></li>
+                <li><span class="item-name">O Programador Pragmático</span><span class="item-tag">Andrew Hunt &amp; David Thomas · Bookman</span></li>
               </ul>
-              <div class="cv-shelf">
-                <h3 class="cv-sub">Na estante</h3>
-                <ul class="items">
-                  <li><span class="item-name">O Mítico Homem-Mês</span><span class="item-tag">Frederick P. Brooks Jr. · Alta Books</span></li>
-                  <li><span class="item-name">Código Limpo</span><span class="item-tag">Robert C. Martin · Alta Books</span></li>
-                  <li><span class="item-name">O Programador Pragmático</span><span class="item-tag">Andrew Hunt &amp; David Thomas · Bookman</span></li>
-                  <li><span class="item-name">A Teoria da Relatividade</span><span class="item-tag">Albert Einstein · L&amp;PM Pocket</span></li>
-                  <li><span class="item-name">O Grande Livro de Matemática do Manual do Mundo</span><span class="item-tag">Mari Fulfaro &amp; Iberê Thenório · Sextante</span></li>
-                </ul>
-              </div>
             </section>
           </div>
         </article>
@@ -334,6 +324,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20260927.4"></script>
+    <script src="../script.js?v=20260927.5"></script>
   </body>
 </html>
