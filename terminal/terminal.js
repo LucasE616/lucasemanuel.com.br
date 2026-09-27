@@ -75,7 +75,8 @@
   let dataPromise = null;
   const loadData = () => {
     dataPromise ??= (async () => {
-      const [home, setup] = await Promise.all([parseDoc("../"), parseDoc("../setup/")]);
+      // O currículo é opcional: se falhar, o resto do terminal continua funcionando
+      const [home, setup, cv] = await Promise.all([parseDoc("../"), parseDoc("../setup/"), parseDoc("../curriculo/").catch(() => null)]);
       // O DOMParser não roda scripts: os contatos protegidos (item 36) são montados com o window.Contacts
       // do script.js. O telefone fica como `hidden` até alguém digitar `telefone`.
       window.Contacts?.revealEmails(home);
@@ -116,6 +117,28 @@
               }
             : null,
         })),
+        // Currículo: cada seção vira uma lista de blocos, na ordem da página
+        cv: cv
+          ? [...cv.querySelectorAll(".cv-section")].map((s) => ({
+              id: s.id,
+              title: txt(s.querySelector("h2")),
+              blocks: [...s.querySelectorAll(".cv-sub, .timeline > li, .items > li, .specs > div, .tags")].map((el) => {
+                if (el.matches(".cv-sub")) return { type: "sub", text: txt(el) };
+                if (el.matches(".timeline > li"))
+                  return {
+                    type: "tl",
+                    date: txt(el.querySelector(".tl-date")),
+                    title: txt(el.querySelector(".tl-title")),
+                    org: txt(el.querySelector(".tl-org")),
+                    desc: txt(el.querySelector(".tl-desc")),
+                    meta: [...el.querySelectorAll(".tl-meta span")].map(txt),
+                  };
+                if (el.matches(".specs > div")) return { type: "spec", k: txt(el.querySelector("dt")), v: txt(el.querySelector("dd")) };
+                if (el.matches(".tags")) return { type: "tags", list: [...el.querySelectorAll("li")].map(txt) };
+                return { type: "item", name: txt(el.querySelector(".item-name")), tag: txt(el.querySelector(".item-tag")) };
+              }),
+            }))
+          : null,
       };
       return data;
     })().catch((err) => {
@@ -162,6 +185,29 @@
       showSetupSection(s);
     });
 
+  const showCvSection = (s) => {
+    say(s.title, "t-head");
+    s.blocks.forEach((b) => {
+      if (b.type === "sub") say(`  ${b.text}`, "t-dim");
+      else if (b.type === "tl") {
+        print(span("t-accent", "  ◆ "), b.title, span("t-dim", " — "), span("t-accent", b.org));
+        say(`      ${[b.date, ...b.meta].join(" · ")}`, "t-dim");
+        if (b.desc) print(`      ${b.desc}`);
+      } else if (b.type === "spec") print(span("t-dim", `  ${b.k.padEnd(12)}`), b.v);
+      else if (b.type === "tags") print(`  ${b.list.map((l) => `[${l}]`).join(" ")}`);
+      else print(span("t-accent", "  ◆ "), b.name, ...(b.tag ? ["  ", span("t-dim", b.tag)] : []));
+    });
+  };
+
+  const showCv = (d) => {
+    d.cv.forEach((s, i) => {
+      if (i) blank();
+      showCvSection(s);
+    });
+    blank();
+    print(span("t-dim", "Página e PDF: "), link("../curriculo/", "lucasemanuel.com.br/curriculo"));
+  };
+
   const HELLO_C = [
     "#include <stdio.h>",
     "",
@@ -199,6 +245,7 @@
         "experiencia.md": file(() => d.exp.forEach((e) => print(span("t-accent", "  ◆ "), e))),
       }),
       setup: dir(Object.fromEntries(d.setup.map((s) => [`${s.id}.md`, file(() => showSetupSection(s))]))),
+      ...(d.cv && { curriculo: dir(Object.fromEntries(d.cv.map((s) => [`${s.id}.md`, file(() => showCvSection(s))]))) }),
     });
 
   const resolve = (p) => {
@@ -669,6 +716,7 @@
       ["copy email", "copia o e-mail"],
       ["telefone", "mostra o telefone e o WhatsApp"],
       ["setup", "equipamentos e ferramentas"],
+      ["curriculo", "experiência, formação, cursos e idiomas"],
       ["open <rede>", "github, linkedin, instagram ou whatsapp"],
     ]],
     ["Navegação", [
@@ -708,6 +756,12 @@
     skills: async () => showSkills(await loadData()),
     contato: async () => showContato(await loadData()),
     setup: async () => showSetup(await loadData()),
+    curriculo: async () => {
+      const d = await loadData();
+      if (!d.cv) return say("curriculo: não foi possível ler a página do currículo agora.", "t-err");
+      showCv(d);
+    },
+    cv: async () => cmds.curriculo(),
 
     copy: async (args) => {
       if (args[0] !== "email") return say("uso: copy email", "t-err");

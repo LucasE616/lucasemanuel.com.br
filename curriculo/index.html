@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Currículo — Lucas Emanuel</title>
+    <meta name="description" content="Currículo de Lucas Emanuel: experiência profissional, formação em Análise e Desenvolvimento de Sistemas, cursos, habilidades, idiomas e livros técnicos." />
+    <meta name="author" content="Lucas Emanuel" />
+    <meta name="theme-color" content="#08070b" />
+    <link rel="canonical" href="https://lucasemanuel.com.br/curriculo/" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Currículo — Lucas Emanuel" />
+    <meta property="og:description" content="Experiência profissional, formação, cursos, habilidades e idiomas." />
+    <meta property="og:url" content="https://lucasemanuel.com.br/curriculo/" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Dados estruturados (schema.org) para buscadores: Person com formação, cursos e idiomas.
+         O telefone e o e-mail do Yahoo ficam de fora, como no resto do site (item 36). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "url": "https://lucasemanuel.com.br/curriculo/",
+        "mainEntity": {
+          "@type": "Person",
+          "name": "Lucas Emanuel",
+          "jobTitle": "Dev Back-end & Analista de Sistemas",
+          "url": "https://lucasemanuel.com.br/",
+          "email": "mailto:lucase616@gmail.com",
+          "sameAs": [
+            "https://github.com/LucasE616",
+            "https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/",
+            "https://instagram.com/lucase616"
+          ],
+          "worksFor": [
+            { "@type": "Organization", "name": "e-paper" },
+            { "@type": "Organization", "name": "FizPay" },
+            { "@type": "Organization", "name": "Plant Evolution" }
+          ],
+          "alumniOf": [
+            { "@type": "CollegeOrUniversity", "name": "Centro Universitário ETEP" },
+            { "@type": "HighSchool", "name": "Escola Estadual Edson Alves Pereira" }
+          ],
+          "hasCredential": [
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Análise e Desenvolvimento de Sistemas",
+              "credentialCategory": "degree",
+              "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Centro Universitário ETEP" }
+            },
+            { "@type": "EducationalOccupationalCredential", "name": "Python", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Curso em Vídeo" } },
+            { "@type": "EducationalOccupationalCredential", "name": "JavaScript", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Curso em Vídeo" } },
+            { "@type": "EducationalOccupationalCredential", "name": "HTML & CSS", "credentialCategory": "certificate" },
+            { "@type": "EducationalOccupationalCredential", "name": "Dados em Python", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Alura" } },
+            { "@type": "EducationalOccupationalCredential", "name": "System Design", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Fundação Bradesco" } },
+            { "@type": "EducationalOccupationalCredential", "name": "React Foundations", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Next.js" } },
+            { "@type": "EducationalOccupationalCredential", "name": "Lógica de Programação e Algoritmos em C", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Udemy" } },
+            { "@type": "EducationalOccupationalCredential", "name": "Testes Automáticos + Testes de Software em Jest", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Udemy" } }
+          ],
+          "knowsLanguage": [
+            { "@type": "Language", "name": "Português" },
+            { "@type": "Language", "name": "Inglês" },
+            { "@type": "Language", "name": "Espanhol" }
+          ],
+          "knowsAbout": ["JavaScript", "Node.js", "Python", "C", "Git", "GitHub", "Design Systems", "Engenharia de requisitos", "Metodologias ágeis", "Scrum", "Kanban"]
+        }
+      }
+    </script>
+
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Aplica o tema antes de desenhar a página, para não piscar o tema errado
+      (() => {
+        let pref = null;
+        try {
+          pref = localStorage.getItem("theme");
+        } catch {}
+        const light = pref === "light" || (pref !== "dark" && matchMedia("(prefers-color-scheme: light)").matches);
+        document.documentElement.dataset.theme = light ? "light" : "dark";
+      })();
+    </script>
+    <link rel="stylesheet" href="../style.css?v=20260927.3" />
+  </head>
+  <!-- Currículo (item 24 do ROADMAP): mesma estrutura do /setup (seções, sumário lateral), com o conteúdo
+       num bloco de arquivo (curriculo.md). O PDF sai desta mesma página, pelo CSS de impressão. -->
+  <body data-page="curriculo" data-root="../">
+    <header class="site-header">
+      <a href="../" class="logo" aria-label="Início">le</a>
+      <nav class="nav" aria-label="Principal">
+        <a href="../" title="Atalho: I" aria-keyshortcuts="I">Início</a>
+        <a href="../#skills" title="Atalho: S" aria-keyshortcuts="S">Skills</a>
+        <a href="../#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
+        <a href="../setup/" title="Atalho: U" aria-keyshortcuts="U">Setup</a>
+        <a class="nav-wide" href="./" title="Atalho: E" aria-keyshortcuts="E" aria-current="page">Currículo</a>
+      </nav>
+      <div class="header-actions">
+        <div class="theme-switch">
+          <button class="theme-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu" aria-label="Tema">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8" />
+              <path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+          </button>
+          <ul class="theme-menu" id="theme-menu" role="menu" aria-label="Tema" hidden>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="light">Claro</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="dark">Escuro</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="system">Sistema</button></li>
+          </ul>
+        </div>
+        <button class="cmd-trigger" type="button" data-open-palette aria-label="Abrir paleta de comandos">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              d="M18 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 0 0 0-6z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="paper">
+      <header class="paper-intro">
+        <h1 class="reveal">Currículo</h1>
+        <p class="paper-lead reveal">Experiência profissional, formação, cursos, habilidades, idiomas e livros técnicos.</p>
+      </header>
+
+      <div class="paper-layout">
+        <article class="cv paper-content">
+          <header class="cv-bar">
+            <span class="cv-file">
+              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                <path fill="currentColor"
+                  d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z" />
+              </svg>
+              curriculo.md
+            </span>
+            <button class="copy cv-print" type="button" data-print title="Abre a janela de impressão: escolha &quot;Salvar como PDF&quot;">baixar PDF</button>
+          </header>
+
+          <div class="cv-body">
+            <!-- Cabeçalho que só aparece no PDF (na tela, o cabeçalho do site já identifica a página) -->
+            <div class="cv-print-head">
+              <p class="cv-print-name">Lucas Emanuel</p>
+              <p>Dev Back-end &amp; Analista de Sistemas</p>
+              <p class="cv-print-contacts">
+                <span>lucase616@gmail.com</span>
+                <span>lucasemanuel.com.br</span>
+                <span>linkedin.com/in/lucas-emanuel-santos-martins-105304242</span>
+                <span>github.com/LucasE616</span>
+              </p>
+            </div>
+
+            <!-- Linha do tempo: cada <li> tem período, cargo (ou curso), empresa (ou instituição), descrição e detalhes -->
+            <section class="paper-section cv-section" id="experiencia">
+              <h2>Experiência profissional</h2>
+              <ol class="timeline">
+                <li>
+                  <p class="tl-date"><time datetime="2024-09">Set 2024</time> – Atual</p>
+                  <h3 class="tl-title">Analista de Sistemas / Suporte Técnico</h3>
+                  <p class="tl-org">e-paper</p>
+                  <p class="tl-desc">Empresa focada em digitalização de documentos, automação de processos e desenvolvimento de software.</p>
+                  <p class="tl-meta"><span>Montezuma-MG, Brasil</span><span>Área: Tecnologia</span></p>
+                </li>
+                <li>
+                  <p class="tl-date"><time datetime="2025-01">Jan 2025</time> – Atual</p>
+                  <h3 class="tl-title">Suporte Técnico</h3>
+                  <p class="tl-org">FizPay</p>
+                  <p class="tl-desc">Fintech focada em soluções de benefícios para funcionários de empresas e organizações do setor público.</p>
+                  <p class="tl-meta"><span>Montes Claros-MG, Brasil</span><span>Área: Financeira</span></p>
+                </li>
+                <li>
+                  <p class="tl-date"><time datetime="2024-12">Dez 2024</time> – Atual</p>
+                  <h3 class="tl-title">Desenvolvedor Backend Jr</h3>
+                  <p class="tl-org">Plant Evolution</p>
+                  <p class="tl-desc">Empresa focada em soluções de monitoramento remoto para máquinas industriais.</p>
+                  <p class="tl-meta"><span>São Paulo-SP, Brasil</span><span>Área: Automação Industrial</span></p>
+                </li>
+                <li>
+                  <p class="tl-date"><time datetime="2021-01">Jan 2021</time> – <time datetime="2022-06">Jun 2022</time></p>
+                  <h3 class="tl-title">Suporte Técnico</h3>
+                  <p class="tl-org">Rlv Tecnologia</p>
+                  <p class="tl-desc">Empresa focada em digitalização de documentos, automação de processos e desenvolvimento de software.</p>
+                  <p class="tl-meta"><span>Montezuma-MG, Brasil</span><span>Área: Tecnologia</span></p>
+                </li>
+              </ol>
+            </section>
+
+            <section class="paper-section cv-section" id="formacao">
+              <h2>Formação acadêmica</h2>
+              <ol class="timeline">
+                <li>
+                  <p class="tl-date"><time datetime="2023-11">Nov 2023</time> – <time datetime="2026-04">Abr 2026</time></p>
+                  <h3 class="tl-title">Análise e Desenvolvimento de Sistemas</h3>
+                  <p class="tl-org">Centro Universitário ETEP</p>
+                  <p class="tl-meta"><span>Graduado</span></p>
+                </li>
+                <li>
+                  <p class="tl-date"><time datetime="2018-02">Fev 2018</time> – <time datetime="2021-01">Jan 2021</time></p>
+                  <h3 class="tl-title">Ensino Médio</h3>
+                  <p class="tl-org">Escola Estadual Edson Alves Pereira</p>
+                  <p class="tl-meta"><span>Completo</span></p>
+                </li>
+              </ol>
+            </section>
+
+            <!-- Cursos: ◆ nome do curso + plataforma ou emissor -->
+            <section class="paper-section cv-section" id="cursos">
+              <h2>Cursos e certificados</h2>
+              <ul class="items">
+                <li><span class="item-name">Python</span><span class="item-tag">Curso em Vídeo</span></li>
+                <li><span class="item-name">JavaScript</span><span class="item-tag">Curso em Vídeo</span></li>
+                <li><span class="item-name">HTML &amp; CSS</span></li>
+                <li><span class="item-name">Dados em Python</span><span class="item-tag">Alura</span></li>
+                <li><span class="item-name">System Design</span><span class="item-tag">Fundação Bradesco</span></li>
+                <li><span class="item-name">React Foundations</span><span class="item-tag">Next.js</span></li>
+                <li><span class="item-name">Lógica de Programação e Algoritmos em C</span><span class="item-tag">Udemy</span></li>
+                <li><span class="item-name">Testes Automáticos + Testes de Software em Jest</span><span class="item-tag">Udemy</span></li>
+              </ul>
+            </section>
+
+            <section class="paper-section cv-section" id="habilidades">
+              <h2>Habilidades</h2>
+              <h3 class="cv-sub">Linguagens &amp; tecnologias</h3>
+              <ul class="tags">
+                <li>JavaScript</li>
+                <li>Node.js</li>
+                <li>Python</li>
+                <li>C</li>
+              </ul>
+              <h3 class="cv-sub">Ferramentas e competências</h3>
+              <ul class="items">
+                <li><span class="item-name">Git, Git Worktree, GitHub</span></li>
+                <li><span class="item-name">Office</span></li>
+                <li><span class="item-name">Microsoft 365</span></li>
+                <li><span class="item-name">Atlassian Workspace</span></li>
+                <li><span class="item-name">Entendimento em Design Systems</span></li>
+                <li><span class="item-name">Entendimento em Engenharia de Requisitos</span></li>
+                <li><span class="item-name">Entendimento em Pair Programming com IA</span></li>
+                <li><span class="item-name">Entendimento em Metodologias Ágeis, Scrum e Kanban</span></li>
+                <li><span class="item-name">Mentoria e liderança</span></li>
+                <li><span class="item-name">Capacidade de resolução de problemas, trabalho em equipe e facilidade de aprendizado</span></li>
+                <li><span class="item-name">Comunicativo, resiliente, organizado</span></li>
+              </ul>
+            </section>
+
+            <section class="paper-section cv-section" id="idiomas">
+              <h2>Idiomas</h2>
+              <dl class="specs cv-langs">
+                <div><dt>Português</dt><dd>Nativo</dd></div>
+                <div><dt>Inglês</dt><dd>Intermediário</dd></div>
+                <div><dt>Espanhol</dt><dd>Básico</dd></div>
+              </dl>
+            </section>
+
+            <!-- Livros da categoria Técnico da planilha "Livros LCS.xlsx", pela coluna Lido (Sim / Lendo / Não).
+                 No PDF sai só o que foi lido ou está em leitura (a estante fica só na tela). -->
+            <section class="paper-section cv-section" id="livros">
+              <h2>Livros técnicos</h2>
+              <h3 class="cv-sub">Lidos</h3>
+              <ul class="items">
+                <li><span class="item-name">Entendendo Algoritmos</span><span class="item-tag">Aditya Y. Bhargava · Novatec</span></li>
+              </ul>
+              <h3 class="cv-sub">Lendo agora</h3>
+              <ul class="items">
+                <li><span class="item-name">Introdução à Programação com a Linguagem C</span><span class="item-tag">Rodrigo de Barros Paes · Novatec</span></li>
+              </ul>
+              <div class="cv-shelf">
+                <h3 class="cv-sub">Na estante</h3>
+                <ul class="items">
+                  <li><span class="item-name">O Mítico Homem-Mês</span><span class="item-tag">Frederick P. Brooks Jr. · Alta Books</span></li>
+                  <li><span class="item-name">Código Limpo</span><span class="item-tag">Robert C. Martin · Alta Books</span></li>
+                  <li><span class="item-name">O Programador Pragmático</span><span class="item-tag">Andrew Hunt &amp; David Thomas · Bookman</span></li>
+                  <li><span class="item-name">A Teoria da Relatividade</span><span class="item-tag">Albert Einstein · L&amp;PM Pocket</span></li>
+                  <li><span class="item-name">O Grande Livro de Matemática do Manual do Mundo</span><span class="item-tag">Mari Fulfaro &amp; Iberê Thenório · Sextante</span></li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <aside class="toc" aria-labelledby="toc-title">
+          <p class="toc-title" id="toc-title">Nesta página</p>
+          <ul>
+            <li><a href="#experiencia">Experiência</a></li>
+            <li><a href="#formacao">Formação</a></li>
+            <li><a href="#cursos">Cursos</a></li>
+            <li><a href="#habilidades">Habilidades</a></li>
+            <li><a href="#idiomas">Idiomas</a></li>
+            <li><a href="#livros">Livros técnicos</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <a href="https://github.com/lucase616" target="_blank" rel="noopener">github</a>
+      <a href="https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://instagram.com/lucase616" target="_blank" rel="noopener">instagram</a>
+      <a href="mailto:lucase616@gmail.com">email</a>
+    </footer>
+
+    <!-- Paleta de comandos (Ctrl/⌘ + K) -->
+    <div class="palette" id="palette" hidden>
+      <div class="palette-backdrop" data-close-palette></div>
+      <div class="palette-box" role="dialog" aria-modal="true" aria-label="Paleta de comandos">
+        <input
+          class="palette-input"
+          id="palette-input"
+          type="text"
+          placeholder="Digite um comando ou pesquise…"
+          autocomplete="off"
+          spellcheck="false"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="palette-list"
+        />
+        <ul class="palette-list" id="palette-list" role="listbox"></ul>
+      </div>
+    </div>
+
+    <a class="term-fab" href="../terminal/" aria-label="Abrir o terminal" title="Terminal (T)">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM7 10l3 2-3 2M12 15h5" />
+      </svg>
+    </a>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="../script.js?v=20260927.3"></script>
+  </body>
+</html>

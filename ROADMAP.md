@@ -13,7 +13,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 5. 🟡 **Setup completo** (baixo). Já tem Notebook, Periféricos, Mesa, Áudio, Mobile, Papelaria e Ferramentas. Falta a cadeira.
 6. ⬜ **Página "Agora"** (baixo). O que está estudando ou construindo no momento.
 7. ⬜ **Notas ou blog** (alto). Publicar notas do Obsidian (Markdown) como páginas do site.
-24. ⬜ **Menu Educação / Currículo** (médio). Página com diplomas, certificados, livros técnicos lidos e experiências profissionais. Detalhes abaixo.
+24. ✅ **Menu Educação / Currículo** (médio). Feito em 27/09/2026: página `/curriculo` (atalho E), com experiência, formação, cursos, habilidades, idiomas e livros técnicos, PDF pela impressão e comando `curriculo` no terminal. Faltam datas, carga horária e links de verificação dos cursos. Detalhes abaixo.
 25. ⏸ **Curiosidades & indicações** (baixo para restaurar). Existiu no site e foi removido a pedido. Pode voltar quando o Lucas quiser. Detalhes abaixo.
 
 ## Funcionalidades
@@ -25,7 +25,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio.
 13. ⬜ **Estatísticas do GitHub** (médio). Linguagens mais usadas, repositórios recentes.
 14. ↪ **Alternar tema claro/escuro**. Feito junto com o item 27.
-23. 🟡 **Site em linha de comando** (médio). Feito em 26/09/2026: formas A (`/terminal`, atalho T ou crase) e B (`/cli`). Falta a forma C (`npx lucasemanuel`) e os comandos `sl`, `projetos` e `curriculo`. Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
+23. 🟡 **Site em linha de comando** (médio). Feito em 26/09/2026: formas A (`/terminal`, atalho T ou crase) e B (`/cli`). Falta a forma C (`npx lucasemanuel`) e os comandos `sl` e `projetos` (o `curriculo` foi feito em 27/09/2026, com o item 24). Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
 27. ✅ **Tema escuro / claro / sistema** (médio). Feito em 26/09/2026, com o README da home em estilo de jornal no tema claro. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
@@ -155,7 +155,8 @@ Substitui o item 11. A ideia é o visitante poder navegar pelo portfólio como s
 | `setup` ou `cat setup.md` | Equipamentos e ferramentas |
 | `ls`, `cd`, `pwd`, `tree` | Navegar pelas "pastas" do site (`skills/`, `setup/`, `projetos/`, `curriculo/`) |
 | `open github`, `open linkedin`, `open instagram`, `open whatsapp` | Abre as redes |
-| `projetos`, `curriculo` | Quando os itens 1 e 24 existirem |
+| `curriculo` (ou `cv`) | ✅ Currículo lido de `/curriculo/`; também em `ls curriculo/` e `cat curriculo/idiomas.md` |
+| `projetos` | Quando o item 1 existir |
 | `history`, `clear` | Histórico e limpar a tela |
 | `exit` ou `gui` | Volta ao site visual |
 
@@ -209,6 +210,26 @@ Substitui o item 11. A ideia é o visitante poder navegar pelo portfólio como s
 ### Detalhes do item 24: menu Educação / Currículo
 
 Substitui os itens 2 e 3.
+
+**O que foi implementado (27/09/2026):**
+
+- **Página `/curriculo`** (`curriculo/index.html`), na estrutura do `/setup` (seções e sumário "Nesta página"), com o conteúdo num bloco de arquivo `curriculo.md`. Experiência e formação em linha do tempo; cursos, ferramentas e livros com ◆; idiomas numa lista de dois lados.
+- **Conteúdo:** do currículo e da planilha enviados pelo Lucas, sem nada inventado. Correções avisadas: "Skrum" → Scrum, "Curso em Viideo" → Curso em Vídeo e "Introdução a Programação…" → "Introdução à Programação…". "Next.js - React Foundations" virou o curso React Foundations, da plataforma Next.js.
+- **Experiência:** na ordem do currículo do Lucas (e-paper, FizPay, Plant Evolution, Rlv Tecnologia), com a descrição da empresa no lugar das atividades, que não foram informadas.
+- **Livros técnicos:** os 7 livros do print da planilha `Livros LCS.xlsx` (as duas linhas sem título do print, "Dopamina" e o dicionário de inglês, ficaram de fora), agrupados pela coluna Lido: Lidos (*Entendendo Algoritmos*), Lendo agora (*Introdução à Programação com a Linguagem C*) e Na estante (os outros 5). A coluna OBS não foi lida.
+- **Menu:** link "Currículo" em todas as páginas (classe `nav-wide`), mas só a partir de 480px: com 5 links o menu não cabe em 320–470px (medido). No celular, a página abre pela paleta e pelo atalho **E**.
+- **PDF:** botão "baixar PDF" na barra do arquivo e comando "Baixar currículo (PDF)" na paleta (de outra página, abre `/curriculo/#pdf`, que imprime ao carregar). O `@media print` esconde cabeçalho, sumário, rodapé e a estante de livros, mostra um cabeçalho com nome, cargo e contatos (sem telefone nem Yahoo, item 36), usa fundo branco e listas em duas colunas. Numa simulação em A4, deu cerca de 2 páginas.
+- **SEO:** JSON-LD `ProfilePage` com `Person`, `alumniOf`, `worksFor`, `knowsLanguage` e 9 `EducationalOccupationalCredential` (a graduação e os 8 cursos).
+- **Terminal:** comando `curriculo` (ou `cv`), pasta `curriculo/` com um arquivo por seção e botão "curriculo" no celular. Se a página do currículo não carregar, o resto do terminal continua funcionando.
+- **Dados em HTML, não em JSON:** o conteúdo ficou no HTML, como no `/setup`, porque o terminal lê as páginas com `DOMParser` e o Google indexa melhor o HTML pronto. O `data/curriculo.json` fica para o item 21.
+
+**Pendências (informações do Lucas):**
+
+- Cursos: data de conclusão, carga horária e link de verificação (Credly, LinkedIn ou plataforma). O "HTML & CSS" não tem emissor.
+- Atividades de cada experiência, se ele quiser ir além da descrição da empresa.
+- "Atlassian Workspace": confirmar o nome (talvez Jira e Confluence).
+
+**Planejamento original:**
 
 **Onde:** página `/curriculo` (ou `/educacao`), com item no menu, atalho **E** e comando na paleta. Também vira o comando `curriculo` no terminal (23).
 
@@ -453,7 +474,6 @@ Plano original:
 2. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap). Os outros deste grupo (9, 17 e 22) já foram feitos.
 3. **Área administrativa (21)**, começando pelos pré-requisitos.
 4. **Página de Projetos (1)**, já com os dados editáveis pelo painel.
-5. **Menu Educação / Currículo (24)**, com o PDF.
-6. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
-7. **Versão em inglês (8).**
-8. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.
+5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
+6. **Versão em inglês (8).**
+7. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.

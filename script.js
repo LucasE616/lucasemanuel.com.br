@@ -274,6 +274,26 @@
     location.href = `${root}terminal/`;
   };
 
+  const goCurriculo = () => {
+    if (page === "curriculo") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    location.href = `${root}curriculo/`;
+  };
+
+  // PDF do currículo: a própria página impressa (CSS @media print). De outras páginas, abre /curriculo/#pdf,
+  // que imprime assim que carrega.
+  const printCurriculo = () => {
+    if (page === "curriculo") window.print();
+    else location.href = `${root}curriculo/#pdf`;
+  };
+  document.addEventListener("click", (e) => e.target.closest("[data-print]") && printCurriculo());
+  if (page === "curriculo" && location.hash === "#pdf") {
+    history.replaceState(null, "", location.pathname + location.search);
+    addEventListener("load", () => document.fonts.ready.then(() => window.print()));
+  }
+
   const goJogos = (id = "") => () => {
     if (page === "jogos") {
       // A página troca de aba pelo hash (jogos/jogos.js)
@@ -326,8 +346,10 @@
     { group: "Navegação", label: "Skills", key: "S", run: openTopic("skills") },
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
     { group: "Navegação", label: "Setup", key: "U", run: goSetup },
+    { group: "Navegação", label: "Currículo", key: "E", run: goCurriculo },
     { group: "Navegação", label: "Terminal", key: "T", run: goTerminal },
     { group: "Navegação", label: "Jogos", key: "J", run: goJogos() },
+    { group: "Currículo", label: "Baixar currículo (PDF)", hint: "pdf", run: printCurriculo },
     { group: "Jogos", label: "Jogo da velha", hint: "velha", run: goJogos("velha") },
     { group: "Jogos", label: "Damas", hint: "tabuleiro", run: goJogos("damas") },
     { group: "Jogos", label: "Carrinho", hint: "corrida", run: goJogos("carrinho") },
@@ -446,7 +468,7 @@
     }
   });
 
-  // Atalhos de uma tecla (I, S, C, U, T, J) — ignorados enquanto se digita ou com a paleta aberta.
+  // Atalhos de uma tecla (I, S, C, U, E, T, J) — ignorados enquanto se digita ou com a paleta aberta.
   // Com o modal aberto continuam valendo: S/C trocam o tópico e I fecha e volta ao topo.
   const shortcuts = Object.fromEntries(commands.filter((c) => c.key).map((c) => [c.key.toLowerCase(), c]));
   shortcuts["`"] = shortcuts.t; // crase abre o terminal, como o console de um jogo
@@ -464,7 +486,7 @@
   document.querySelectorAll("[data-open-palette]").forEach((b) => b.addEventListener("click", openPalette));
   document.querySelectorAll("[data-close-palette]").forEach((b) => b.addEventListener("click", closePalette));
 
-  // Setup: alternância Lista/Grade (lembrada no navegador) e seção atual destacada no sumário
+  // Setup: alternância Lista/Grade (lembrada no navegador)
   if (page === "setup") {
     const viewButtons = document.querySelectorAll("[data-view]");
     const setView = (view) => {
@@ -485,26 +507,27 @@
     }
     setView(savedView === "grid" ? "grid" : "list");
     viewButtons.forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
+  }
 
-    // A seção atual é a última cujo topo já passou um pouco abaixo do cabeçalho
-    const tocLinks = [...document.querySelectorAll(".toc a")];
-    const sections = tocLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
-    const header = document.querySelector(".site-header");
-    const markCurrent = () => {
-      const line = header.offsetHeight + 120;
-      let current = sections[0];
-      sections.forEach((s) => {
-        if (s.getBoundingClientRect().top <= line) current = s;
-      });
-      // No fim da página, a última seção pode não chegar à linha: marca ela mesmo assim
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
-        current = sections[sections.length - 1];
-      }
-      tocLinks.forEach((a) => a.setAttribute("aria-current", String(a.getAttribute("href") === `#${current.id}`)));
-    };
-    if (sections.length) {
-      markCurrent();
-      window.addEventListener("scroll", markCurrent, { passive: true });
+  // Sumário "Nesta página" (setup e currículo): a seção atual é a última cujo topo já passou um pouco
+  // abaixo do cabeçalho
+  const tocLinks = [...document.querySelectorAll(".toc a")];
+  const sections = tocLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  const header = document.querySelector(".site-header");
+  const markCurrent = () => {
+    const line = header.offsetHeight + 120;
+    let current = sections[0];
+    sections.forEach((s) => {
+      if (s.getBoundingClientRect().top <= line) current = s;
+    });
+    // No fim da página, a última seção pode não chegar à linha: marca ela mesmo assim
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = sections[sections.length - 1];
     }
+    tocLinks.forEach((a) => a.setAttribute("aria-current", String(a.getAttribute("href") === `#${current.id}`)));
+  };
+  if (sections.length) {
+    markCurrent();
+    window.addEventListener("scroll", markCurrent, { passive: true });
   }
 })();

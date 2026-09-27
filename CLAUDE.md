@@ -31,9 +31,10 @@ status dos itens no mesmo commit em que forem concluídos.
 |---|---|
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
+| `curriculo/index.html` | Página `/curriculo` (item 24): experiência e formação em linha do tempo (`<ol class="timeline">`), cursos, habilidades, idiomas e livros técnicos, num bloco `curriculo.md`. O PDF é a própria página impressa (`@media print` em `style.css`, botão `data-print`) |
 | `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
-| `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
+| `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/`, `/setup/` e `/curriculo/`. Tem painel de personalização (engrenagem na barra) |
 | `jogos/` | Página `/jogos` (item 30): jogo da velha, damas e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, `#damas` ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba, com o tabuleiro/canvas marcado com a classe `game-stage` (ver layout abaixo). `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` tem as abas e a interface da velha; `damas-ia.js` tem regras, IA e placar das damas (página, terminal e `damas-worker.js`, o Web Worker da IA); `damas.js` é a interface das damas; `carrinho.js` é o jogo de carrinho em canvas |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
@@ -102,11 +103,12 @@ status dos itens no mesmo commit em que forem concluídos.
   real rodam dentro do comando, com a entrada travada (`busy`), e resolvem a promise ao terminar
   (`play carrinho`). O teclado do jogo é um `keydown` no `document`, removido no fim da partida.
 - **Botão flutuante do terminal:** `<a class="term-fab">` no canto inferior direito, em `index.html` e
-  `setup/index.html` e `jogos/index.html` (não na página do terminal). Página nova deve recebê-lo também.
+  `setup/index.html`, `jogos/index.html` e `curriculo/index.html` (não na página do terminal). Página nova deve recebê-lo também.
 - **Várias páginas:** `<body data-page="setup" data-root="../">`. Fora da home, Skills e Contato levam
   para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
-- **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup), T ou crase (Terminal) e J (Jogos). A página `/jogos` fica fora do menu,
-  para ele continuar cabendo numa linha.
+- **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup), E (Currículo), T ou crase (Terminal) e J (Jogos). A página `/jogos` fica fora do menu,
+  para ele continuar cabendo numa linha. O link "Currículo" (classe `nav-wide`) só aparece a partir de 480px: com 5 links
+  o menu não cabe entre 320 e 470px. Link novo no menu = testar essas larguras antes.
   São ignorados enquanto se digita e com a paleta aberta. Cada comando fica no array `commands` de
   `script.js`, que também alimenta a paleta.
 - **Copiar:** `navigator.clipboard` só existe em HTTPS, então há um plano B com `execCommand`. Os
@@ -149,7 +151,7 @@ status dos itens no mesmo commit em que forem concluídos.
   `.claude/launch.json`, que está no `.gitignore`.
 - **Versão dos arquivos (obrigatório):** todos os HTMLs pedem os CSS/JS com `?v=AAAAMMDD.N` (ex.: `style.css?v=20260926.9`).
   **Sempre que mudar `style.css`, `script.js`, `terminal/terminal.js` ou os arquivos de `jogos/`, aumente o `?v=` em
-  todos os HTMLs** (`index.html`, `setup/index.html`, `terminal/index.html`, `jogos/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
+  todos os HTMLs** (`index.html`, `setup/index.html`, `curriculo/index.html`, `terminal/index.html`, `jogos/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
   (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
   Isso aconteceu em 26/09/2026: o botão de tema não funcionava e o cabeçalho ficou sem estilo.
 - **Cache no teste local:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
@@ -176,13 +178,15 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 
 - sem rolagem lateral (`document.documentElement.scrollWidth === innerWidth`);
 - README abaixo da primeira tela na home;
-- os 4 links do menu numa linha só (abaixo de 360px o menu é compactado);
+- os links do menu numa linha só: 5 a partir de 480px, 4 abaixo disso (abaixo de 360px o menu é compactado);
 - modais cabendo na tela, com rolagem interna quando necessário.
 
 ## Pendências abertas
 
 - Cadeira do setup: modelo ainda não informado.
 - "Wh" no suporte de headset: confirmar se é a marca.
+- Currículo: data, carga horária e link de verificação dos cursos (e o emissor do "HTML & CSS"); atividades de cada
+  experiência; confirmar o nome "Atlassian Workspace".
 
 ## Histórico resumido
 
@@ -218,3 +222,7 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     --screenshot` e `--dump-dom`), com páginas de teste que carregam o site em `<iframe>` do tamanho exato
     da tela (a `--window-size` do headless não bate com o viewport) e jogam partidas clicando nas casas. Use
     um `--user-data-dir` novo a cada rodada, senão o cache serve HTML antigo.
+18. Currículo (item 24): página `/curriculo` com os dados do currículo e da planilha de livros enviados pelo Lucas,
+    atalho E, link no menu a partir de 480px, PDF pela impressão, JSON-LD e comando `curriculo` no terminal.
+    Testado no painel de navegador do app (Claude Browser): telas em 1366 e 375px, tema claro, menu nas 6 páginas
+    em 320/375/1366/1920px (medidas em `<iframe>`) e o PDF simulado copiando as regras de `@media print` para a tela.
