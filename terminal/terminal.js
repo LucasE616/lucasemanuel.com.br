@@ -356,6 +356,95 @@
     return m;
   };
 
+  // ---------- Damas (play damas) ----------
+  // Regras, IA (em Web Worker) e placar vêm de ../jogos/damas-ia.js, os mesmos da página /jogos.
+  // Suas peças são o e O (dama), embaixo; as da máquina, x e X. Lances como c3 d4 ou c3xe5xc3.
+  const DM = window.Damas;
+  const damasBoard = (b, last) => {
+    const marks = new Set(last ? [last.from, ...last.path] : []);
+    blank();
+    for (let r = 0; r < DM.N; r++) {
+      const parts = [span("t-dim", ` ${DM.N - r}  `)];
+      for (let c = 0; c < DM.N; c++) {
+        const i = r * DM.N + c;
+        const p = b[i];
+        const ch = { 1: "o", 2: "O", "-1": "x", "-2": "X" }[p] || (DM.dark(i) ? "·" : " ");
+        parts.push(span(p > 0 ? "t-accent" : marks.has(i) ? "t-head" : p ? "" : "t-dim", ch), " ");
+      }
+      print(...parts);
+    }
+    say("    a b c d e f", "t-dim");
+    blank();
+  };
+  const damasScore = () => {
+    const s = DM.loadScore();
+    say(`Placar das damas: ${s.vitorias} vitória(s), ${s.empates} empate(s), ${s.derrotas} derrota(s)`, "t-dim");
+  };
+
+  const damasMode = (level, machineFirst) => {
+    const game = DM.newGame(machineFirst ? -1 : 1);
+    const end = () => {
+      damasBoard(game.board, game.last);
+      DM.record(game.result);
+      if (game.result === "empate") say("Empate.", "t-head");
+      else if (game.result === 1) say("Você venceu! 🎉", "t-accent");
+      else say("A máquina venceu.", "t-err");
+      damasScore();
+      say("Digite play damas para jogar de novo, ou jogue com o mouse em /jogos/#damas.", "t-dim");
+      mode = null;
+    };
+    const yourTurn = () => {
+      damasBoard(game.board, game.turn === 1 ? game.last : null);
+      const list = DM.moves(game.board, 1);
+      if (list[0].caps.length) say(`Captura obrigatória: ${list.map(DM.notation).join(", ")}`, "t-accent");
+    };
+    const aiPlay = async () => {
+      say("A máquina está pensando…", "t-dim");
+      const [m] = await Promise.all([DM.think(game.board, -1, level), sleep(300)]);
+      DM.play(game, m);
+      say(`A máquina jogou ${DM.notation(m)}.`);
+      if (!game.result) return false;
+      end();
+      return true;
+    };
+    return {
+      prompt: "damas>",
+      title: "damas",
+      start: async () => {
+        say(`Damas 6×6, nível ${DM.LEVEL_NAMES[level]}. Suas peças são o (dama: O); as da máquina, x (dama: X).`, "t-head");
+        say("Digite o lance com as casas, como c3 d4 ou c3xe5xc3. lances mostra as opções, placar o placar e sair encerra.", "t-dim");
+        if (machineFirst && (await aiPlay())) return;
+        yourTurn();
+      },
+      handle: async (line) => {
+        const cmd = line.toLowerCase().trim();
+        if (["sair", "q", "exit", "quit"].includes(cmd)) {
+          mode = null;
+          return say("Partida encerrada.", "t-dim");
+        }
+        if (cmd === "placar") return damasScore();
+        const list = DM.moves(game.board, 1);
+        if (cmd === "lances" || cmd === "dica") return say(`Lances possíveis: ${list.map(DM.notation).join(", ")}`, "t-dim");
+        if (cmd === "tabuleiro") return damasBoard(game.board, game.last);
+        const sq = (cmd.match(/[a-f][1-6]/g) || []).map(DM.parse);
+        if (sq.length < 2) return say("Digite a casa de origem e a de destino, como c3 d4 (ou lances para ver as opções).", "t-err");
+        const [from, ...rest] = sq;
+        // Vale o caminho completo ou só origem e destino, se isso bastar para identificar o lance
+        let found = list.filter((m) => m.from === from && m.path.length === rest.length && m.path.every((p, k) => p === rest[k]));
+        if (!found.length && rest.length === 1) found = list.filter((m) => m.from === from && DM.to(m) === rest[0]);
+        if (found.length > 1) return say(`Mais de um caminho leva até lá. Escreva o caminho todo: ${found.map(DM.notation).join(" ou ")}`, "t-err");
+        if (!found.length) {
+          const hint = list[0].caps.length ? " A captura é obrigatória." : "";
+          return say(`Lance inválido.${hint} Digite lances para ver as opções.`, "t-err");
+        }
+        DM.play(game, found[0]);
+        if (game.result) return end();
+        if (await aiPlay()) return;
+        yourTurn();
+      },
+    };
+  };
+
   // ---------- Carrinho (play carrinho) ----------
   // Versão em texto do jogo de /jogos/#carrinho, com as mesmas regras: 3 faixas, cada fileira bloqueia
   // no máximo 2, o espaço entre fileiras cresce com a velocidade e a partida acaba na batida.
@@ -582,6 +671,7 @@
     ]],
     ["Jogos", [
       ["play velha [nível]", "jogo da velha: facil, medio ou impossivel (+ o, maquina)"],
+      ["play damas [nível]", "damas 6×6: facil, medio ou dificil (+ maquina)"],
       ["play carrinho", "desvie dos obstáculos (← →) até bater"],
     ]],
     ["Terminal", [
@@ -892,7 +982,13 @@
     play: async (args) => {
       const words = args.map((a) => a.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""));
       if (words[0] === "carrinho") return carGame();
-      if (words[0] !== "velha") return say("uso: play velha [facil|medio|impossivel] [x|o] [maquina] | play carrinho", "t-err");
+      if (words[0] === "damas") {
+        if (!DM) return say("play: não foi possível carregar o jogo.", "t-err");
+        mode = damasMode(DM.LEVELS.find((l) => words.includes(l)) || "medio", words.includes("maquina"));
+        setPrompt();
+        return mode.start();
+      }
+      if (words[0] !== "velha") return say("uso: play velha [facil|medio|impossivel] [x|o] [maquina] | play damas [facil|medio|dificil] [maquina] | play carrinho", "t-err");
       if (!V) return say("play: não foi possível carregar o jogo.", "t-err");
       const level = V.LEVELS.find((l) => words.includes(l)) || "medio";
       const human = words.includes("o") ? "O" : "X";

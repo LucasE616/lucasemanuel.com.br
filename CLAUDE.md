@@ -34,7 +34,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/` e `/setup/`. Tem painel de personalização (engrenagem na barra) |
-| `jogos/` | Página `/jogos` (item 30): jogo da velha e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba. `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` é a interface da velha; `carrinho.js` é o jogo de carrinho em canvas |
+| `jogos/` | Página `/jogos` (item 30): jogo da velha, damas e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, `#damas` ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba, com o tabuleiro/canvas marcado com a classe `game-stage` (ver layout abaixo). `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` tem as abas e a interface da velha; `damas-ia.js` tem regras, IA e placar das damas (página, terminal e `damas-worker.js`, o Web Worker da IA); `damas.js` é a interface das damas; `carrinho.js` é o jogo de carrinho em canvas |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
@@ -79,8 +79,15 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
   Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre
-  `/jogos` e o terminal), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
+  `/jogos` e o terminal), `damas-placar` (idem), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
   `play carrinho`, função `carGame` em `terminal.js`). Toda leitura e escrita fica em `try/catch`.
+- **Layout dos jogos no computador** (a partir de 1024px): cada `.game` vira um grid de 2 colunas; o
+  elemento `.game-stage` (tabuleiro ou canvas) fica à esquerda, ocupando todas as linhas, e o resto da seção
+  vai para a direita, na ordem do HTML. O tamanho vem de `--stage` (em `.games`), calculado pela altura da
+  tela (entre 360px e 680px). No celular a ordem continua a do HTML, um embaixo do outro. As casas usam
+  `container-type: inline-size` e `cqi` para o texto crescer com o tabuleiro. O canvas do carrinho ajusta a
+  resolução ao tamanho na tela (`ResizeObserver`). `.game` tem `scroll-margin-top: 100vh` de propósito: sem
+  isso, abrir `/jogos/#damas` rolava a página até a seção e escondia o título e as abas.
 - **Canvas e tema:** o carrinho lê as cores das variáveis CSS (`--surface-2`, `--accent`...) e redesenha quando
   `data-theme` muda. Só os outros carros e a barreira têm cores fixas, que funcionam nos dois temas.
 - **Personalização do terminal:** `term-prefs` guarda `{layout, bg, fg, font}`. O layout vai em
@@ -199,3 +206,9 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 16. Jogo de carrinho infinito na página `/jogos`, com recorde salvo (`35fb955`). O Lucas avisou que o link do
     carrinho mostrava o jogo da velha (o carrinho ficava abaixo, na mesma página), e a página ganhou abas,
     um jogo por vez (`b400f09`). Depois, versão em texto do carrinho no terminal, `play carrinho` (`f99a828`).
+17. Damas 6×6 (item 30) com regras brasileiras completas, IA minimax com alfa-beta num Web Worker, 3 níveis,
+    placar e `play damas` no terminal. Os jogos ficaram maiores no computador: jogo à esquerda, do tamanho da
+    altura da tela, e opções à direita. Testes feitos com o **Chrome headless** (`chrome.exe --headless=new
+    --screenshot` e `--dump-dom`), com páginas de teste que carregam o site em `<iframe>` do tamanho exato
+    da tela (a `--window-size` do headless não bate com o viewport) e jogam partidas clicando nas casas. Use
+    um `--user-data-dir` novo a cada rodada, senão o cache serve HTML antigo.

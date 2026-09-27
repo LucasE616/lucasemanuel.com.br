@@ -1,6 +1,6 @@
 // Página /jogos: abas dos jogos e interface do jogo da velha. Regras, IA e placar ficam em velha-ia.js.
 
-// Abas: mostra só o jogo do hash (#velha ou #carrinho); sem hash, o jogo da velha
+// Abas: mostra só o jogo do hash (#velha, #damas ou #carrinho); sem hash, o jogo da velha
 (() => {
   const tabs = [...document.querySelectorAll("[data-game-tab]")];
   const games = tabs.map((t) => document.getElementById(t.dataset.gameTab));
@@ -9,7 +9,7 @@
     const active = games.some((g) => g.id === id) ? id : games[0].id;
     games.forEach((g) => (g.hidden = g.id !== active));
     tabs.forEach((t) => t.setAttribute("aria-current", String(t.dataset.gameTab === active)));
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
   addEventListener("hashchange", show);
   show();

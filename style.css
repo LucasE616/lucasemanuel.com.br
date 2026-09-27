@@ -1224,9 +1224,15 @@ body.modal-open { overflow: hidden; }
 .term-fab:hover, .term-fab:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
 
 /* ===================================================================
-   Jogos (item 30): página /jogos com o jogo da velha
+   Jogos (item 30): página /jogos com jogo da velha, damas e carrinho
    =================================================================== */
-.games { padding-top: clamp(2rem, 6vh, 4rem); padding-bottom: 5rem; }
+/* --stage: lado do tabuleiro no computador, calculado pela altura da tela para o jogo caber inteiro
+   abaixo do cabeçalho (9.5rem = espaço do título e das abas) */
+.games {
+  --stage: clamp(360px, calc(100svh - var(--header-h) - 9.5rem), 680px);
+  padding-top: clamp(2rem, 6vh, 4rem);
+  padding-bottom: 5rem;
+}
 .games-title { margin: 0 0 0.4rem; font-family: var(--display); font-size: clamp(2rem, 1.5vw + 1.5rem, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; }
 .games-lead { margin: 0 0 1.75rem; color: var(--muted); }
 
@@ -1241,6 +1247,7 @@ body.modal-open { overflow: hidden; }
 .velha-status { min-height: 1.6em; margin: 0 0 0.9rem; font-family: var(--mono); font-size: 0.9rem; }
 
 .velha-board {
+  container-type: inline-size; /* o X e o O crescem junto com o tabuleiro (cqi) */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
@@ -1258,7 +1265,7 @@ body.modal-open { overflow: hidden; }
   border-radius: 6px;
   background: var(--surface);
   color: var(--text);
-  font: 500 clamp(2.2rem, 12vw, 3.4rem) / 1 var(--mono);
+  font: 500 clamp(2rem, 15cqi, 6.5rem) / 1 var(--mono);
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -1280,12 +1287,15 @@ body.modal-open { overflow: hidden; }
 .velha-reset { padding: 0; border: 0; background: none; color: var(--muted); font: 0.75rem var(--mono); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .velha-reset:hover { color: var(--accent); }
 
-/* Abas dos jogos: um jogo por vez, escolhido pelo hash (#velha, #carrinho) */
-.games-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 2rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--border); font: 0.85rem var(--mono); }
+/* Abas dos jogos: um jogo por vez, escolhido pelo hash (#velha, #damas, #carrinho) */
+.games-head { margin: 0 0 2rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--border); }
+.games-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; font: 0.85rem var(--mono); }
 .games-nav a { padding: 0.4rem 0.9rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--muted); text-decoration: none; }
 .games-nav a:hover { color: var(--text); border-color: var(--muted); }
 .games-nav a[aria-current="true"] { border-color: var(--accent); color: var(--accent); }
-.game { scroll-margin-top: calc(var(--header-h) + 1rem); }
+/* Margem maior que a distância até o topo: ao abrir /jogos/#damas, a rolagem até a âncora para no topo
+   da página, e o título e as abas continuam visíveis */
+.game { scroll-margin-top: 100vh; }
 .game-title { margin: 0 0 0.35rem; font-family: var(--serif); font-size: clamp(1.4rem, 0.6vw + 1.2rem, 1.75rem); }
 
 .car-canvas {
@@ -1306,6 +1316,85 @@ body.modal-open { overflow: hidden; }
 .games-tip { margin-top: 2rem; color: var(--muted); font-size: 0.85rem; }
 .games-tip a { color: var(--accent); }
 .games-tip code { font-family: var(--mono); color: var(--text); }
+
+/* Damas: casas escuras em --border (em --surface-2 quase não se distinguem no tema escuro) */
+.damas-board {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  width: min(100%, 420px);
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.damas-sq { position: relative; display: grid; place-items: center; margin: 0; padding: 0; border: 0; border-radius: 0; }
+.damas-sq.is-light { background: var(--surface); }
+.damas-sq.is-dark { background: var(--border); cursor: default; }
+.damas-sq:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 0; }
+/* Coordenadas: fileira no canto de cima (coluna a) e coluna no canto de baixo (fileira 1) */
+.damas-sq[data-rank]::before,
+.damas-sq[data-file]::after { position: absolute; color: var(--muted); font: 500 max(9px, 2.6cqi) / 1 var(--mono); pointer-events: none; }
+.damas-sq[data-rank]::before { content: attr(data-rank); top: 4px; left: 4px; }
+.damas-sq[data-file]::after { content: attr(data-file); right: 4px; bottom: 4px; }
+.damas-sq.is-movable { cursor: pointer; }
+.damas-sq.is-movable:hover { background: color-mix(in srgb, var(--accent) 12%, var(--border)); }
+.damas-sq.is-selected { background: color-mix(in srgb, var(--accent) 30%, var(--border)); }
+.damas-sq.is-last { box-shadow: inset 0 0 0 max(2px, 0.6cqi) color-mix(in srgb, var(--accent) 45%, transparent); }
+/* Destino possível: bolinha no centro da casa */
+.damas-sq.is-target {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--accent) 65%, transparent) 0 13%, transparent 14%);
+  cursor: pointer;
+}
+.damas-sq.is-target:hover { background-color: color-mix(in srgb, var(--accent) 22%, var(--border)); }
+.damas-piece {
+  display: grid;
+  place-items: center;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transition: opacity 0.15s;
+}
+.damas-piece.is-mine { background: var(--accent); box-shadow: inset 0 0 0 max(2px, 0.8cqi) color-mix(in srgb, var(--accent) 60%, var(--bg)); }
+.damas-piece.is-ai { background: var(--text); box-shadow: inset 0 0 0 max(2px, 0.8cqi) color-mix(in srgb, var(--text) 60%, var(--bg)); }
+/* Dama: anel no meio da peça */
+.damas-piece.is-king::after { content: ""; width: 42%; aspect-ratio: 1; border: max(2px, 0.9cqi) solid var(--bg); border-radius: 50%; }
+.damas-sq.is-captured .damas-piece { opacity: 0.3; }
+.damas-board.is-over .damas-piece { opacity: 0.6; }
+.damas-board.is-thinking { cursor: progress; }
+.damas-board.is-thinking .damas-sq { cursor: progress; }
+
+.damas-rules { margin-top: 1.75rem; font-size: 0.85rem; }
+.damas-rules summary { color: var(--muted); font: 0.8rem var(--mono); cursor: pointer; }
+.damas-rules summary:hover { color: var(--accent); }
+.damas-rules ul { margin: 0.6rem 0 0; padding-left: 1.2rem; color: var(--muted); }
+.damas-rules li + li { margin-top: 0.3rem; }
+.damas-rules strong { color: var(--text); font-weight: 600; }
+.damas-rules + .games-tip { margin-top: 1rem; }
+
+/* Computador: o jogo à esquerda, do tamanho que a altura da tela permite, e opções, status e placar à
+   direita. A ordem no HTML continua a do celular (tabuleiro no meio); só o .game-stage muda de coluna. */
+@media (min-width: 1024px) {
+  .games.container { max-width: 1180px; }
+  .games { padding-top: 2rem; }
+  .games-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; margin-bottom: 1.75rem; }
+  .games-title { margin: 0; }
+  .game:not([hidden]) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: repeat(9, auto) 1fr;
+    column-gap: clamp(2.5rem, 4vw, 4.5rem);
+    align-items: start;
+  }
+  .game > * { grid-column: 2; }
+  .game > .game-stage { grid-column: 1; grid-row: 1 / -1; }
+  .velha-board,
+  .damas-board { width: var(--stage); }
+  /* Canvas 2:3 com a altura do palco; os botões ◀ Começar ▶ ficam na coluna da direita */
+  .car-canvas { width: calc(var(--stage) * 2 / 3); }
+  .car-controls { margin-top: 0; }
+}
 
 /* play carrinho: pista em texto; inline-block para o toque saber onde está o carrinho */
 .t-car { display: inline-block; line-height: 1.2; touch-action: manipulation; cursor: pointer; user-select: none; }

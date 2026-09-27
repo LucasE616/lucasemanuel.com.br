@@ -269,6 +269,7 @@
     { group: "Navegação", label: "Terminal", key: "T", run: goTerminal },
     { group: "Navegação", label: "Jogos", key: "J", run: goJogos() },
     { group: "Jogos", label: "Jogo da velha", hint: "velha", run: goJogos("velha") },
+    { group: "Jogos", label: "Damas", hint: "tabuleiro", run: goJogos("damas") },
     { group: "Jogos", label: "Carrinho", hint: "corrida", run: goJogos("carrinho") },
     { group: "Tema", label: "Tema claro", hint: "light", run: () => setTheme("light") },
     { group: "Tema", label: "Tema escuro", hint: "dark", run: () => setTheme("dark") },

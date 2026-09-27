@@ -50,11 +50,14 @@
   }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
   // ---------- Tamanho ----------
+  // A resolução acompanha o tamanho na tela (maior no computador) e o devicePixelRatio, para não borrar.
+  // Com a aba escondida a largura é 0; o ResizeObserver chama de novo quando a aba aparece.
   const resize = () => {
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const scale = ((canvas.clientWidth || W) / W) * dpr;
+    canvas.width = Math.round(W * scale);
+    canvas.height = Math.round(H * scale);
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
     draw();
   };
 
@@ -354,6 +357,8 @@
   reset();
   showBest();
   resize();
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(canvas);
+  else window.addEventListener("resize", resize);
   window.matchMedia?.("(resolution: 1dppx)").addEventListener?.("change", resize);
   // A fonte do Google chega depois; redesenha para o texto da tela inicial usar a JetBrains Mono
   document.fonts?.ready.then(draw);

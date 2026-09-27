@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Jogos — Lucas Emanuel</title>
-    <meta name="description" content="Jogo da velha contra a máquina, com IA minimax em três níveis, e um jogo de carrinho infinito." />
+    <meta name="description" content="Jogo da velha e damas contra a máquina, com IA minimax e poda alfa-beta, e um jogo de carrinho infinito." />
     <meta name="author" content="Lucas Emanuel" />
     <meta name="theme-color" content="#08070b" />
     <link rel="canonical" href="https://lucasemanuel.com.br/jogos/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Jogos — Lucas Emanuel" />
-    <meta property="og:description" content="Jogo da velha contra a máquina, com IA minimax." />
+    <meta property="og:description" content="Jogo da velha e damas contra a máquina, com IA minimax." />
     <meta property="og:url" content="https://lucasemanuel.com.br/jogos/" />
     <meta property="og:locale" content="pt_BR" />
 
@@ -33,7 +33,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20260926.9" />
+    <link rel="stylesheet" href="../style.css?v=20260927.1" />
   </head>
   <body data-page="jogos" data-root="../">
     <header class="site-header">
@@ -71,12 +71,15 @@
     </header>
 
     <main class="container games">
-      <h1 class="games-title">Jogos</h1>
-      <!-- Abas: o jogos.js mostra só a seção do link ativo (#velha ou #carrinho) -->
-      <nav class="games-nav" aria-label="Jogos">
-        <a href="#velha" data-game-tab="velha">Jogo da velha</a>
-        <a href="#carrinho" data-game-tab="carrinho">Carrinho</a>
-      </nav>
+      <div class="games-head">
+        <h1 class="games-title">Jogos</h1>
+        <!-- Abas: o jogos.js mostra só a seção do link ativo (#velha, #damas ou #carrinho) -->
+        <nav class="games-nav" aria-label="Jogos">
+          <a href="#velha" data-game-tab="velha">Jogo da velha</a>
+          <a href="#damas" data-game-tab="damas">Damas</a>
+          <a href="#carrinho" data-game-tab="carrinho">Carrinho</a>
+        </nav>
+      </div>
 
       <section class="game" id="velha" aria-labelledby="velha-title">
       <h2 class="game-title" id="velha-title">Jogo da velha</h2>
@@ -103,7 +106,7 @@
 
       <p class="velha-status" id="velha-status" role="status" aria-live="polite"></p>
 
-      <div class="velha-board" id="velha-board" role="group" aria-label="Tabuleiro do jogo da velha (setas movem entre as casas)"></div>
+      <div class="velha-board game-stage" id="velha-board" role="group" aria-label="Tabuleiro do jogo da velha (setas movem entre as casas)"></div>
 
       <div class="velha-actions">
         <button class="velha-btn" id="velha-new" type="button">Nova partida</button>
@@ -121,12 +124,62 @@
       <p class="games-tip">Também dá para jogar no <a href="../terminal/">terminal</a>: digite <code>play velha</code>.</p>
       </section>
 
+      <section class="game" id="damas" aria-labelledby="damas-title">
+        <h2 class="game-title" id="damas-title">Damas</h2>
+        <p class="games-lead">Tabuleiro 6×6, regras das damas brasileiras. A máquina pensa com minimax e poda alfa-beta, em segundo plano.</p>
+
+        <form class="velha-opts" id="damas-opts">
+          <fieldset>
+            <legend>Quem começa</legend>
+            <label><input type="radio" name="inicio" value="voce" checked /> Você</label>
+            <label><input type="radio" name="inicio" value="maquina" /> Máquina</label>
+          </fieldset>
+          <fieldset>
+            <legend>Nível</legend>
+            <label><input type="radio" name="nivel" value="facil" /> Fácil</label>
+            <label><input type="radio" name="nivel" value="medio" checked /> Médio</label>
+            <label><input type="radio" name="nivel" value="dificil" /> Difícil</label>
+          </fieldset>
+        </form>
+
+        <p class="velha-status" id="damas-status" role="status" aria-live="polite"></p>
+
+        <div class="damas-board game-stage" id="damas-board" role="group" aria-label="Tabuleiro de damas (setas movem entre as casas, Esc desfaz a seleção)"></div>
+
+        <div class="velha-actions">
+          <button class="velha-btn" id="damas-new" type="button">Nova partida</button>
+        </div>
+
+        <section class="velha-score" aria-label="Placar das damas">
+          <dl>
+            <div><dt>Vitórias</dt><dd id="damas-score-vitorias">0</dd></div>
+            <div><dt>Empates</dt><dd id="damas-score-empates">0</dd></div>
+            <div><dt>Derrotas</dt><dd id="damas-score-derrotas">0</dd></div>
+          </dl>
+          <button class="velha-reset" id="damas-reset" type="button">zerar placar</button>
+        </section>
+
+        <details class="damas-rules">
+          <summary>Regras</summary>
+          <ul>
+            <li>Suas peças são as de baixo. Cada lado começa com 6 peças, nas casas escuras.</li>
+            <li>A peça comum anda uma casa na diagonal, para a frente, e captura para a frente e para trás.</li>
+            <li><strong>Captura obrigatória</strong>, em sequência se der, e vale a <strong>lei da maioria</strong>: é preciso fazer a captura que leva mais peças.</li>
+            <li>Na captura em sequência, escolha uma casa de cada vez. As peças capturadas só saem no fim do lance e não podem ser puladas duas vezes.</li>
+            <li>A peça que termina o lance na última fileira vira <strong>dama</strong>, que anda e captura quantas casas quiser na diagonal.</li>
+            <li>Perde quem ficar sem lances. Empata com a mesma posição 3 vezes ou 20 lances de cada lado só com damas e sem captura.</li>
+          </ul>
+        </details>
+
+        <p class="games-tip">Também dá para jogar no <a href="../terminal/">terminal</a>: digite <code>play damas</code>.</p>
+      </section>
+
       <section class="game" id="carrinho" aria-labelledby="car-title">
         <h2 class="game-title" id="car-title">Carrinho</h2>
         <p class="games-lead">Desvie dos obstáculos. A estrada não acaba e fica cada vez mais rápida, até você bater.</p>
 
         <canvas
-          class="car-canvas"
+          class="car-canvas game-stage"
           id="car-canvas"
           tabindex="0"
           aria-label="Jogo do carrinho. Espaço começa ou pausa; setas esquerda e direita (ou A e D) trocam de faixa."
@@ -178,9 +231,11 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20260926.9"></script>
-    <script src="velha-ia.js?v=20260926.9"></script>
-    <script src="jogos.js?v=20260926.9"></script>
-    <script src="carrinho.js?v=20260926.9"></script>
+    <script src="../script.js?v=20260927.1"></script>
+    <script src="velha-ia.js?v=20260927.1"></script>
+    <script src="jogos.js?v=20260927.1"></script>
+    <script src="damas-ia.js?v=20260927.1"></script>
+    <script src="damas.js?v=20260927.1"></script>
+    <script src="carrinho.js?v=20260927.1"></script>
   </body>
 </html>

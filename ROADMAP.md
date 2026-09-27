@@ -29,7 +29,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 27. ✅ **Tema escuro / claro / sistema** (médio). Feito em 26/09/2026, com o README da home em estilo de jornal no tema claro. Detalhes abaixo.
 28. ⬜ **Idiomas: português, inglês, espanhol, japonês, italiano e alemão** (alto). Seletor de idioma com redirecionamento automático opcional, como o do akitaonrails.com. Detalhes abaixo.
 29. ⬜ **Exportar o site em XML e JSON** (médio). Versões do conteúdo em formatos de máquina, seguindo o akitaonrails.com (RSS e sitemap em XML) e indo além dele com JSON. Detalhes abaixo.
-30. 🟡 **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). Feito em 26/09/2026: página `/jogos` (atalho J), com abas para o jogo da velha e para um jogo de carrinho (fora do plano original), e os dois também no terminal (`play velha` e `play carrinho`). Faltam as damas e a aba "Como a IA pensa". O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
+30. 🟡 **Jogos contra a máquina: jogo da velha e damas em tabuleiro reduzido** (jogo da velha: baixo · damas: médio-alto). Feito em 26/09/2026: página `/jogos` (atalho J), com abas para o jogo da velha e para um jogo de carrinho (fora do plano original), e os dois também no terminal (`play velha` e `play carrinho`). Damas feitas em 27/09/2026 (aba na página e `play damas`). Falta a aba "Como a IA pensa". O visitante joga contra uma IA feita por você, o que também mostra algoritmos na prática. Detalhes abaixo.
 
 ## Visual
 
@@ -326,7 +326,7 @@ vai de 150 a 60 ms por linha. Recorde próprio (`carrinho-terminal-recorde`), po
 com a da página.
 
 **Onde:** página `/jogos`, só na paleta e no atalho **J** (fora do menu, que precisa caber numa linha), com uma
-aba por jogo. No terminal do item 23: `play velha`, `play carrinho` e, quando existir, `play damas`.
+aba por jogo. No terminal do item 23: `play velha`, `play carrinho` e `play damas`.
 
 **Jogo da velha** (esforço baixo):
 
@@ -338,7 +338,26 @@ aba por jogo. No terminal do item 23: `play velha`, `play carrinho` e, quando ex
   - **Impossível:** minimax completo.
 - Destacar a linha vencedora e mostrar o placar (vitórias, empates e derrotas).
 
-**Damas em tabuleiro reduzido** (esforço médio-alto):
+**Damas em tabuleiro reduzido** (esforço médio-alto). **Feito em 27/09/2026:**
+
+- Regras, IA e placar em `jogos/damas-ia.js` (usado pela página, pelo terminal e pelo worker), interface em
+  `jogos/damas.js` e a IA em segundo plano em `jogos/damas-worker.js` (sem Worker, calcula na própria página).
+- Regras implementadas sem simplificar: captura obrigatória, peça comum captura para trás, captura em
+  sequência, **lei da maioria**, **dama voadora**, peças capturadas só saem no fim do lance (não podem ser
+  puladas duas vezes) e a peça só vira dama se terminar o lance na última fileira. Empate com 3 repetições
+  da posição ou 20 lances de cada lado só com damas e sem captura. Resumo num bloco "Regras" na aba.
+- IA: minimax (negamax) com poda alfa-beta e aprofundamento iterativo, que continua a busca enquanto houver
+  captura obrigatória. Fácil: 2 lances à frente e 30% de lances aleatórios; Médio: 6 lances; Difícil: até
+  14 lances ou 1,5 s. Avaliação: material (dama ≈ 3 peças), avanço, centro e guarda da última fileira.
+  Em testes IA × IA, o Difícil venceu todas contra Fácil e Médio e empatou contra si mesmo.
+- Casas escuras com coordenadas (a–f, 1–6); captura em sequência escolhida uma casa por vez; destaque das
+  peças que podem jogar, dos destinos e do último lance da máquina. Setas, Enter e Esc no teclado.
+- Placar em `damas-placar` (página e terminal). No terminal: `play damas [facil|medio|dificil] [maquina]`,
+  com lances como `c3 d4` ou `c3xe5xc3` e o comando `lances`.
+- 8×8 opcional e a IA em C/WebAssembly continuam como ideias.
+
+Plano original:
+
 
 - **Tabuleiro 6×6** com 6 peças para cada lado, nas casas escuras das duas primeiras fileiras. O tabuleiro menor deixa as partidas curtas e a IA mais rápida. Um 8×8 opcional pode vir depois.
 - **Regras** (base nas damas brasileiras, a definir e explicar numa tela de ajuda):
@@ -370,6 +389,7 @@ aba por jogo. No terminal do item 23: `play velha`, `play carrinho` e, quando ex
 - ✅ Texto da apresentação maior em monitores
 - ✅ Botão flutuante do terminal e personalização do terminal (layouts, cores e fonte), ver item 23
 - ✅ Jogo de carrinho infinito, na página `/jogos` e em texto no terminal, ver item 30
+- ✅ Jogos maiores no computador (27/09/2026): em telas a partir de 1024px, o jogo fica à esquerda, do tamanho que a altura da tela permite (até 680px), e as opções e o placar à direita
 - ✅ Animações do terminal (`hack`, barras de progresso, `ping`) voltaram a ter pausas depois do boot
 
 ## Ordem sugerida
@@ -380,4 +400,4 @@ aba por jogo. No terminal do item 23: `play velha`, `play carrinho` e, quando ex
 4. **Menu Educação / Currículo (24)**, com o PDF.
 5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
 6. **Versão em inglês (8).**
-7. **Damas (30)** e a aba "Como a IA pensa". O jogo da velha e o carrinho já estão no ar.
+7. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.
