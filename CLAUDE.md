@@ -134,6 +134,13 @@ status dos itens no mesmo commit em que forem concluídos.
   com a tag em minúsculas, sem acento e com hífen (`#apoio-de-pulso`). O notebook fica num
   `<details class="featured">` com `<dl class="specs">`. Ao criar uma categoria, adicione também o link
   no sumário (`<aside class="toc">`). O modo Grade é a classe `is-grid` nas `.items`, controlada pelo `script.js`.
+- **Transição entre páginas:** `@view-transition { navigation: auto; }` em `style.css` (View Transitions entre documentos).
+  Logo, links do menu (`nav-1` a `nav-6`, pela posição), `.header-actions` (um bloco só, preso à direita, porque tema e
+  paleta trocam de ordem entre os cabeçalhos) e o `.term-fab` têm `view-transition-name` e deslizam entre o cabeçalho da
+  home e o das páginas `.paper-page`, em 0,35 s. **Nomes repetidos numa página cancelam a transição inteira**: não dar
+  essas classes a um segundo elemento visível. Desligada com `prefers-reduced-motion`; o Firefox ignora. Para testar, o
+  painel oculto e o `--dump-dom` do headless não disparam a transição: usar o Chrome headless pelo CDP (Node 22 tem
+  `WebSocket`), clicar no link e tirar screenshots com a duração aumentada.
 - **Acessibilidade:** foco preso dentro do modal com Tab e devolvido ao elemento de origem ao fechar;
   `aria-current="page"` no menu; `prefers-reduced-motion` desliga as animações.
 
