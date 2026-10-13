@@ -244,4 +244,4 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     com clique e e-mail). Atalho V, comandos na paleta e link no menu a partir de 820px. Menu medido com o Chrome headless
     em `<iframe>` de 320 a 1920px nas 7 páginas.
 20. Currículo: DoctorSaaS (Analista de Suporte e Sucesso do Cliente, Lages-SC, desde Out 2026) no topo da experiência; e-paper
-    encerrada em Out 2026. No JSON-LD, `worksFor` trocou a e-paper pela DoctorSaaS. Grafia oficial: DoctorSaaS (como no site da empresa).
+    e FizPay encerradas em Out 2026 (atuais primeiro, depois as encerradas). No JSON-LD, `worksFor` ficou só com DoctorSaaS e Plant Evolution. Grafia oficial: DoctorSaaS (como no site da empresa).
