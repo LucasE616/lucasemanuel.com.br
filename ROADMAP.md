@@ -14,6 +14,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 6. ⬜ **Página "Agora"** (baixo). O que está estudando ou construindo no momento.
 7. ⬜ **Notas ou blog** (alto). Publicar notas do Obsidian (Markdown) como páginas do site.
 24. ✅ **Menu Educação / Currículo** (médio). Feito em 27/09/2026: página `/curriculo` (atalho E), com experiência, formação, cursos, habilidades, idiomas e livros técnicos, PDF pela impressão e comando `curriculo` no terminal. Faltam datas, carga horária e links de verificação dos cursos. Detalhes abaixo.
+37. 🟡 **Serviços** (baixo). Feito em 13/10/2026: página `/servicos` (atalho V), com desenvolvimento (sites, sistemas, softwares e apps), formatação de PC em 4 planos (R$ 25, 50, 75 e 100), configuração (PC novo ou antigo, celulares, eletrônicos e eletrodomésticos), impressoras e scanners (instalação, configuração e manutenção) e contato. Falta o que cada plano de formatação inclui.
 25. ⏸ **Curiosidades & indicações** (baixo para restaurar). Existiu no site e foi removido a pedido. Pode voltar quando o Lucas quiser. Detalhes abaixo.
 
 ## Funcionalidades
@@ -60,6 +61,7 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 33. ⬜ **README.md desatualizado** (baixo). Comando do servidor local, estrutura de pastas e atalhos estão defasados.
 34. ⬜ **Links do GitHub com o usuário antigo** (baixo). Trocar `github.com/lucase616` por `github.com/LucasE616`. Hoje funciona por redirecionamento.
 35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio.
+38. ⬜ **Bug: cabeçalho estoura a largura em algumas faixas** (baixo). Medido em 13/10/2026, antes do link Serviços: a home, `/jogos` e `/terminal` passam da largura da tela entre ~530 e 540px, e `/setup`, `/curriculo` e `/servicos` entre ~650 e 710px. São as faixas logo depois que o menu compacto (até 520px) e a busca só com ícone (até 640px) acabam. Correção sugerida: estender esses dois `@media` ou diminuir o espaçamento dos links nessas faixas.
 36. ✅ **Contatos expostos a robôs de spam** (baixo). Feito em 27/09/2026: o telefone só aparece com um clique em "mostrar telefone", e o e-mail do Yahoo é montado pelo JavaScript. O Gmail continua em texto puro, porque já é público nos commits.
 
 ### Detalhes das correções (itens 31 a 36)

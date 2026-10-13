@@ -745,9 +745,58 @@ body.paper-page .site-footer a:hover { color: var(--accent); }
 .cv-langs dt { font-size: inherit; color: var(--text); }
 .cv-langs dd { color: var(--muted); }
 
+/* ===================================================================
+   Serviços: página /servicos, no mesmo design do /setup e do /curriculo,
+   com o destaque amarelo do site. Os planos de formatação ficam em
+   cartões; os outros serviços usam a lista com ◆ do setup.
+   =================================================================== */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plans li {
+  padding: 0.95rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.plan-name {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.plan-price {
+  margin: 0.35rem 0 0;
+  font-family: var(--display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.plan-items { margin: 0.75rem 0 0; padding: 0; list-style: none; font-size: 0.85rem; }
+.plan-items li { padding: 0.15rem 0; border: 0; background: none; }
+
 /* O link "Currículo" do menu só cabe a partir de ~470px; no celular a página abre pela paleta e pelo atalho E */
 @media (max-width: 479px) {
   .nav .nav-wide { display: none; }
+}
+
+/* O link "Serviços" (6º do menu) só cabe a partir de ~810px nas páginas com a busca "Buscar… Ctrl K"
+   (medido); abaixo disso a página abre pela paleta e pelo atalho V */
+@media (max-width: 819px) {
+  .nav .nav-wider { display: none; }
 }
 
 @media print {

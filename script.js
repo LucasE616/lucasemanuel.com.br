@@ -282,6 +282,15 @@
     location.href = `${root}curriculo/`;
   };
 
+  const goServicos = (id = "") => () => {
+    if (page === "servicos") {
+      if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    location.href = `${root}servicos/${id && `#${id}`}`;
+  };
+
   // PDF do currículo: a própria página impressa (CSS @media print). De outras páginas, abre /curriculo/#pdf,
   // que imprime assim que carrega.
   const printCurriculo = () => {
@@ -347,9 +356,12 @@
     { group: "Navegação", label: "Contato", key: "C", run: openTopic("contato") },
     { group: "Navegação", label: "Setup", key: "U", run: goSetup },
     { group: "Navegação", label: "Currículo", key: "E", run: goCurriculo },
+    { group: "Navegação", label: "Serviços", key: "V", run: goServicos() },
     { group: "Navegação", label: "Terminal", key: "T", run: goTerminal },
     { group: "Navegação", label: "Jogos", key: "J", run: goJogos() },
     { group: "Currículo", label: "Baixar currículo (PDF)", hint: "pdf", run: printCurriculo },
+    { group: "Serviços", label: "Planos de formatação de PC", hint: "formatação", run: goServicos("formatacao") },
+    { group: "Serviços", label: "Contratar um serviço", hint: "whatsapp", run: goServicos("contratar") },
     { group: "Jogos", label: "Jogo da velha", hint: "velha", run: goJogos("velha") },
     { group: "Jogos", label: "Damas", hint: "tabuleiro", run: goJogos("damas") },
     { group: "Jogos", label: "Carrinho", hint: "corrida", run: goJogos("carrinho") },
@@ -509,7 +521,7 @@
     viewButtons.forEach((b) => b.addEventListener("click", () => setView(b.dataset.view)));
   }
 
-  // Sumário "Nesta página" (setup e currículo): a seção atual é a última cujo topo já passou um pouco
+  // Sumário "Nesta página" (setup, currículo e serviços): a seção atual é a última cujo topo já passou um pouco
   // abaixo do cabeçalho
   const tocLinks = [...document.querySelectorAll(".toc a")];
   const sections = tocLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
