@@ -542,4 +542,61 @@
     markCurrent();
     window.addEventListener("scroll", markCurrent, { passive: true });
   }
+
+  // Transição do cabeçalho entre páginas, para navegadores sem View Transitions entre documentos (o Firefox,
+  // até a versão 157 pelo menos). No Chrome, Edge e Safari quem anima é o CSS (@view-transition em style.css).
+  // Ao sair, guarda onde estavam o logo, cada link do menu e os botões da direita; na página nova, cada peça
+  // começa no lugar antigo e desliza até o novo (técnica FLIP), com as mesmas duração e curva do CSS.
+  const NAV_KEY = "nav-header";
+  const headerParts = () => {
+    const parts = { logo: document.querySelector(".site-header .logo"), actions: document.querySelector(".header-actions") };
+    document.querySelectorAll(".nav a").forEach((a, i) => (parts[`nav-${i + 1}`] = a));
+    return parts;
+  };
+  const visibleRect = (el) => {
+    const r = el?.getBoundingClientRect();
+    return r && r.width ? { left: r.left, right: r.right, top: r.top, width: r.width } : null;
+  };
+
+  addEventListener("pagehide", () => {
+    if (window.CSSViewTransitionRule) return;
+    const rects = {};
+    Object.entries(headerParts()).forEach(([key, el]) => (rects[key] = visibleRect(el)));
+    try {
+      sessionStorage.setItem(NAV_KEY, JSON.stringify({ t: Date.now(), path: location.pathname, paper: document.body.classList.contains("paper-page"), rects }));
+    } catch {
+      // sem sessionStorage, a página só troca, sem animação
+    }
+  });
+
+  (() => {
+    let saved = null;
+    try {
+      saved = JSON.parse(sessionStorage.getItem(NAV_KEY));
+      sessionStorage.removeItem(NAV_KEY);
+    } catch {
+      return;
+    }
+    // Só logo depois de uma navegação para outra página (não num recarregamento nem numa visita de outro dia)
+    if (!saved || Date.now() - saved.t > 3000 || saved.path === location.pathname) return;
+    if (window.CSSViewTransitionRule || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timing = { duration: 350, easing: "cubic-bezier(0.4, 0, 0.2, 1)" };
+    Object.entries(headerParts()).forEach(([key, el]) => {
+      const from = saved.rects[key];
+      const to = visibleRect(el);
+      if (!from || !to) return;
+      // Os botões da direita ficam presos pela borda direita; o resto, pelo centro (o texto muda de largura)
+      const dx = key === "actions" ? from.right - to.right : from.left + from.width / 2 - (to.left + to.width / 2);
+      const dy = from.top - to.top;
+      el.animate([{ transform: `translate(${dx}px, ${dy}px)`, opacity: key === "logo" ? 1 : 0.35 }, { transform: "none", opacity: 1 }], timing);
+    });
+    // A borda de baixo do cabeçalho só existe nas páginas .paper-page: aparece ou some aos poucos
+    const paper = document.body.classList.contains("paper-page");
+    const siteHeader = document.querySelector(".site-header");
+    if (siteHeader && saved.paper !== paper) {
+      const border = getComputedStyle(siteHeader).borderBottomColor;
+      siteHeader.animate([{ borderBottomColor: paper ? "transparent" : "var(--border)" }, { borderBottomColor: paper ? border : "transparent" }], timing);
+    }
+  })();
 })();
