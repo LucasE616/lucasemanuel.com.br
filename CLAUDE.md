@@ -197,7 +197,7 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 
 - Cadeira do setup: modelo ainda não informado.
 - "Wh" no suporte de headset: confirmar se é a marca.
-- Serviços: o que cada plano de formatação inclui (e se os planos ganham nomes). Os preços são R$ 25, 50, 75 e 100.
+- Serviços: o "google" da lista de apps do Plano 2 (ficou de fora até o Lucas confirmar se é o Chrome, já listado, ou outro app).
 - Currículo: data, carga horária e link de verificação dos cursos (e o emissor do "HTML & CSS"); atividades de cada
   experiência; confirmar o nome "Atlassian Workspace".
 
@@ -239,7 +239,7 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     atalho E, link no menu a partir de 480px, PDF pela impressão, JSON-LD e comando `curriculo` no terminal.
     Testado no painel de navegador do app (Claude Browser): telas em 1366 e 375px, tema claro, menu nas 6 páginas
     em 320/375/1366/1920px (medidas em `<iframe>`) e o PDF simulado copiando as regras de `@media print` para a tela.
-19. Serviços (item 37): página `/servicos` com desenvolvimento, formatação de PC em 4 planos (R$ 25 a R$ 100, conteúdo
-    a definir), configuração de PC, celulares, eletrônicos e eletrodomésticos, impressoras e scanners, e contato (WhatsApp
+19. Serviços (item 37): página `/servicos` com desenvolvimento, formatação de PC em 4 planos (R$ 25 a R$ 100, cada
+    cartão com a lista completa do que inclui), configuração de PC, celulares, eletrônicos e eletrodomésticos, impressoras e scanners, e contato (WhatsApp
     com clique e e-mail). Atalho V, comandos na paleta e link no menu a partir de 820px. Menu medido com o Chrome headless
     em `<iframe>` de 320 a 1920px nas 7 páginas.

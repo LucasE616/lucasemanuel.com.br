@@ -752,14 +752,14 @@ body.paper-page .site-footer a:hover { color: var(--accent); }
    =================================================================== */
 .plans {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 0.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.plans li {
+.plans > li {
   padding: 0.95rem 1rem 1rem;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -785,8 +785,24 @@ body.paper-page .site-footer a:hover { color: var(--accent); }
   color: var(--accent);
 }
 
-.plan-items { margin: 0.75rem 0 0; padding: 0; list-style: none; font-size: 0.85rem; }
-.plan-items li { padding: 0.15rem 0; border: 0; background: none; }
+.plan-items {
+  margin: 0.8rem 0 0;
+  padding: 0.7rem 0 0;
+  border-top: 1px dashed var(--border);
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.plan-items li { position: relative; padding: 0.2rem 0 0.2rem 1.2rem; }
+
+.plan-items li::before {
+  content: "◆";
+  position: absolute;
+  left: 0.05rem;
+  top: 0.38rem;
+  color: var(--accent);
+  font-size: 0.55rem;
+}
 
 /* O link "Currículo" do menu só cabe a partir de ~470px; no celular a página abre pela paleta e pelo atalho E */
 @media (max-width: 479px) {

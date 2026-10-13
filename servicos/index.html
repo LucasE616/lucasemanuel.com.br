@@ -33,7 +33,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="../style.css?v=20261013.1" />
+    <link rel="stylesheet" href="../style.css?v=20261013.2" />
   </head>
   <!-- Serviços: mesmo design do /setup (cabeçalho .paper-page, seções soltas e sumário lateral), com o
        destaque amarelo do site, como o /curriculo -->
@@ -94,26 +94,47 @@
             </ul>
           </section>
 
-          <!-- Planos de formatação: o que cada um inclui ainda vai ser definido pelo Lucas.
-               Quando vier, entra num <ul class="plan-items"> dentro de cada <li>, depois do preço. -->
+          <!-- Planos de formatação: cada plano lista tudo o que inclui (os itens se repetem de propósito,
+               para cada cartão ser lido sozinho) -->
           <section class="paper-section" id="formatacao">
             <h2>Formatação de PC</h2>
             <ol class="plans">
               <li>
                 <h3 class="plan-name">Plano 1</h3>
                 <p class="plan-price"><data value="25">R$ 25</data></p>
+                <ul class="plan-items">
+                  <li>Formatação</li>
+                </ul>
               </li>
               <li>
                 <h3 class="plan-name">Plano 2</h3>
                 <p class="plan-price"><data value="50">R$ 50</data></p>
+                <ul class="plan-items">
+                  <li>Formatação</li>
+                  <li>Instalação de apps (Office 2010 ou 2007, WinRAR, Chrome etc.)</li>
+                  <li>Atualização dos drivers</li>
+                </ul>
               </li>
               <li>
                 <h3 class="plan-name">Plano 3</h3>
                 <p class="plan-price"><data value="75">R$ 75</data></p>
+                <ul class="plan-items">
+                  <li>Formatação</li>
+                  <li>Instalação de apps (Office 2010 ou 2007, WinRAR, Chrome etc.)</li>
+                  <li>Limpeza do Windows (apps e sistemas inúteis que usam memória à toa, apps de telemetria etc.)</li>
+                  <li>Atualização dos drivers</li>
+                </ul>
               </li>
               <li>
                 <h3 class="plan-name">Plano 4</h3>
                 <p class="plan-price"><data value="100">R$ 100</data></p>
+                <ul class="plan-items">
+                  <li>Formatação</li>
+                  <li>Instalação de apps (Office 2010 ou 2007, WinRAR, Chrome etc.)</li>
+                  <li>Limpeza do Windows (apps e sistemas inúteis que usam memória à toa, apps de telemetria etc.)</li>
+                  <li>Atualização dos drivers</li>
+                  <li>Backup</li>
+                </ul>
               </li>
             </ol>
           </section>
@@ -204,6 +225,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="../script.js?v=20261013.1"></script>
+    <script src="../script.js?v=20261013.2"></script>
   </body>
 </html>

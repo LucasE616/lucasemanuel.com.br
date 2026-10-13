@@ -14,7 +14,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 6. ⬜ **Página "Agora"** (baixo). O que está estudando ou construindo no momento.
 7. ⬜ **Notas ou blog** (alto). Publicar notas do Obsidian (Markdown) como páginas do site.
 24. ✅ **Menu Educação / Currículo** (médio). Feito em 27/09/2026: página `/curriculo` (atalho E), com experiência, formação, cursos, habilidades, idiomas e livros técnicos, PDF pela impressão e comando `curriculo` no terminal. Faltam datas, carga horária e links de verificação dos cursos. Detalhes abaixo.
-37. 🟡 **Serviços** (baixo). Feito em 13/10/2026: página `/servicos` (atalho V), com desenvolvimento (sites, sistemas, softwares e apps), formatação de PC em 4 planos (R$ 25, 50, 75 e 100), configuração (PC novo ou antigo, celulares, eletrônicos e eletrodomésticos), impressoras e scanners (instalação, configuração e manutenção) e contato. Falta o que cada plano de formatação inclui.
+37. ✅ **Serviços** (baixo). Feito em 13/10/2026: página `/servicos` (atalho V), com desenvolvimento (sites, sistemas, softwares e apps), formatação de PC em 4 planos (R$ 25, 50, 75 e 100), configuração (PC novo ou antigo, celulares, eletrônicos e eletrodomésticos), impressoras e scanners (instalação, configuração e manutenção) e contato. Em 13/10/2026 os planos ganharam o conteúdo: 1, formatação; 2, + instalação de apps e atualização dos drivers; 3, + limpeza do Windows; 4, + backup.
 25. ⏸ **Curiosidades & indicações** (baixo para restaurar). Existiu no site e foi removido a pedido. Pode voltar quando o Lucas quiser. Detalhes abaixo.
 
 ## Funcionalidades
