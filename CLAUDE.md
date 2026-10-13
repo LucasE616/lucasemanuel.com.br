@@ -32,7 +32,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
 | `curriculo/index.html` | Página `/curriculo` (item 24): experiência e formação em linha do tempo (`<ol class="timeline">`), cursos, habilidades, idiomas e livros técnicos, no design do `/setup`. O PDF é a própria página impressa (`@media print` em `style.css`, botão `data-print`) |
-| `servicos/index.html` | Página `/servicos` (item 37): desenvolvimento, formatação de PC (4 planos em cartões `.plans`), configuração, impressoras e scanners, e contato para contratar, no design do `/setup` com o amarelo do site |
+| `servicos/index.html` | Página `/servicos` (item 37): desenvolvimento, formatação de PC (4 planos em cartões `.plans`), configuração, impressoras e scanners, e contato para contratar, com o aviso `.paper-note` no topo (fora os planos, valores a combinar), no design do `/setup` com o amarelo do site |
 | `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/`, `/setup/` e `/curriculo/`. Tem painel de personalização (engrenagem na barra) |

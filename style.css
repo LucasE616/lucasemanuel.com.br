@@ -750,6 +750,19 @@ body.paper-page .site-footer a:hover { color: var(--accent); }
    com o destaque amarelo do site. Os planos de formatação ficam em
    cartões; os outros serviços usam a lista com ◆ do setup.
    =================================================================== */
+/* Aviso no topo do conteúdo (valores a combinar) */
+.paper-note {
+  margin: 1.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 0.9rem;
+}
+
+.paper-note strong { color: var(--accent); }
+
 .plans {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
