@@ -268,6 +268,39 @@ button { font: inherit; color: inherit; }
   font-size: clamp(1rem, 0.4vw + 0.85rem, 1.25rem);
 }
 
+/* Efeito de digitação no cargo e nas linguagens (script.js): cursor em bloco, na cor de destaque, piscando */
+.role.typing .type-visible::after,
+.stack.typing .type-visible::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 0.15em;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+/* Enquanto digita, o cursor fica aceso; só pisca parado */
+.typing-busy .type-visible::after { animation: none; }
+
+/* Texto só para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .start {
   display: inline-flex;
   align-items: center;

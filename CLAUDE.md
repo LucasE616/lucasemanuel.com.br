@@ -84,6 +84,11 @@ status dos itens no mesmo commit em que forem concluídos.
 
 - **Hero:** ocupa exatamente `100svh - var(--header-h)`. O README **nunca** pode aparecer na primeira
   tela, em nenhum tamanho de tela.
+- **Digitação no hero:** ao passar o mouse (ou tocar) no cargo ou nas linguagens (`.role` e `.stack`), as duas linhas são
+  apagadas e redigitadas, com cursor amarelo (`.typing`; aceso com `.typing-busy`, piscando parado). O `script.js` troca o
+  conteúdo por um `<span class="sr-only">` com o texto completo e uma cópia `aria-hidden` que anima, e trava a altura das
+  linhas para nada abaixo se mover. O HTML continua com o texto puro, porque o terminal o lê com `DOMParser`. O nome
+  não tem efeito (o Lucas escolheu só essas duas linhas). Desligado com `prefers-reduced-motion`.
 - **Modais de tópico:** o conteúdo vem do README por `data-topic="nome"` e é clonado para o modal, sem
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de

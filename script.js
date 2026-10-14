@@ -543,6 +543,59 @@
     window.addEventListener("scroll", markCurrent, { passive: true });
   }
 
+  // Efeito de digitação no cargo e nas linguagens da home: ao passar o mouse (ou tocar) em uma das duas linhas,
+  // as duas são apagadas e redigitadas uma depois da outra, com um cursor aceso enquanto digita e piscando quando
+  // para, como no terminal. O texto
+  // completo fica num <span class="sr-only"> para leitores de tela; o que anima é uma cópia com aria-hidden.
+  // A montagem é feita aqui, e não no HTML, porque o terminal lê essas linhas do HTML da home (DOMParser).
+  const typeLines = [...document.querySelectorAll(".hero .role, .hero .stack")].map((el) => {
+    const full = el.textContent;
+    const visible = document.createElement("span");
+    visible.className = "type-visible";
+    visible.setAttribute("aria-hidden", "true");
+    visible.textContent = full;
+    const hidden = document.createElement("span");
+    hidden.className = "sr-only";
+    hidden.textContent = full;
+    el.replaceChildren(hidden, visible);
+    return { el, full, visible };
+  });
+  let typingRun = false;
+  const typeAll = async () => {
+    if (typingRun || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    typingRun = true;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    // Trava a altura de cada linha: se ela quebrar em duas no celular, apagar não pode puxar o resto da tela para cima
+    typeLines.forEach((l) => (l.el.style.minHeight = `${l.el.getBoundingClientRect().height}px`));
+    // Apaga as duas juntas, de trás para frente, duas letras por vez, até não sobrar nenhuma
+    const longest = Math.max(...typeLines.map((l) => l.full.length));
+    typeLines[0].el.classList.add("typing", "typing-busy");
+    for (let n = longest; n > -2; n -= 2) {
+      typeLines.forEach((l) => (l.visible.textContent = l.full.slice(0, Math.max(0, Math.min(n, l.full.length))) || "\u200b"));
+      await wait(16);
+    }
+    // Redigita uma linha de cada vez; o cursor passa para a linha de baixo, aceso enquanto digita
+    for (const [i, l] of typeLines.entries()) {
+      typeLines.forEach((other) => {
+        other.el.classList.toggle("typing", other === l);
+        other.el.classList.toggle("typing-busy", other === l);
+      });
+      for (let n = 1; n <= l.full.length; n++) {
+        l.visible.textContent = l.full.slice(0, n);
+        await wait(l.full[n - 1] === " " ? 20 : 38);
+      }
+      l.el.classList.remove("typing-busy");
+      if (i < typeLines.length - 1) await wait(150);
+    }
+    await wait(1200);
+    typeLines.forEach((l) => {
+      l.el.classList.remove("typing", "typing-busy");
+      l.el.style.minHeight = "";
+    });
+    typingRun = false;
+  };
+  typeLines.forEach((l) => l.el.addEventListener("pointerenter", typeAll));
+
   // Transição do cabeçalho entre páginas, para navegadores sem View Transitions entre documentos (o Firefox,
   // até a versão 157 pelo menos). No Chrome, Edge e Safari quem anima é o CSS (@view-transition em style.css).
   // Ao sair, guarda onde estavam o logo, cada link do menu e os botões da direita, com a largura e a cor do texto;
