@@ -137,12 +137,15 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Transição entre páginas:** `@view-transition { navigation: auto; }` em `style.css` (View Transitions entre documentos).
   Logo, links do menu (`nav-1` a `nav-6`, pela posição), `.header-actions` (um bloco só, preso à direita, porque tema e
   paleta trocam de ordem entre os cabeçalhos) e o `.term-fab` têm `view-transition-name` e deslizam entre o cabeçalho da
-  home e o das páginas `.paper-page`, em 0,35 s. **Nomes repetidos numa página cancelam a transição inteira**: não dar
+  home e o das páginas `.paper-page`, em **0,5 s** com `cubic-bezier(0.65, 0, 0.35, 1)` (o Lucas achou 0,35 s rápido
+  demais, parecendo quebra de layout). **Nomes repetidos numa página cancelam a transição inteira**: não dar
   essas classes a um segundo elemento visível. Desligada com `prefers-reduced-motion`.
   **O Firefox (o navegador do Lucas; testado na 157) não tem a transição entre documentos**: para ele há um plano B em
   `script.js` (fim do arquivo, só quando `window.CSSViewTransitionRule` não existe). No `pagehide`, guarda no
   `sessionStorage` (chave `nav-header`) a posição do logo, dos links e dos botões; na página nova, cada peça desliza do
-  lugar antigo (FLIP com `element.animate`, mesma duração e curva). Só roda até 3 s depois de sair de outra página.
+  lugar antigo (FLIP com `element.animate`, mesma duração e curva), animando só `transform`, `opacity` e `color` para
+  nada mudar o layout no meio. Os links saem da cor antiga e de uma escala única (a menor razão entre a largura antiga e
+  a nova), para o texto mudar de tamanho por igual sem encostar no vizinho; o conteúdo da página surge aos poucos. Só roda até 3 s depois de sair de outra página.
   Para testar: o painel oculto e o `--dump-dom` do headless não disparam a transição. No Chrome, usar o headless pelo CDP
   (Node 22 tem `WebSocket`); no Firefox, `firefox --headless --remote-debugging-port` com WebDriver BiDi, abrindo uma aba
   nova (`browsingContext.create`) e com `MSYS_NO_PATHCONV=1` no Git Bash, que transforma `/` em caminho do Windows.

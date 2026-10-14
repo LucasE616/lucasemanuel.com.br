@@ -545,25 +545,29 @@
 
   // Transição do cabeçalho entre páginas, para navegadores sem View Transitions entre documentos (o Firefox,
   // até a versão 157 pelo menos). No Chrome, Edge e Safari quem anima é o CSS (@view-transition em style.css).
-  // Ao sair, guarda onde estavam o logo, cada link do menu e os botões da direita; na página nova, cada peça
-  // começa no lugar antigo e desliza até o novo (técnica FLIP), com as mesmas duração e curva do CSS.
+  // Ao sair, guarda onde estavam o logo, cada link do menu e os botões da direita, com a largura e a cor do texto;
+  // na página nova, cada peça começa no lugar, num tamanho próximo e na cor antigos e desliza até os novos (técnica FLIP).
+  // Só transform, opacity e color são animados: nada muda o layout durante a animação, então nada "pula".
+  // Duração e curva iguais às do CSS (::view-transition-group em style.css).
   const NAV_KEY = "nav-header";
+  const PAGE_TRANSITION = { duration: 500, easing: "cubic-bezier(0.65, 0, 0.35, 1)" };
   const headerParts = () => {
     const parts = { logo: document.querySelector(".site-header .logo"), actions: document.querySelector(".header-actions") };
     document.querySelectorAll(".nav a").forEach((a, i) => (parts[`nav-${i + 1}`] = a));
     return parts;
   };
-  const visibleRect = (el) => {
+  const snapshot = (el) => {
     const r = el?.getBoundingClientRect();
-    return r && r.width ? { left: r.left, right: r.right, top: r.top, width: r.width } : null;
+    if (!r || !r.width) return null;
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2, right: r.right, width: r.width, color: getComputedStyle(el).color };
   };
 
   addEventListener("pagehide", () => {
     if (window.CSSViewTransitionRule) return;
-    const rects = {};
-    Object.entries(headerParts()).forEach(([key, el]) => (rects[key] = visibleRect(el)));
+    const parts = {};
+    Object.entries(headerParts()).forEach(([key, el]) => (parts[key] = snapshot(el)));
     try {
-      sessionStorage.setItem(NAV_KEY, JSON.stringify({ t: Date.now(), path: location.pathname, paper: document.body.classList.contains("paper-page"), rects }));
+      sessionStorage.setItem(NAV_KEY, JSON.stringify({ t: Date.now(), path: location.pathname, paper: document.body.classList.contains("paper-page"), parts }));
     } catch {
       // sem sessionStorage, a página só troca, sem animação
     }
@@ -578,25 +582,38 @@
       return;
     }
     // Só logo depois de uma navegação para outra página (não num recarregamento nem numa visita de outro dia)
-    if (!saved || Date.now() - saved.t > 3000 || saved.path === location.pathname) return;
+    if (!saved?.parts || Date.now() - saved.t > 3000 || saved.path === location.pathname) return;
     if (window.CSSViewTransitionRule || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const timing = { duration: 350, easing: "cubic-bezier(0.4, 0, 0.2, 1)" };
-    Object.entries(headerParts()).forEach(([key, el]) => {
-      const from = saved.rects[key];
-      const to = visibleRect(el);
-      if (!from || !to) return;
-      // Os botões da direita ficam presos pela borda direita; o resto, pelo centro (o texto muda de largura)
-      const dx = key === "actions" ? from.right - to.right : from.left + from.width / 2 - (to.left + to.width / 2);
-      const dy = from.top - to.top;
-      el.animate([{ transform: `translate(${dx}px, ${dy}px)`, opacity: key === "logo" ? 1 : 0.35 }, { transform: "none", opacity: 1 }], timing);
+    const moves = Object.entries(headerParts())
+      .map(([key, el]) => ({ key, el, from: saved.parts[key], to: snapshot(el) }))
+      .filter((m) => m.from && m.to);
+    // Uma escala só para todos os links (a menor razão entre a largura antiga e a nova): o texto muda de tamanho por
+    // igual, e nenhum link fica maior que o espaço que ocupava, então não encosta no vizinho (as maiúsculas são mais largas)
+    const navScale = Math.min(...moves.filter((m) => m.key.startsWith("nav-")).map((m) => m.from.width / m.to.width));
+    moves.forEach(({ key, el, from, to }) => {
+      if (key === "actions") {
+        // Os botões da direita mudam de conteúdo (⌘ ↔ busca): presos pela borda direita, só aparecem aos poucos
+        el.animate([{ transform: `translateX(${from.right - to.right}px)`, opacity: 0 }, { transform: "none", opacity: 1 }], PAGE_TRANSITION);
+        return;
+      }
+      // Logo e links: saem do centro e da cor antigos
+      const scale = key === "logo" ? 1 : navScale;
+      el.animate(
+        [
+          { transform: `translate(${from.x - to.x}px, ${from.y - to.y}px) scale(${scale})`, color: from.color, opacity: key === "logo" ? 1 : 0.6 },
+          { transform: "none", color: to.color, opacity: 1 },
+        ],
+        PAGE_TRANSITION
+      );
     });
-    // A borda de baixo do cabeçalho só existe nas páginas .paper-page: aparece ou some aos poucos
-    const paper = document.body.classList.contains("paper-page");
+
+    // A borda de baixo do cabeçalho só existe nas páginas .paper-page: aparece aos poucos
     const siteHeader = document.querySelector(".site-header");
-    if (siteHeader && saved.paper !== paper) {
-      const border = getComputedStyle(siteHeader).borderBottomColor;
-      siteHeader.animate([{ borderBottomColor: paper ? "transparent" : "var(--border)" }, { borderBottomColor: paper ? border : "transparent" }], timing);
+    if (siteHeader && document.body.classList.contains("paper-page") && !saved.paper) {
+      siteHeader.animate([{ borderBottomColor: "transparent" }, { borderBottomColor: getComputedStyle(siteHeader).borderBottomColor }], PAGE_TRANSITION);
     }
+    // O conteúdo da página nova surge aos poucos, como no Chrome
+    document.querySelectorAll("main, .site-footer").forEach((el) => el.animate([{ opacity: 0 }, { opacity: 1 }], PAGE_TRANSITION));
   })();
 })();
