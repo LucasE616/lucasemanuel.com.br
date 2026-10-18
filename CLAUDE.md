@@ -40,7 +40,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
-| `ROADMAP.md` | Melhorias planejadas e correções (47 itens) |
+| `ROADMAP.md` | Melhorias planejadas e correções (48 itens) |
 
 ## Visual
 

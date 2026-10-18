@@ -42,6 +42,10 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
     - **Rótulos e códigos:** continuam em JetBrains Mono, por causa do estilo README.
     - Inter e Inter Tight saíram do Google Fonts. Agora só a JetBrains Mono é baixada.
     - Como a Verdana é larga, o nome encolhe abaixo de ~385px (33px em 320px) para caber numa linha. A partir de ~385px continua com 40px, e no computador nada mudou.
+48. 🔍 **Fonte Michelangelus, da Microsoft** (baixo). Pedido em 18/10/2026: estudar em quais lugares do site usar a fonte. A Michelangelus é uma serifada gratuita lançada em 2026 pela Microsoft com o Vaticano, desenhada pela Studiogusto a partir das cartas de Michelangelo, com 4 estilos (normal, itálico, negrito e negrito itálico) e só alfabeto latino.
+    - **Antes de tudo, a licença:** conferir se ela pode ser servida no site com `@font-face` (arquivo `.woff2` no repositório). Ser grátis para baixar não garante uso na web. Se não puder, só aparece para quem a tiver instalada, como a Verdana hoje.
+    - **Lugares a avaliar:** os que hoje usam a Times New Roman (`--serif`: títulos dos tópicos, dos modais e das categorias do setup), o README da home no tema claro (estilo de jornal), o `/curriculo` e o nome no hero.
+    - **Peso:** medir o tamanho dos arquivos, porque hoje só a JetBrains Mono é baixada.
 
 ## Técnico
 
