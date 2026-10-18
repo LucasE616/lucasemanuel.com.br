@@ -2,7 +2,7 @@
 
 Ideias de melhorias para o site. Esforço: **baixo**, **médio** ou **alto**.
 
-Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro item · ⏸ arquivado (saiu do site, pode voltar)
+Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro item · ⏸ arquivado (saiu do site, pode voltar) · 🔍 possibilidade a analisar
 
 ## Conteúdo
 
@@ -24,7 +24,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 9. ✅ **Página 404 personalizada** (baixo). Feita em 26/09/2026: `404.html` com o mesmo visual, mostrando o endereço pedido no formato de erro do terminal.
 10. ⬜ **Mais comandos na paleta** (baixo). Baixar currículo, copiar o link do site, abrir cada projeto.
 11. ↪ **Terminal interativo**. Incorporado ao item 23.
-12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio.
+12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio. Alternativa com back-end próprio no item 41.
 13. ⬜ **Estatísticas do GitHub** (médio). Linguagens mais usadas, repositórios recentes.
 14. ↪ **Alternar tema claro/escuro**. Feito junto com o item 27.
 23. 🟡 **Site em linha de comando** (médio). Feito em 26/09/2026: formas A (`/terminal`, atalho T ou crase) e B (`/cli`). Falta a forma C (`npx lucasemanuel`) e os comandos `sl` e `projetos` (o `curriculo` foi feito em 27/09/2026, com o item 24). Versão do site em forma de terminal, com os comandos do conteúdo real e comandos lúdicos sobre Linux, C, Python, JS/Node e servidores. Detalhes abaixo.
@@ -48,10 +48,22 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 15. ⬜ **Imagem de prévia (Open Graph)** (baixo). Hoje o link compartilhado no LinkedIn/WhatsApp aparece sem imagem. Conferido em 27/09/2026: nenhuma página tem `og:image`.
 16. ⬜ **`sitemap.xml` e `robots.txt`** (baixo). Indexação no Google, incluindo `/setup`, `/terminal` e `/jogos`. Conferido em 27/09/2026: os dois endereços dão 404.
 17. ✅ **Versão nos arquivos CSS e JS** (baixo). Feito em 26/09/2026 (`?v=AAAAMMDD.N`), depois que o cache misturou HTML novo com CSS/JS antigos e quebrou o botão de tema. A versão é trocada à mão a cada mudança no CSS ou no JS (regra no CLAUDE.md). Um próximo passo seria automatizar isso no GitHub Actions (item 20).
-18. ⬜ **Analytics sem cookies** (baixo). GoatCounter ou Cloudflare Web Analytics, sem banner de consentimento.
+18. ⬜ **Analytics sem cookies** (baixo). GoatCounter ou Cloudflare Web Analytics, sem banner de consentimento. O Cloudflare entra no item 40.
 19. ⬜ **Auditoria com Lighthouse** (baixo). Acessibilidade e desempenho.
 20. ⬜ **Verificação no GitHub Actions** (médio). Validar HTML e checar links quebrados a cada push. Também pode trocar o `?v=` sozinho: hoje ele é trocado à mão em 18 lugares (5 HTMLs), e um esquecimento já quebrou o site em 26/09/2026 (item 17).
 21. ⬜ **Área administrativa** (médio-alto). Editar o conteúdo do site por formulários, sem mexer no código.
+
+## Back-end e infraestrutura
+
+Analisado em 13/10/2026: o que dá para usar de MongoDB, PostgreSQL, Cloudflare, OAuth2, JWT, AWS e nginx com o site no GitHub Pages. Tudo de 40 a 44 é gratuito dentro dos limites dos planos grátis. Detalhes e custos abaixo.
+
+40. ⬜ **Cloudflare na frente do site** (baixo). DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35) e regras de cache. Sem programar.
+41. ⬜ **Formulário de contato com back-end próprio** (médio). API no Cloudflare Workers, anti-robô com o Turnstile, mensagens salvas no banco (Neon/PostgreSQL ou MongoDB Atlas) e aviso por e-mail. Alternativa ao Formspree do item 12.
+42. ⬜ **Ranking global dos jogos** (médio). Login com GitHub (OAuth2), sessão com JWT e placares da velha, das damas e do carrinho salvos no PostgreSQL. Hoje os placares ficam só no `localStorage` (item 30).
+43. ⬜ **Login pelo GitHub e imagens da área administrativa** (médio). O OAuth do Decap/Sveltia CMS roda num Worker, e as imagens vão para o Cloudflare R2 ou para o próprio repositório. Feito junto com o item 21.
+44. ⬜ **API do GitHub em cache** (baixo a médio). Um Worker agendado busca os repositórios e guarda no cache do Cloudflare, para a Página de Projetos (1), as Estatísticas do GitHub (13) e o `git log` do terminal (23), sem o limite de 60 consultas por hora.
+45. 🔍 **Servidor próprio com nginx** (alto). Alternativa aos itens 41 a 44: VM grátis (Oracle ou Google) ou o PC + Cloudflare Tunnel, com nginx, HTTPS da Let's Encrypt e o banco na própria VM. Também tornaria possível o `ssh lucasemanuel.com.br` do item 23.
+46. 🔍 **Outras ferramentas avaliadas** (variável). AWS S3 e EC2 (pagos depois de 6 meses), AEM da Adobe (caro e fora de escala), Supabase (pausa sem uso) e MongoDB com PostgreSQL ao mesmo tempo (redundante).
 
 ## Correções
 
@@ -61,7 +73,7 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 32. ⬜ **Bug: terminal sem pastas se o boot falhar** (baixo). Se o conteúdo não carregar no boot, `ls`, `cd`, `cat` e `tree` dão erro mesmo depois que o conteúdo carrega.
 33. ⬜ **README.md desatualizado** (baixo). Comando do servidor local, estrutura de pastas e atalhos estão defasados.
 34. ⬜ **Links do GitHub com o usuário antigo** (baixo). Trocar `github.com/lucase616` por `github.com/LucasE616`. Hoje funciona por redirecionamento.
-35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio.
+35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio. Uma regra no Cloudflare (item 40) resolve sem mudar a publicação.
 38. ⬜ **Bug: cabeçalho estoura a largura em algumas faixas** (baixo). Medido em 13/10/2026, antes do link Serviços: a home, `/jogos` e `/terminal` passam da largura da tela entre ~530 e 540px, e `/setup`, `/curriculo` e `/servicos` entre ~650 e 710px. São as faixas logo depois que o menu compacto (até 520px) e a busca só com ícone (até 640px) acabam. Correção sugerida: estender esses dois `@media` ou diminuir o espaçamento dos links nessas faixas.
 36. ✅ **Contatos expostos a robôs de spam** (baixo). Feito em 27/09/2026: o telefone só aparece com um clique em "mostrar telefone", e o e-mail do Yahoo é montado pelo JavaScript. O Gmail continua em texto puro, porque já é público nos commits.
 
@@ -461,6 +473,60 @@ Plano original:
 - Uma aba **"Como a IA pensa"** explicando o minimax e a poda alfa-beta em poucas linhas, com link para o código no GitHub. Isso transforma o jogo numa demonstração de algoritmos.
 - **Opcional:** escrever a IA das damas em **C** e compilar para **WebAssembly**. Mostra a sua skill em C rodando no navegador e compara a velocidade com a versão em JavaScript. Exige um passo de build (Emscripten), que poderia rodar no GitHub Actions.
 
+### Detalhes dos itens 40 a 46: back-end e infraestrutura
+
+**Obstáculo:** o GitHub Pages não roda código no servidor. Banco de dados, OAuth2 e JWT precisam de um back-end. O Cloudflare Workers faz esse papel sem trocar o GitHub Pages (e sem voltar à Vercel):
+
+```
+Navegador ──► lucasemanuel.com.br (GitHub Pages, via Cloudflare)
+          └─► api.lucasemanuel.com.br (Cloudflare Worker) ──► PostgreSQL / MongoDB / R2 / OAuth do GitHub
+```
+
+**Ordem:** 40 → 41 → 42 → 43 → 44. Cada etapa já entrega algo no site, e o site continua estático.
+
+**O que é gratuito** (limites pesquisados em 13/10/2026; conferir as páginas oficiais antes de começar, porque mudam com frequência):
+
+- **Cloudflare Free:** DNS, proxy e CDN, Web Analytics, Turnstile e regras de WAF e de cache. Sem cartão.
+- **Cloudflare Workers Free:** 100 mil requisições por dia e 10 ms de CPU por requisição. Os Cron Triggers (rotinas agendadas) estão incluídos.
+- **Workers KV:** 100 mil leituras e mil gravações por dia, 1 GB.
+- **Hyperdrive** (Worker → PostgreSQL): 100 mil consultas por dia.
+- **Cloudflare D1** (SQLite, alternativa ao Postgres): 5 GB no total e 5 milhões de linhas lidas por dia.
+- **Cloudflare R2** (imagens, mesma API do S3): 10 GB e cerca de 1 milhão de gravações e 10 milhões de leituras por mês, sem taxa de saída. Pode pedir cartão para ativar.
+- **Cloudflare Email Routing:** aviso por e-mail das mensagens do formulário.
+- **Neon (PostgreSQL), recomendado:** 1 GB por projeto e 100 horas de computação por mês. Desliga sozinho quando fica parado, sem apagar os dados.
+- **MongoDB Atlas M0:** 512 MB, grátis para sempre, até 100 operações por segundo, sem backup. A Data API do Atlas foi descontinuada: confirmar se o driver funciona no Workers.
+- **GitHub OAuth App**, **JWT** (biblioteca `jose`), **Decap CMS** e **Sveltia CMS:** grátis.
+
+**Cuidados:**
+
+- **No Cloudflare Free, passar do limite não gera cobrança:** a requisição falha com erro, e o contador zera todo dia à meia-noite UTC.
+- **Bancos grátis sem backup** (Atlas M0 e Supabase): exportar de vez em quando o que for importante.
+- **JWT só com o Worker:** a chave secreta nunca vai para o navegador. O token fica num cookie `HttpOnly`, não no `localStorage`.
+- **Ranking (42):** a partida roda no navegador, então dá para enviar um placar falso. Nas damas e na velha, o Worker pode refazer a partida a partir da lista de lances.
+- **Área administrativa (43):** o caminho A do item 21 (CMS baseado em Git) não precisa de banco nem de JWT, porque cada "Salvar" vira um commit. Um painel próprio com OAuth2, JWT, banco e R2 seria o caminho B, mais trabalhoso.
+
+**Item 45: servidor próprio com nginx (a analisar):**
+
+- O nginx é grátis; o custo é a máquina onde ele roda. O GitHub Pages e o Workers não deixam instalar nada.
+- Uso no site: proxy reverso com HTTPS na frente de uma API própria (Node, por exemplo) e do banco instalado na mesma VM.
+- Servidores grátis:
+  - **Oracle Cloud Always Free:** VM Arm com 2 núcleos e 12 GB de RAM (limite cortado pela metade em 2026) e 200 GB de disco. Pede cartão. A Oracle pode recuperar VMs quase sem uso por 7 dias.
+  - **Google Cloud e2-micro:** 1 VM pequena (cerca de 1 GB de RAM) e 30 GB de disco, só em regiões dos EUA. Pede cartão. Só 1 GB de tráfego de saída grátis por mês, então o Cloudflare precisa estar na frente fazendo cache.
+  - **PC próprio + Cloudflare Tunnel:** o Tunnel é grátis e não abre portas no roteador, mas o site só responde com o PC ligado.
+- Certificado HTTPS: Let's Encrypt + Certbot, grátis.
+- Atualizações do sistema, firewall e SSH (só por chave) passam a ser responsabilidade do Lucas.
+- Para o site, o caminho Workers + Neon é mais simples. O nginx vale se o objetivo for aprender ou mostrar infraestrutura no portfólio.
+- Teste local: o nginx no Windows pode substituir o `py -m http.server`.
+
+**Item 46: outras ferramentas avaliadas (a analisar):**
+
+- **AWS S3 e EC2 (pagos):** contas criadas depois de 15/07/2025 recebem créditos de US$ 100 a 200, e o plano grátis termina em 6 meses ou quando os créditos acabam. Depois, é pago (centavos para poucas imagens). No cadastro, escolher o plano "Free", que não cobra além dos créditos. O R2 cobre o mesmo uso sem custo.
+- **"S2":** não existe na AWS. Provavelmente era o EC2.
+- **AEM (Adobe Experience Manager):** CMS corporativo, licença cara e fora de escala para o site.
+- **Supabase:** 500 MB e 2 projetos, mas o projeto é pausado depois de 1 semana sem uso, e não há backup.
+- **MongoDB e PostgreSQL juntos:** redundante para dados deste tamanho. Só como exercício de estudo (Postgres para usuários e ranking, Mongo para mensagens e logs). Se for um só, o PostgreSQL combina melhor com o ranking.
+- **Site inteiro no S3 + CloudFront:** troca o GitHub Pages, que é grátis e já funciona, por mais configuração e custo.
+
 ## Fora da lista (já feito)
 
 - ✅ Modais para Skills e Contato; atalhos I, S, C e U
@@ -480,3 +546,4 @@ Plano original:
 5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
 6. **Versão em inglês (8).**
 7. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.
+8. **Back-end e infraestrutura (40 a 44)**, na ordem dos itens. O 40 pode vir antes, porque já resolve o 18 e o 35; o 43 entra junto com o 21 e o 44 com o 1. Os itens 45 e 46 dependem de análise do Lucas.
