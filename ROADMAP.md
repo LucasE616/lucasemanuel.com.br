@@ -64,6 +64,7 @@ Analisado em 13/10/2026: o que dá para usar de MongoDB, PostgreSQL, Cloudflare,
 44. ⬜ **API do GitHub em cache** (baixo a médio). Um Worker agendado busca os repositórios e guarda no cache do Cloudflare, para a Página de Projetos (1), as Estatísticas do GitHub (13) e o `git log` do terminal (23), sem o limite de 60 consultas por hora.
 45. 🔍 **Servidor próprio com nginx** (alto). Alternativa aos itens 41 a 44: VM grátis (Oracle ou Google) ou o PC + Cloudflare Tunnel, com nginx, HTTPS da Let's Encrypt e o banco na própria VM. Também tornaria possível o `ssh lucasemanuel.com.br` do item 23.
 46. 🔍 **Outras ferramentas avaliadas** (variável). AWS S3 e EC2 (pagos depois de 6 meses), AEM da Adobe (caro e fora de escala), Supabase (pausa sem uso) e MongoDB com PostgreSQL ao mesmo tempo (redundante).
+47. 🔍 **AWS IAM** (baixo). Permissões de acesso aos recursos da AWS: um usuário ou papel que só pode gravar no bucket do S3, usado pelo Worker para gerar os links de envio de imagens. O IAM é grátis, mas só faz sentido se a AWS entrar no projeto (item 46). Não é login de visitantes.
 
 ## Correções
 
@@ -473,7 +474,7 @@ Plano original:
 - Uma aba **"Como a IA pensa"** explicando o minimax e a poda alfa-beta em poucas linhas, com link para o código no GitHub. Isso transforma o jogo numa demonstração de algoritmos.
 - **Opcional:** escrever a IA das damas em **C** e compilar para **WebAssembly**. Mostra a sua skill em C rodando no navegador e compara a velocidade com a versão em JavaScript. Exige um passo de build (Emscripten), que poderia rodar no GitHub Actions.
 
-### Detalhes dos itens 40 a 46: back-end e infraestrutura
+### Detalhes dos itens 40 a 47: back-end e infraestrutura
 
 **Obstáculo:** o GitHub Pages não roda código no servidor. Banco de dados, OAuth2 e JWT precisam de um back-end. O Cloudflare Workers faz esse papel sem trocar o GitHub Pages (e sem voltar à Vercel):
 
@@ -527,6 +528,15 @@ Navegador ──► lucasemanuel.com.br (GitHub Pages, via Cloudflare)
 - **MongoDB e PostgreSQL juntos:** redundante para dados deste tamanho. Só como exercício de estudo (Postgres para usuários e ranking, Mongo para mensagens e logs). Se for um só, o PostgreSQL combina melhor com o ranking.
 - **Site inteiro no S3 + CloudFront:** troca o GitHub Pages, que é grátis e já funciona, por mais configuração e custo.
 
+**Item 47: AWS IAM (a analisar):**
+
+- **O que é:** o IAM (Identity and Access Management) controla quem pode fazer o quê dentro da conta da AWS: usuários, grupos, papéis (roles) e políticas em JSON.
+- **Custo:** grátis, sem limite. O que se paga são os recursos que ele protege (S3, EC2...), então ele só entra se a AWS for usada (item 46).
+- **Uso no site:** um usuário IAM com uma política de **menor privilégio**, que só permite `s3:PutObject` e `s3:GetObject` num bucket (ou numa pasta dele). O Worker guarda a chave desse usuário como segredo (`wrangler secret`) e gera URLs pré-assinadas para a área administrativa (43) enviar imagens. Se a chave vazar, o estrago fica limitado a esse bucket.
+- **Boas práticas:** não usar a conta raiz (root) no dia a dia; ativar MFA na raiz e nos usuários; criar um usuário administrador para o console (ou usar o IAM Identity Center); nunca colocar chaves no repositório, que é público; trocar as chaves de tempos em tempos.
+- **Não é login de visitantes:** para o visitante entrar no site, o equivalente da AWS é o **Amazon Cognito** (tem cota grátis; conferir os limites atuais). No projeto, o login com GitHub (itens 42 e 43) já cobre isso sem a AWS.
+- **Valor para o portfólio:** escrever políticas de menor privilégio é uma habilidade pedida em vagas de back-end e de nuvem, mesmo num uso pequeno como este.
+
 ## Fora da lista (já feito)
 
 - ✅ Modais para Skills e Contato; atalhos I, S, C e U
@@ -546,4 +556,4 @@ Navegador ──► lucasemanuel.com.br (GitHub Pages, via Cloudflare)
 5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
 6. **Versão em inglês (8).**
 7. **Aba "Como a IA pensa" (30).** O jogo da velha, as damas e o carrinho já estão no ar.
-8. **Back-end e infraestrutura (40 a 44)**, na ordem dos itens. O 40 pode vir antes, porque já resolve o 18 e o 35; o 43 entra junto com o 21 e o 44 com o 1. Os itens 45 e 46 dependem de análise do Lucas.
+8. **Back-end e infraestrutura (40 a 44)**, na ordem dos itens. O 40 pode vir antes, porque já resolve o 18 e o 35; o 43 entra junto com o 21 e o 44 com o 1. Os itens 45 a 47 dependem de análise do Lucas.
