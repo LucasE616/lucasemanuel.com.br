@@ -219,7 +219,7 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 - "Wh" no suporte de headset: confirmar se é a marca.
 - Serviços: o "google" da lista de apps do Plano 2 (ficou de fora até o Lucas confirmar se é o Chrome, já listado, ou outro app).
 - Currículo: data, carga horária e link de verificação dos cursos (e o emissor do "HTML & CSS"); atividades de cada
-  experiência; confirmar o nome "Atlassian Workspace".
+  experiência; confirmar o nome "Atlassian Workspace"; editora do livro *Competente o Suficiente* (Fabio Akita), ainda sem editora.
 
 ## Histórico resumido
 
