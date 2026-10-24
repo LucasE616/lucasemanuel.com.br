@@ -566,15 +566,16 @@ a análise de novo no makemefindable.com no fim.
 - [ ] **SPF DNS record** (erro). O domínio não tem registro TXT nem MX. Como ele não envia e-mail, adicionar no painel do Registro.br:
   TXT em `lucasemanuel.com.br` com `v=spf1 -all`, e TXT em `_dmarc.lucasemanuel.com.br` com `v=DMARC1; p=reject;`. Isso impede
   que alguém mande e-mail falso em nome do domínio.
-- [x] **JS errors** (erro). Feito em 24/10/2026, a confirmar no makemefindable. A API dele (`/api/execute?url=...`) só dá a
+- [x] **JS errors** (erro). Feito em 24/10/2026 e confirmado no makemefindable (0 erros). A API dele (`/api/execute?url=...`) só dá a
   contagem, e no Chrome não há erro. Para ver as mensagens, uma cópia temporária da home escrevia cada erro num `<h2>`, que
   ele lista em "Heading tags". O navegador dele (Chromium com user agent de Chrome 69) **não carrega nada de outro domínio**:
   a folha do Google Fonts e a fonte Chomsky do jsDelivr falhavam (status 0), e cada falha contava como erro. As duas fontes
   passaram para a pasta `fonts/` do site. Antes disso, as chamadas a `matchMedia` viraram `window.matchMedia?.(...)` e o
   carrinho passou a não montar sem canvas 2D, porque no jsdom a página dava `ReferenceError` (não era a causa, mas ficou).
-- [x] **Media query responsiveness** (aviso). Feito em 24/10/2026, a confirmar no makemefindable. O `style.css` tem 12 `@media`;
-  a verificação deve ter quebrado na folha do Google Fonts, que não carregava no navegador dele (ver "JS errors"). Sem
-  folhas de outro domínio, deve passar. O `crossorigin` testado antes saiu junto com o `<link>` do Google Fonts.
+- [ ] **Media query responsiveness** (aviso). Não resolvido. O `style.css` tem 12 `@media`, mas o aviso continuou depois de
+  duas tentativas em 24/10/2026: `crossorigin` no `<link>` do Google Fonts e, depois, as fontes no próprio site, sem nenhuma
+  folha de outro domínio. Próximo passo: usar a página temporária de diagnóstico (cópia da home com um script que escreve em
+  `<h2>`, lidos em "Heading tags") para ver o que o navegador dele enxerga em `document.styleSheets`.
 - [x] **Plaintext email** (erro). Feito em 24/10/2026, a confirmar no makemefindable. A ferramenta roda o JavaScript, então
   achava também o Yahoo, montado ao abrir a página (item 36). Agora os dois e-mails só aparecem com o clique em "mostrar
   e-mail", como o telefone, na home e no `/servicos`; o link "email" do rodapé abre o Gmail sem mostrá-lo, e o PDF do currículo

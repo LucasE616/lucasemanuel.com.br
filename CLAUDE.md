@@ -71,7 +71,7 @@ status dos itens no mesmo commit em que forem concluídos.
   - **As duas ficam no próprio site**, na pasta `fonts/` (`jetbrains-mono-latin.woff2`, `jetbrains-mono-latin-ext.woff2`,
     `chomsky.woff2` e as licenças OFL), com `@font-face` no topo do `style.css`. **Não voltar para o Google Fonts nem para o
     jsDelivr** (item 49): o navegador do makemefindable bloqueia outros domínios, e cada fonte que não carregava contava como
-    erro de JavaScript e quebrava a verificação de media queries. O site não carrega nada de outro domínio.
+    erro de JavaScript. O site não carrega nada de outro domínio.
 - Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup: 40px no celular, 72px em
   1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
 - Na home, os blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`,
