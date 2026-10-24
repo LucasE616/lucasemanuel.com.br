@@ -555,7 +555,8 @@ a análise de novo no makemefindable.com no fim.
   cada um com o `lastmod` do último commit da página (item 16).
 - [x] **Meta title** (aviso). Feito em 24/10/2026: o título da home tinha 13 caracteres ("Lucas Emanuel") e passou a usar o texto
   do `og:title`, "Lucas Emanuel — Dev Back-end & Analista de Sistemas" (51).
-- [ ] **Meta description** (aviso). A da home tem 95 caracteres; o ideal é de 120 a 160. Ampliar só com informações que já estão no site.
+- [x] **Meta description** (aviso). Feito em 24/10/2026: a da home tinha 95 caracteres e passou a 156, juntando a descrição antiga
+  com a `og:description` (opção escolhida pelo Lucas entre 3, todas só com textos do site).
 - [x] **Meta social media** (aviso). Feito em 24/10/2026: `og-image.png` (1200×630, uma só para o site todo, só com o "le" e o
   cursor amarelo, sem foto por enquanto) e as tags `og:image` e `twitter:card`/`title`/`description`/`image` nas 6 páginas, com os
   textos das `og:` de cada uma (item 15).
