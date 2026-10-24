@@ -42,6 +42,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `robots.txt` | Libera tudo aos buscadores e aponta para o `sitemap.xml` (item 49) |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
+| `fonts/` | JetBrains Mono (latin e latin-ext) e Chomsky em woff2, com as licenças OFL. Ver Fontes, em Visual |
 | `og-image.png` | Imagem de prévia dos links (item 49), 1200×630, uma só para o site todo: "le" em Verdana negrito `#f2f2f2` com cursor amarelo `#ffbb00` no fundo `#08070b`, sem foto (decisão do Lucas). Gerada com o Chrome headless (`--screenshot --window-size=1200,630`) a partir de um HTML fora do repositório. PNG porque as redes não aceitam SVG |
 | `ROADMAP.md` | Melhorias planejadas e correções (49 itens) |
 
@@ -59,16 +60,18 @@ status dos itens no mesmo commit em que forem concluídos.
   - Nunca use cor fixa em componentes: use as variáveis (`--backdrop` e `--shadow` existem para fundos
     translúcidos e sombras), senão o elemento quebra num dos temas.
 - **README da home no tema claro = primeira página do New York Times** (pedido do Lucas): título na fonte
-  Chomsky (imitação livre, OFL, da letra gótica do cabeçalho do NYT, via jsDelivr), linha de data com a
+  Chomsky (imitação livre, OFL, da letra gótica do cabeçalho do NYT, em `fonts/`), linha de data com a
   data do dia entre fios, texto em Times e seções em colunas com fios. Os estilos ficam em
   `:root[data-theme="light"] .readme...`; no escuro o README continua no estilo GitHub.
 - **Fontes** (variáveis no `:root`):
   - `--sans` / `--display`: **Verdana** (fonte de sistema), para o texto e os títulos de página (nome, "Setup").
   - `--serif`: **Times New Roman** (fonte de sistema), para os títulos dos tópicos: `h2`/`h3` do README,
     títulos dos modais e categorias do setup. Em negrito e um pouco maior que o texto.
-  - `--mono`: **JetBrains Mono**, a única baixada do Google Fonts, para rótulos, tags e código. O `<link>` do Google Fonts e
-    o `preconnect` dele levam `crossorigin`, para as regras da folha poderem ser lidas pelo JavaScript (sem isso dá
-    `SecurityError`). Página nova deve copiar o bloco com o atributo.
+  - `--mono`: **JetBrains Mono**, a única fonte baixada além da Chomsky, para rótulos, tags e código.
+  - **As duas ficam no próprio site**, na pasta `fonts/` (`jetbrains-mono-latin.woff2`, `jetbrains-mono-latin-ext.woff2`,
+    `chomsky.woff2` e as licenças OFL), com `@font-face` no topo do `style.css`. **Não voltar para o Google Fonts nem para o
+    jsDelivr** (item 49): o navegador do makemefindable bloqueia outros domínios, e cada fonte que não carregava contava como
+    erro de JavaScript e quebrava a verificação de media queries. O site não carrega nada de outro domínio.
 - Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup: 40px no celular, 72px em
   1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
 - Na home, os blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`,
