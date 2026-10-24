@@ -66,7 +66,9 @@ status dos itens no mesmo commit em que forem concluídos.
   - `--sans` / `--display`: **Verdana** (fonte de sistema), para o texto e os títulos de página (nome, "Setup").
   - `--serif`: **Times New Roman** (fonte de sistema), para os títulos dos tópicos: `h2`/`h3` do README,
     títulos dos modais e categorias do setup. Em negrito e um pouco maior que o texto.
-  - `--mono`: **JetBrains Mono**, a única baixada do Google Fonts, para rótulos, tags e código.
+  - `--mono`: **JetBrains Mono**, a única baixada do Google Fonts, para rótulos, tags e código. O `<link>` do Google Fonts e
+    o `preconnect` dele levam `crossorigin`: sem isso, ler as regras da folha pelo JavaScript dá `SecurityError`, e o
+    makemefindable dizia que o site não tinha media queries (item 49). Página nova deve copiar o bloco com o atributo.
 - Tamanhos com `clamp()`: `--title-size` controla o nome e o título do setup: 40px no celular, 72px em
   1920px e menos de 40px só abaixo de ~385px (33px em 320px), para o nome em Verdana caber numa linha.
 - Na home, os blocos de conteúdo imitam arquivos: cabeçalho com nome de arquivo (`README.md`,

@@ -568,7 +568,10 @@ a análise de novo no makemefindable.com no fim.
   que alguém mande e-mail falso em nome do domínio.
 - [ ] **JS errors** (erro). Não reproduzido: no navegador, o console fica vazio e nenhuma requisição falha. Abrir o item no
   makemefindable e mandar a mensagem de erro (provavelmente o robô deles usa um navegador antigo).
-- [ ] **Media query responsiveness** (aviso). O `style.css` tem 13 `@media` e a viewport está certa. Abrir o item e mandar o detalhe.
+- [x] **Media query responsiveness** (aviso). Corrigido em 24/10/2026, a confirmar no makemefindable. O `style.css` tem 12 `@media`,
+  mas a primeira folha de estilo da página é a do Google Fonts, de outro domínio, e ler as regras dela pelo JavaScript dava
+  `SecurityError`. Provavelmente o robô parava aí. Com `crossorigin` no `<link>` (o Google Fonts responde com
+  `Access-Control-Allow-Origin: *`), as regras ficam legíveis. Feito nos 7 HTMLs, junto com o `preconnect`.
 - [ ] **Plaintext email** (erro). É o Gmail, em texto puro de propósito (item 36). Decidir se fica assim ou se recebe a mesma
   proteção do Yahoo (base64 no `Contacts` de `script.js`, inclusive no `cli`).
 - [ ] **GA tags** (erro). Não é defeito: o site não tem analytics. O Google Analytics pediria banner de cookies; o plano é o
