@@ -102,7 +102,8 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
   `twitter:` (copiar o bloco de uma página existente: `og:image` e `twitter:image` apontam para `/og-image.png`, e
-  `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`.
+  `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`. E o `<style>` comentado
+  logo depois do `style.css`, com uma `@media` sem efeito: o makemefindable só conta media queries escritas no HTML (item 49).
   Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre
   `/jogos` e o terminal), `damas-placar` (idem), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
   `play carrinho`, função `carGame` em `terminal.js`). Toda leitura e escrita fica em `try/catch`.
