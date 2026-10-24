@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      // Diagnóstico temporário (item 49): escreve em <h2> o que o navegador vê nas folhas de estilo
+      addEventListener("load", () => {
+        const h = (t) => { const e = document.createElement("h2"); e.textContent = "DIAG " + t; document.body.append(e); };
+        h("sheets " + document.styleSheets.length + " | style " + document.querySelectorAll("style").length + " | link " + document.querySelectorAll("link[rel=stylesheet]").length);
+        [...document.styleSheets].forEach((s, i) => {
+          let info;
+          try { const r = [...s.cssRules]; info = `regras=${r.length} media=${r.filter((x) => x.type === 4).length} ex=${(r.find((x) => x.type === 4) || {}).conditionText}`; } catch (e) { info = "ERRO " + e.name; }
+          h(`#${i} ${s.href || "inline"} mediaAttr=${s.media.mediaText || "-"} ${info}`);
+        });
+      });
+    </script>
+    <meta name="robots" content="noindex" />
+    <title>Lucas Emanuel — Dev Back-end &amp; Analista de Sistemas</title>
+    <meta name="description" content="Lucas Emanuel, Desenvolvedor Back-end e Analista de Sistemas. JavaScript, C, Python e Node.js, suporte de TI, engenharia de requisitos e metodologias ágeis." />
+    <meta name="author" content="Lucas Emanuel" />
+    <meta name="theme-color" content="#08070b" />
+    <link rel="canonical" href="https://lucasemanuel.com.br/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lucas Emanuel — Dev Back-end & Analista de Sistemas" />
+    <meta property="og:description" content="JavaScript, C, Python e Node.js. Suporte de TI, engenharia de requisitos, gestão de software e metodologias ágeis." />
+    <meta property="og:url" content="https://lucasemanuel.com.br/" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content="https://lucasemanuel.com.br/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logo &quot;le&quot; de Lucas Emanuel" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lucas Emanuel — Dev Back-end & Analista de Sistemas" />
+    <meta name="twitter:description" content="JavaScript, C, Python e Node.js. Suporte de TI, engenharia de requisitos, gestão de software e metodologias ágeis." />
+    <meta name="twitter:image" content="https://lucasemanuel.com.br/og-image.png" />
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <script>
+      // Aplica o tema antes de desenhar a página, para não piscar o tema errado
+      (() => {
+        let pref = null;
+        try {
+          pref = localStorage.getItem("theme");
+        } catch {}
+        const light = pref === "light" || (pref !== "dark" && window.matchMedia?.("(prefers-color-scheme: light)").matches);
+        document.documentElement.dataset.theme = light ? "light" : "dark";
+      })();
+    </script>
+    <link rel="stylesheet" href="style.css?v=20261024.3" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="#inicio" class="logo" aria-label="Início">le</a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#inicio" title="Atalho: I" aria-keyshortcuts="I">Início</a>
+        <a href="#skills" title="Atalho: S" aria-keyshortcuts="S">Skills</a>
+        <a href="#contato" title="Atalho: C" aria-keyshortcuts="C">Contato</a>
+        <a href="setup/" title="Atalho: U" aria-keyshortcuts="U">Setup</a>
+        <a class="nav-wide" href="curriculo/" title="Atalho: E" aria-keyshortcuts="E">Currículo</a>
+        <a class="nav-wider" href="servicos/" title="Atalho: V" aria-keyshortcuts="V">Serviços</a>
+      </nav>
+      <div class="header-actions">
+        <div class="theme-switch">
+          <button class="theme-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="theme-menu" aria-label="Tema">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8" />
+              <path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+          </button>
+          <ul class="theme-menu" id="theme-menu" role="menu" aria-label="Tema" hidden>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="light">Claro</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="dark">Escuro</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="system">Sistema</button></li>
+          </ul>
+        </div>
+        <button class="cmd-trigger" type="button" data-open-palette aria-label="Abrir paleta de comandos">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              d="M18 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 0 0 0-6z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section id="inicio" class="hero">
+        <div class="container">
+          <h1 class="reveal">Lucas Emanuel</h1>
+          <p class="role reveal">Dev Back-end &amp; Analista de Sistemas</p>
+          <p class="stack reveal">JavaScript | C | Python | Node.js</p>
+          <button class="start reveal" type="button" data-open-palette>
+            Pressione <kbd class="key-mod">Ctrl</kbd> <kbd>K</kbd> para iniciar <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="container">
+          <article class="readme">
+            <header class="readme-bar">
+              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                <path fill="currentColor"
+                  d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z" />
+              </svg>
+              README.md
+            </header>
+
+            <div class="readme-body">
+              <h2>Olá, eu sou o Lucas Emanuel <span class="wave" aria-hidden="true">👋</span></h2>
+              <!-- Linha de data do jornal: só aparece no tema claro -->
+              <p class="readme-dateline">
+                <span>Dev Back-end &amp; Analista de Sistemas</span>
+                <time data-today></time>
+                <span>lucasemanuel.com.br</span>
+              </p>
+
+              <!-- data-topic: conteúdo reaproveitado pelos modais de Skills e Contato -->
+              <div data-topic="skills">
+              <h3>Linguagens &amp; tecnologias</h3>
+              <ul class="tags">
+                <li>JavaScript</li>
+                <li>Node.js</li>
+                <li>Python</li>
+                <li>C</li>
+              </ul>
+
+              <h3>Experiência</h3>
+              <ul class="list">
+                <li>Suporte de TI</li>
+                <li>Engenharia de requisitos</li>
+                <li>Gestão de software</li>
+                <li>Metodologias ágeis</li>
+              </ul>
+              </div>
+
+              <h3 id="contato">Contato</h3>
+              <div data-topic="contato">
+              <!-- Contatos protegidos contra robôs de spam (itens 36 e 49): os valores ficam no script.js
+                   e só aparecem com o clique em "mostrar" -->
+              <ul class="contacts">
+                <li>
+                  <span class="label">E-mail</span>
+                  <span class="value">
+                    <button class="copy" type="button" data-contact="gmail" aria-label="Mostrar e-mail do Gmail">mostrar e-mail</button>
+                  </span>
+                </li>
+                <li>
+                  <span class="label">E-mail</span>
+                  <span class="value">
+                    <button class="copy" type="button" data-contact="yahoo" aria-label="Mostrar e-mail do Yahoo">mostrar e-mail</button>
+                  </span>
+                </li>
+                <li>
+                  <span class="label">Telefone</span>
+                  <span class="value">
+                    <button class="copy" type="button" data-contact="phone" aria-label="Mostrar telefone e WhatsApp">mostrar telefone</button>
+                  </span>
+                </li>
+                <li>
+                  <span class="label">GitHub</span>
+                  <span class="value"><a href="https://github.com/lucase616" target="_blank" rel="noopener">github.com/lucase616</a></span>
+                </li>
+                <li>
+                  <span class="label">LinkedIn</span>
+                  <span class="value"><a href="https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/" target="_blank" rel="noopener">in/lucas-emanuel-santos-martins</a></span>
+                </li>
+                <li>
+                  <span class="label">Instagram</span>
+                  <span class="value"><a href="https://instagram.com/lucase616" target="_blank" rel="noopener">@lucase616</a></span>
+                </li>
+              </ul>
+              </div>
+
+              <pre class="printf"><code>printf("página feita com muito café ☕\n");</code></pre>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="https://github.com/lucase616" target="_blank" rel="noopener">github</a>
+      <a href="https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://instagram.com/lucase616" target="_blank" rel="noopener">instagram</a>
+      <a href="#contato" data-mailto="gmail">email</a>
+    </footer>
+
+    <!-- Paleta de comandos (Ctrl/⌘ + K) -->
+    <div class="palette" id="palette" hidden>
+      <div class="palette-backdrop" data-close-palette></div>
+      <div class="palette-box" role="dialog" aria-modal="true" aria-label="Paleta de comandos">
+        <input
+          class="palette-input"
+          id="palette-input"
+          type="text"
+          placeholder="Digite um comando ou pesquise…"
+          autocomplete="off"
+          spellcheck="false"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="palette-list"
+        />
+        <ul class="palette-list" id="palette-list" role="listbox"></ul>
+      </div>
+    </div>
+
+    <!-- Modal dos tópicos (S = Skills, C = Contato) -->
+    <div class="modal" id="modal" hidden>
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <header class="modal-bar">
+          <span class="modal-file" id="modal-file"></span>
+          <button class="modal-close" type="button" data-close-modal aria-label="Fechar">esc</button>
+        </header>
+        <div class="modal-body">
+          <h2 class="modal-title" id="modal-title"></h2>
+          <div id="modal-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <a class="term-fab" href="terminal/" aria-label="Abrir o terminal" title="Terminal (T)">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM7 10l3 2-3 2M12 15h5" />
+      </svg>
+    </a>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js?v=20261024.3"></script>
+  </body>
+</html>
