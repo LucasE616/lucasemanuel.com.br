@@ -62,7 +62,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 Analisado em 13/10/2026: o que dá para usar de MongoDB, PostgreSQL, Cloudflare, OAuth2, JWT, AWS e nginx com o site no GitHub Pages. Tudo de 40 a 44 é gratuito dentro dos limites dos planos grátis. Detalhes e custos abaixo.
 
-40. ⬜ **Cloudflare na frente do site** (baixo). DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35), HSTS (item 49) e regras de cache. Sem programar.
+40. ⬜ **Cloudflare na frente do site** (baixo). DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35), HSTS (item 49) e regras de cache. Sem programar. **Ao começar, lembrar o Lucas** (pedido em 24/10/2026) de ligar o HSTS e de decidir o analytics: GA4 ou sem cookies (ver "GA tags" no item 49).
 41. ⬜ **Formulário de contato com back-end próprio** (médio). API no Cloudflare Workers, anti-robô com o Turnstile, mensagens salvas no banco (Neon/PostgreSQL ou MongoDB Atlas) e aviso por e-mail. Alternativa ao Formspree do item 12.
 42. ⬜ **Ranking global dos jogos** (médio). Login com GitHub (OAuth2), sessão com JWT e placares da velha, das damas e do carrinho salvos no PostgreSQL. Hoje os placares ficam só no `localStorage` (item 30).
 43. ⬜ **Login pelo GitHub e imagens da área administrativa** (médio). O OAuth do Decap/Sveltia CMS roda num Worker, e as imagens vão para o Cloudflare R2 ou para o próprio repositório. Feito junto com o item 21.
@@ -582,8 +582,11 @@ a análise de novo no makemefindable.com no fim.
   achava também o Yahoo, montado ao abrir a página (item 36). Agora os dois e-mails só aparecem com o clique em "mostrar
   e-mail", como o telefone, na home e no `/servicos`; o link "email" do rodapé abre o Gmail sem mostrá-lo, e o PDF do currículo
   o recebe na impressão. O Gmail continua no `cli` e no JSON-LD do `/curriculo`, por decisão do Lucas.
-- [ ] **GA tags** (erro). Não é defeito: o site não tem analytics. O Google Analytics pediria banner de cookies; o plano é o
-  analytics sem cookies do item 18. Decidir se o aviso pode ser ignorado.
+- [ ] **GA tags** (erro). Não é defeito: o site não tem analytics. **Decidido em 24/10/2026: fica para quando o Cloudflare
+  entrar (item 40)**, e o Lucas pediu para ser lembrado. Pontos para a decisão: o GA4 grava cookies (banner de consentimento
+  pela LGPD) e carrega o `gtag.js` de `googletagmanager.com`, que o navegador do makemefindable bloqueia, então o alerta de GA
+  sairia mas os erros de JS provavelmente voltariam. O analytics sem cookies (item 18, Cloudflare Web Analytics ou
+  GoatCounter) dispensa banner, mas o makemefindable procura só o GA4, e o alerta continuaria.
 
 **Depende de outro item ou não tem correção:**
 

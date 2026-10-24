@@ -238,6 +238,9 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 - Serviços: o "google" da lista de apps do Plano 2 (ficou de fora até o Lucas confirmar se é o Chrome, já listado, ou outro app).
 - Currículo: data, carga horária e link de verificação dos cursos (e o emissor do "HTML & CSS"); atividades de cada
   experiência; confirmar o nome "Atlassian Workspace"; editora do livro *Competente o Suficiente* (Fabio Akita), ainda sem editora.
+- **Lembrete ao implementar o Cloudflare (item 40):** avisar o Lucas, que pediu em 24/10/2026, de ligar o HSTS e de decidir
+  o analytics (GA4 ou sem cookies). Os prós e contras estão em "HSTS" e "GA tags", no checklist do item 49.
+- Makemefindable (item 49): falta o SPF/DMARC, que o Lucas adiciona no painel do Registro.br.
 
 ## Histórico resumido
 
