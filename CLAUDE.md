@@ -19,6 +19,9 @@ status dos itens no mesmo commit em que forem concluídos.
   - 4 registros A: `185.199.108.153` a `185.199.111.153`
   - 4 registros AAAA: `2606:50c0:8000::153` a `2606:50c0:8003::153`
   - `www` CNAME → `lucase616.github.io`
+  - TXT `v=spf1 -all` no domínio e TXT `v=DMARC1; p=reject;` em `_dmarc` (24/10/2026, item 49): o domínio não envia e-mail,
+    e isso impede e-mail falso em nome dele. **Se um dia houver e-mail no domínio, troque pelos registros do provedor**, senão
+    os próprios e-mails serão rejeitados.
 - **HTTPS:** certificado da Let's Encrypt emitido pelo GitHub, com "Enforce HTTPS" ativo. HTTP e `www`
   redirecionam com 301 para `https://lucasemanuel.com.br`. A emissão só funcionou depois de remover e
   readicionar o domínio em Settings → Pages.
@@ -240,7 +243,6 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
   experiência; confirmar o nome "Atlassian Workspace"; editora do livro *Competente o Suficiente* (Fabio Akita), ainda sem editora.
 - **Lembrete ao implementar o Cloudflare (item 40):** avisar o Lucas, que pediu em 24/10/2026, de ligar o HSTS e de decidir
   o analytics (GA4 ou sem cookies). Os prós e contras estão em "HSTS" e "GA tags", no checklist do item 49.
-- Makemefindable (item 49): falta o SPF/DMARC, que o Lucas adiciona no painel do Registro.br.
 
 ## Histórico resumido
 

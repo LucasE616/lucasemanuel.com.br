@@ -563,9 +563,10 @@ a análise de novo no makemefindable.com no fim.
 
 **Com o Lucas:**
 
-- [ ] **SPF DNS record** (erro). O domínio não tem registro TXT nem MX. Como ele não envia e-mail, adicionar no painel do Registro.br:
-  TXT em `lucasemanuel.com.br` com `v=spf1 -all`, e TXT em `_dmarc.lucasemanuel.com.br` com `v=DMARC1; p=reject;`. Isso impede
-  que alguém mande e-mail falso em nome do domínio.
+- [x] **SPF DNS record** (erro). Feito em 24/10/2026 pelo Lucas, no painel do Registro.br, e confirmado no makemefindable. O domínio
+  não tinha registro TXT (a verificação dele quebrava com "uncaught error"). Como ele não envia e-mail, ganhou TXT em
+  `lucasemanuel.com.br` com `v=spf1 -all` e TXT em `_dmarc.lucasemanuel.com.br` com `v=DMARC1; p=reject;`, que impedem e-mail
+  falso em nome do domínio.
 - [x] **JS errors** (erro). Feito em 24/10/2026 e confirmado no makemefindable (0 erros). A API dele (`/api/execute?url=...`) só dá a
   contagem, e no Chrome não há erro. Para ver as mensagens, uma cópia temporária da home escrevia cada erro num `<h2>`, que
   ele lista em "Heading tags". O navegador dele (Chromium com user agent de Chrome 69) **não carrega nada de outro domínio**:
