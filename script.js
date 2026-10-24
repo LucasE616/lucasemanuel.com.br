@@ -139,7 +139,7 @@
   // aqui ficam o menu, a troca e o acompanhamento do sistema quando a escolha é "Sistema".
   const html = document.documentElement;
   const themeMeta = document.querySelector('meta[name="theme-color"]');
-  const prefersLight = matchMedia("(prefers-color-scheme: light)");
+  const prefersLight = window.matchMedia?.("(prefers-color-scheme: light)");
   const themeNames = { light: "claro", dark: "escuro", system: "do sistema" };
 
   const getThemePref = () => {
@@ -153,7 +153,7 @@
 
   const applyTheme = () => {
     const pref = getThemePref();
-    const theme = pref === "system" ? (prefersLight.matches ? "light" : "dark") : pref;
+    const theme = pref === "system" ? (prefersLight?.matches ? "light" : "dark") : pref;
     html.dataset.theme = theme;
     themeMeta?.setAttribute("content", theme === "light" ? "#faf7f0" : "#08070b");
     document
@@ -172,7 +172,7 @@
     applyTheme();
   };
 
-  prefersLight.addEventListener("change", () => getThemePref() === "system" && applyTheme());
+  prefersLight?.addEventListener("change", () => getThemePref() === "system" && applyTheme());
   applyTheme();
 
   const themeToggle = document.querySelector(".theme-toggle");
@@ -579,7 +579,7 @@
   });
   let typingRun = false;
   const typeAll = async () => {
-    if (typingRun || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (typingRun || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     typingRun = true;
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
     // Trava a altura de cada linha: se ela quebrar em duas no celular, apagar não pode puxar o resto da tela para cima
@@ -653,7 +653,7 @@
     }
     // Só logo depois de uma navegação para outra página (não num recarregamento nem numa visita de outro dia)
     if (!saved?.parts || Date.now() - saved.t > 3000 || saved.path === location.pathname) return;
-    if (window.CSSViewTransitionRule || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.CSSViewTransitionRule || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
     const moves = Object.entries(headerParts())
       .map(([key, el]) => ({ key, el, from: saved.parts[key], to: snapshot(el) }))

@@ -2,8 +2,9 @@
 // A velocidade aumenta com a distância; a partida acaba na primeira batida.
 (() => {
   const canvas = document.getElementById("car-canvas");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
+  // Sem canvas 2D (navegador com canvas bloqueado ou robô que lê a página), o jogo não monta
+  const ctx = canvas?.getContext("2d");
+  if (!ctx) return;
   const statusEl = document.getElementById("car-status");
   const bestEl = document.getElementById("car-best");
   const startBtn = document.getElementById("car-start");

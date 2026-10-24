@@ -6,7 +6,7 @@
   if (!D || !boardEl) return;
   const statusEl = document.getElementById("damas-status");
   const opts = document.getElementById("damas-opts");
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   const HUMAN = 1;
   const AI = -1;
 

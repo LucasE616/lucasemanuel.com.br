@@ -566,12 +566,14 @@ a análise de novo no makemefindable.com no fim.
 - [ ] **SPF DNS record** (erro). O domínio não tem registro TXT nem MX. Como ele não envia e-mail, adicionar no painel do Registro.br:
   TXT em `lucasemanuel.com.br` com `v=spf1 -all`, e TXT em `_dmarc.lucasemanuel.com.br` com `v=DMARC1; p=reject;`. Isso impede
   que alguém mande e-mail falso em nome do domínio.
-- [ ] **JS errors** (erro). Não reproduzido: no navegador, o console fica vazio e nenhuma requisição falha. Abrir o item no
-  makemefindable e mandar a mensagem de erro (provavelmente o robô deles usa um navegador antigo).
-- [x] **Media query responsiveness** (aviso). Corrigido em 24/10/2026, a confirmar no makemefindable. O `style.css` tem 12 `@media`,
-  mas a primeira folha de estilo da página é a do Google Fonts, de outro domínio, e ler as regras dela pelo JavaScript dava
-  `SecurityError`. Provavelmente o robô parava aí. Com `crossorigin` no `<link>` (o Google Fonts responde com
-  `Access-Control-Allow-Origin: *`), as regras ficam legíveis. Feito nos 7 HTMLs, junto com o `preconnect`.
+- [x] **JS errors** (erro). Feito em 24/10/2026, a confirmar no makemefindable. A API dele (`/api/execute?url=...`) só dá a
+  contagem, e no Chrome não há erro. Ele roda num servidor Node, e no jsdom (que imita um navegador) a página dava
+  `ReferenceError: matchMedia is not defined` no script de tema e no `script.js`. Todas as chamadas passaram a ser
+  `window.matchMedia?.(...)`, e o carrinho não monta sem canvas 2D (antes dava `TypeError` no jsdom).
+- [ ] **Media query responsiveness** (aviso). Não resolvido. O `style.css` tem 12 `@media`. A hipótese de 24/10/2026 (a folha do
+  Google Fonts, de outro domínio, dava `SecurityError` ao ler as regras) estava errada: com `crossorigin` no `<link>` o aviso
+  continuou. O atributo ficou, porque não atrapalha. No jsdom as 12 regras aparecem, então o robô deve procurar `@media` em
+  outro lugar (talvez só em `<style>` dentro do HTML ou no atributo `media` do `<link>`).
 - [x] **Plaintext email** (erro). Feito em 24/10/2026, a confirmar no makemefindable. A ferramenta roda o JavaScript, então
   achava também o Yahoo, montado ao abrir a página (item 36). Agora os dois e-mails só aparecem com o clique em "mostrar
   e-mail", como o telefone, na home e no `/servicos`; o link "email" do rodapé abre o Gmail sem mostrá-lo, e o PDF do currículo

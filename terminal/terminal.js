@@ -8,7 +8,7 @@
   const promptEl = document.getElementById("term-prompt");
   const titleEl = document.querySelector(".term-title");
 
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   const FIRST_COMMIT = new Date("2026-09-22T11:52:24-03:00");
   const REPO = "LucasE616/lucasemanuel.com.br";
   const USER = "lucas@lucasemanuel";

@@ -20,7 +20,7 @@
   const boardEl = document.getElementById("velha-board");
   const statusEl = document.getElementById("velha-status");
   const opts = document.getElementById("velha-opts");
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
   let board, human, ai, level, turn, over, thinking, timer;
 
