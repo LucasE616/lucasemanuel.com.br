@@ -12,6 +12,9 @@
         addEventListener("unhandledrejection", (e) => add("promise: " + (e.reason && (e.reason.stack || e.reason))));
         const ce = console.error; console.error = (...a) => { add("console: " + a.join(" ")); ce.apply(console, a); };
         addEventListener("securitypolicyviolation", (e) => add("csp: " + e.violatedDirective + " " + e.blockedURI));
+        const report = (tag) => add(tag + " " + performance.getEntriesByType("resource").map((r) => `${r.name.replace(/\?.*/, "").split("/").slice(2, 3)}${r.name.includes("woff") ? "(fonte)" : ""}=${r.responseStatus ?? "?"}/${r.transferSize}`).join(", ") + " | fonts " + [...document.fonts].map((f) => f.family + ":" + f.status).join(", "));
+        addEventListener("load", () => report("LOAD"));
+        setTimeout(() => report("T3"), 3000);
         addEventListener("DOMContentLoaded", () => { q.forEach((h) => document.body.append(h)); add("UA " + navigator.userAgent + " | VT " + !!window.CSSViewTransitionRule + " | mm " + typeof matchMedia); });
       })();
     </script>
