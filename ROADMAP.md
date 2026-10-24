@@ -62,7 +62,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 Analisado em 13/10/2026: o que dá para usar de MongoDB, PostgreSQL, Cloudflare, OAuth2, JWT, AWS e nginx com o site no GitHub Pages. Tudo de 40 a 44 é gratuito dentro dos limites dos planos grátis. Detalhes e custos abaixo.
 
-40. ⬜ **Cloudflare na frente do site** (baixo). DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35) e regras de cache. Sem programar.
+40. ⬜ **Cloudflare na frente do site** (baixo). DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35), HSTS (item 49) e regras de cache. Sem programar.
 41. ⬜ **Formulário de contato com back-end próprio** (médio). API no Cloudflare Workers, anti-robô com o Turnstile, mensagens salvas no banco (Neon/PostgreSQL ou MongoDB Atlas) e aviso por e-mail. Alternativa ao Formspree do item 12.
 42. ⬜ **Ranking global dos jogos** (médio). Login com GitHub (OAuth2), sessão com JWT e placares da velha, das damas e do carrinho salvos no PostgreSQL. Hoje os placares ficam só no `localStorage` (item 30).
 43. ⬜ **Login pelo GitHub e imagens da área administrativa** (médio). O OAuth do Decap/Sveltia CMS roda num Worker, e as imagens vão para o Cloudflare R2 ou para o próprio repositório. Feito junto com o item 21.
@@ -575,8 +575,12 @@ a análise de novo no makemefindable.com no fim.
 **Depende de outro item ou não tem correção:**
 
 - [ ] **HSTS** (aviso). O GitHub Pages não envia o cabeçalho `Strict-Transport-Security` em domínio próprio, e o HSTS por `<meta>`
-  não funciona. Resolve com o Cloudflare (item 40). Hoje o HTTP já redireciona para HTTPS com 301.
-- [ ] **Domain Age** (aviso). Sem correção: o aviso some com o tempo.
+  não funciona. Hoje o HTTP já redireciona para HTTPS com 301. **Decidido em 24/10/2026: fazer junto com o Cloudflare (item 40)**,
+  ligando o HSTS no painel. Começar com `max-age` curto e aumentar depois; não ligar `includeSubDomains` nem `preload` sem pensar,
+  porque sair da lista de preload dos navegadores demora meses.
+- [ ] **Domain Age** (aviso). Sem correção: a ferramenta não consegue consultar domínios `.com.br` (só os registros internacionais)
+  e assume que o domínio é novo. Pelo RDAP do Registro.br, ele foi registrado em 20/09/2025 e vence em 20/09/2027. O Google não usa
+  a idade do domínio para ranquear.
 
 ## Fora da lista (já feito)
 
