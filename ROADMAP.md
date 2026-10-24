@@ -56,6 +56,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 19. ⬜ **Auditoria com Lighthouse** (baixo). Acessibilidade e desempenho.
 20. ⬜ **Verificação no GitHub Actions** (médio). Validar HTML e checar links quebrados a cada push. Também pode trocar o `?v=` sozinho: hoje ele é trocado à mão em 18 lugares (5 HTMLs), e um esquecimento já quebrou o site em 26/09/2026 (item 17).
 21. ⬜ **Área administrativa** (médio-alto). Editar o conteúdo do site por formulários, sem mexer no código.
+49. ⬜ **Checklist do makemefindable** (baixo). Em 24/10/2026, o makemefindable.com deu 70,73% ao site, com 6 erros e 6 avisos. Inclui os itens 15 e 16. Checklist abaixo.
 
 ## Back-end e infraestrutura
 
@@ -541,6 +542,40 @@ Navegador ──► lucasemanuel.com.br (GitHub Pages, via Cloudflare)
 - **Não é login de visitantes:** para o visitante entrar no site, o equivalente da AWS é o **Amazon Cognito** (tem cota grátis; conferir os limites atuais). No projeto, o login com GitHub (itens 42 e 43) já cobre isso sem a AWS.
 - **Valor para o portfólio:** escrever políticas de menor privilégio é uma habilidade pedida em vagas de back-end e de nuvem, mesmo num uso pequeno como este.
 
+### Detalhes do item 49: checklist do makemefindable
+
+Análise feita em 24/10/2026 no site publicado (curl, DNS e console do navegador). Marcar cada caixa ao concluir e rodar
+a análise de novo no makemefindable.com no fim.
+
+**No código (Claude faz):**
+
+- [ ] **Robots.txt** (erro). `/robots.txt` dá 404. Criar com `Allow` geral e a linha `Sitemap:` (item 16).
+- [ ] **Sitemap** (erro). `/sitemap.xml` dá 404. Listar `/`, `/setup/`, `/curriculo/`, `/servicos/`, `/terminal/` e `/jogos/` (item 16).
+- [ ] **Meta title** (aviso). O título da home, "Lucas Emanuel", tem 13 caracteres. Usar o texto do `og:title`, que já existe:
+  "Lucas Emanuel — Dev Back-end & Analista de Sistemas" (51).
+- [ ] **Meta description** (aviso). A da home tem 95 caracteres; o ideal é de 120 a 160. Ampliar só com informações que já estão no site.
+- [ ] **Meta social media** (aviso). Nenhuma página tem `og:image` nem `twitter:card`. Criar a imagem de prévia (1200×630, "le", nome e
+  cargo nas cores do site) e pôr as duas tags em todas as páginas (item 15).
+
+**Com o Lucas:**
+
+- [ ] **SPF DNS record** (erro). O domínio não tem registro TXT nem MX. Como ele não envia e-mail, adicionar no painel do Registro.br:
+  TXT em `lucasemanuel.com.br` com `v=spf1 -all`, e TXT em `_dmarc.lucasemanuel.com.br` com `v=DMARC1; p=reject;`. Isso impede
+  que alguém mande e-mail falso em nome do domínio.
+- [ ] **JS errors** (erro). Não reproduzido: no navegador, o console fica vazio e nenhuma requisição falha. Abrir o item no
+  makemefindable e mandar a mensagem de erro (provavelmente o robô deles usa um navegador antigo).
+- [ ] **Media query responsiveness** (aviso). O `style.css` tem 13 `@media` e a viewport está certa. Abrir o item e mandar o detalhe.
+- [ ] **Plaintext email** (erro). É o Gmail, em texto puro de propósito (item 36). Decidir se fica assim ou se recebe a mesma
+  proteção do Yahoo (base64 no `Contacts` de `script.js`, inclusive no `cli`).
+- [ ] **GA tags** (erro). Não é defeito: o site não tem analytics. O Google Analytics pediria banner de cookies; o plano é o
+  analytics sem cookies do item 18. Decidir se o aviso pode ser ignorado.
+
+**Depende de outro item ou não tem correção:**
+
+- [ ] **HSTS** (aviso). O GitHub Pages não envia o cabeçalho `Strict-Transport-Security` em domínio próprio, e o HSTS por `<meta>`
+  não funciona. Resolve com o Cloudflare (item 40). Hoje o HTTP já redireciona para HTTPS com 301.
+- [ ] **Domain Age** (aviso). Sem correção: o aviso some com o tempo.
+
 ## Fora da lista (já feito)
 
 - ✅ Modais para Skills e Contato; atalhos I, S, C e U
@@ -554,7 +589,7 @@ Navegador ──► lucasemanuel.com.br (GitHub Pages, via Cloudflare)
 ## Ordem sugerida
 
 1. **Correções (31 a 34):** os dois bugs do terminal, o README.md e os links do GitHub. O item 35 depende de decisão do Lucas; o 36 já foi feito.
-2. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap). Os outros deste grupo (9, 17 e 22) já foram feitos.
+2. **Itens rápidos juntos:** 15 e 16 (prévia e sitemap), dentro do checklist do item 49. Os outros deste grupo (9, 17 e 22) já foram feitos.
 3. **Área administrativa (21)**, começando pelos pré-requisitos.
 4. **Página de Projetos (1)**, já com os dados editáveis pelo painel.
 5. **Site em linha de comando (23)**. As formas A e B já estão no ar; falta a forma C (`npx lucasemanuel`).
