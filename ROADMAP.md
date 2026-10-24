@@ -600,9 +600,11 @@ a análise de novo no makemefindable.com no fim.
 **Outras páginas, analisadas em 24/10/2026** (uma por vez: o servidor do makemefindable cai com análises em paralelo).
 Notas: `/setup`, `/curriculo`, `/servicos` e `/jogos` 85,37%; `/terminal` 82,93%. Sem erros de JS, e-mail ou media query em nenhuma.
 
-- [ ] **Meta description** fora da faixa de 120 a 160: `/setup` 113, `/servicos` 180 (o Google corta), `/terminal` 75 e
-  `/jogos` 104. O `/curriculo` (152) está certo. Textos novos propostos ao Lucas, só com o que já está no site.
-- [ ] **Heading tags** no `/terminal`: a página não tem nenhum título (`h1` a `h6`). Pode ganhar um `<h1 class="sr-only">`.
+- [x] **Meta description** fora da faixa de 120 a 160: `/setup` 113, `/servicos` 180 (o Google corta), `/terminal` 75 e
+  `/jogos` 104. O `/curriculo` (152) está certo. Feito em 24/10/2026 com os textos aprovados pelo Lucas, só com o que já
+  está no site: 149, 150, 132 e 131 caracteres. As `og:description` continuam curtas, de propósito.
+- [x] **Heading tags** no `/terminal`: a página não tinha nenhum título. Feito em 24/10/2026: `<h1 class="sr-only">Terminal</h1>`
+  no começo do `<main>`, visível só para leitores de tela e buscadores.
 - Robots.txt e Sitemap reprovados em todas as subpáginas: **erro da ferramenta**, que procura os arquivos dentro da pasta
   da página (`/setup/robots.txt`), e não na raiz, que é o padrão. Nada a fazer.
 - Structured data informativo nas que não têm JSON-LD (todas menos o `/curriculo`). Opcional.
