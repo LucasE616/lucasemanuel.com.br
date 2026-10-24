@@ -230,7 +230,11 @@
 
   const modal = document.getElementById("modal");
   const modalBox = modal?.querySelector(".modal-box");
-  const modalTitle = document.getElementById("modal-title");
+  // O título só entra na página quando o modal abre: vazio no HTML, ele virava um <h2> sem texto para leitores de tela
+  // e robôs (item 49 do ROADMAP)
+  const modalTitle = document.createElement("h2");
+  modalTitle.className = "modal-title";
+  modalTitle.id = "modal-title";
   const modalFile = document.getElementById("modal-file");
   const modalContent = document.getElementById("modal-content");
   const modalClose = modal?.querySelector(".modal-close");
@@ -247,6 +251,7 @@
     clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
 
     modalTitle.textContent = topics[name].title;
+    if (!modalTitle.isConnected) modalContent.before(modalTitle);
     modalFile.textContent = topics[name].file;
     modalContent.replaceChildren(clone);
 
@@ -390,7 +395,7 @@
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy(Contacts.get("yahoo")) },
     { group: "Contato", label: "Conversar no WhatsApp", hint: "whatsapp", run: () => open(Contacts.phone().whatsapp)() },
     { group: "Contato", label: "Copiar telefone", hint: "telefone", run: () => copy(Contacts.phone().text) },
-    { group: "Redes", label: "GitHub", hint: "lucase616", run: open("https://github.com/lucase616") },
+    { group: "Redes", label: "GitHub", hint: "LucasE616", run: open("https://github.com/LucasE616") },
     { group: "Redes", label: "LinkedIn", hint: "in", run: open("https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/") },
     { group: "Redes", label: "Instagram", hint: "@lucase616", run: open("https://instagram.com/lucase616") },
   ];
