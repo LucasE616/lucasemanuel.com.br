@@ -78,7 +78,7 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 31. ⬜ **Bug: Ctrl+C no terminal dá dois lances seguidos ao visitante** (baixo). Em `play velha` e `play damas`, apertar Ctrl+C enquanto a máquina "pensa" cancela o lance dela, mas a partida continua, e o visitante joga de novo.
 32. ⬜ **Bug: terminal sem pastas se o boot falhar** (baixo). Se o conteúdo não carregar no boot, `ls`, `cd`, `cat` e `tree` dão erro mesmo depois que o conteúdo carrega.
 33. ⬜ **README.md desatualizado** (baixo). Comando do servidor local, estrutura de pastas e atalhos estão defasados.
-34. ⬜ **Links do GitHub com o usuário antigo** (baixo). Trocar `github.com/lucase616` por `github.com/LucasE616`. Hoje funciona por redirecionamento.
+34. ✅ **Links do GitHub com o usuário antigo** (baixo). Feito em 24/10/2026: `github.com/lucase616` virou `github.com/LucasE616` nos HTMLs, no rodapé, na paleta e no `cli`. O Instagram continua `lucase616`, e o CNAME `lucase616.github.io` não muda (DNS não diferencia maiúsculas).
 35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio. Uma regra no Cloudflare (item 40) resolve sem mudar a publicação.
 38. ⬜ **Bug: cabeçalho estoura a largura em algumas faixas** (baixo). Medido em 13/10/2026, antes do link Serviços: a home, `/jogos` e `/terminal` passam da largura da tela entre ~530 e 540px, e `/setup`, `/curriculo` e `/servicos` entre ~650 e 710px. São as faixas logo depois que o menu compacto (até 520px) e a busca só com ícone (até 640px) acabam. Correção sugerida: estender esses dois `@media` ou diminuir o espaçamento dos links nessas faixas.
 36. ✅ **Contatos expostos a robôs de spam** (baixo). Feito em 27/09/2026: o telefone só aparece com um clique em "mostrar telefone", e o e-mail do Yahoo é montado pelo JavaScript. Em 24/10/2026 (item 49), os dois e-mails passaram a aparecer só com um clique em "mostrar e-mail".
@@ -556,7 +556,9 @@ a análise de novo no makemefindable.com no fim.
 - [x] **Meta title** (aviso). Feito em 24/10/2026: o título da home tinha 13 caracteres ("Lucas Emanuel") e passou a usar o texto
   do `og:title`, "Lucas Emanuel — Dev Back-end & Analista de Sistemas" (51).
 - [x] **Meta description** (aviso). Feito em 24/10/2026: a da home tinha 95 caracteres e passou a 156, juntando a descrição antiga
-  com a `og:description` (opção escolhida pelo Lucas entre 3, todas só com textos do site).
+  com a `og:description` (opção escolhida pelo Lucas entre 3, todas só com textos do site). O alerta "may contain too many
+  descriptive words" **aparece sempre**: testado em 24/10/2026 com 4 textos (lista, frase em português, frase em inglês e o
+  atual) e no próprio makemefindable.com e no MDN, todos com o mesmo aviso. Não há o que corrigir.
 - [x] **Meta social media** (aviso). Feito em 24/10/2026: `og-image.png` (1200×630, uma só para o site todo, só com o "le" e o
   cursor amarelo, sem foto por enquanto) e as tags `og:image` e `twitter:card`/`title`/`description`/`image` nas 6 páginas, com os
   textos das `og:` de cada uma (item 15).
@@ -590,6 +592,9 @@ a análise de novo no makemefindable.com no fim.
   GoatCounter) dispensa banner, mas o makemefindable procura só o GA4, e o alerta continuaria.
 
 **Itens informativos (ícone cinza), revistos em 24/10/2026:**
+
+- [x] **Heading tags** na home: listava um "Heading 2" vazio, o título do modal, preenchido só ao abrir. Feito em 24/10/2026:
+  o `<h2 id="modal-title">` saiu do HTML e é criado pelo `script.js` na primeira vez que o modal abre.
 
 - [x] **Structured data**. Feito em 24/10/2026: JSON-LD na home com `WebSite` e `Person` (nome, cargo, site, GitHub, LinkedIn,
   Instagram e as linguagens do hero), sem e-mail, para o "Plaintext email" não voltar. A `Person` do `/curriculo` ganhou o
