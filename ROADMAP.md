@@ -81,7 +81,7 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 34. ⬜ **Links do GitHub com o usuário antigo** (baixo). Trocar `github.com/lucase616` por `github.com/LucasE616`. Hoje funciona por redirecionamento.
 35. ⬜ **`CLAUDE.md` e `ROADMAP.md` publicados no site** (baixo a médio). `lucasemanuel.com.br/CLAUDE.md` abre, com caminhos de arquivos do PC. Nada secreto, e o repositório é público, mas não precisa estar no domínio. Uma regra no Cloudflare (item 40) resolve sem mudar a publicação.
 38. ⬜ **Bug: cabeçalho estoura a largura em algumas faixas** (baixo). Medido em 13/10/2026, antes do link Serviços: a home, `/jogos` e `/terminal` passam da largura da tela entre ~530 e 540px, e `/setup`, `/curriculo` e `/servicos` entre ~650 e 710px. São as faixas logo depois que o menu compacto (até 520px) e a busca só com ícone (até 640px) acabam. Correção sugerida: estender esses dois `@media` ou diminuir o espaçamento dos links nessas faixas.
-36. ✅ **Contatos expostos a robôs de spam** (baixo). Feito em 27/09/2026: o telefone só aparece com um clique em "mostrar telefone", e o e-mail do Yahoo é montado pelo JavaScript. O Gmail continua em texto puro, porque já é público nos commits.
+36. ✅ **Contatos expostos a robôs de spam** (baixo). Feito em 27/09/2026: o telefone só aparece com um clique em "mostrar telefone", e o e-mail do Yahoo é montado pelo JavaScript. Em 24/10/2026 (item 49), os dois e-mails passaram a aparecer só com um clique em "mostrar e-mail".
 
 ### Detalhes das correções (itens 31 a 36)
 
@@ -572,8 +572,10 @@ a análise de novo no makemefindable.com no fim.
   mas a primeira folha de estilo da página é a do Google Fonts, de outro domínio, e ler as regras dela pelo JavaScript dava
   `SecurityError`. Provavelmente o robô parava aí. Com `crossorigin` no `<link>` (o Google Fonts responde com
   `Access-Control-Allow-Origin: *`), as regras ficam legíveis. Feito nos 7 HTMLs, junto com o `preconnect`.
-- [ ] **Plaintext email** (erro). É o Gmail, em texto puro de propósito (item 36). Decidir se fica assim ou se recebe a mesma
-  proteção do Yahoo (base64 no `Contacts` de `script.js`, inclusive no `cli`).
+- [x] **Plaintext email** (erro). Feito em 24/10/2026, a confirmar no makemefindable. A ferramenta roda o JavaScript, então
+  achava também o Yahoo, montado ao abrir a página (item 36). Agora os dois e-mails só aparecem com o clique em "mostrar
+  e-mail", como o telefone, na home e no `/servicos`; o link "email" do rodapé abre o Gmail sem mostrá-lo, e o PDF do currículo
+  o recebe na impressão. O Gmail continua no `cli` e no JSON-LD do `/curriculo`, por decisão do Lucas.
 - [ ] **GA tags** (erro). Não é defeito: o site não tem analytics. O Google Analytics pediria banner de cookies; o plano é o
   analytics sem cookies do item 18. Decidir se o aviso pode ser ignorado.
 

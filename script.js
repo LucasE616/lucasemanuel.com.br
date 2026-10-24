@@ -52,12 +52,12 @@
     if (btn) copy(btn.dataset.copy);
   });
 
-  // Contatos protegidos contra robôs de spam (item 36 do ROADMAP): ficam aqui em base64, fora do HTML,
-  // que só marca o lugar com data-contact. O e-mail do Yahoo é montado ao abrir a página; o telefone só
-  // aparece quando alguém clica em "mostrar". O Gmail continua em texto puro: ele já é público nos commits.
+  // Contatos protegidos contra robôs de spam (itens 36 e 49 do ROADMAP): ficam aqui em base64, fora do HTML,
+  // que só marca o lugar com data-contact. E-mails e telefone só aparecem quando alguém clica em "mostrar";
+  // o link "email" do rodapé (data-mailto) abre o e-mail sem mostrá-lo, e o PDF do currículo o recebe na impressão.
   // O terminal usa o mesmo objeto (window.Contacts), porque lê a home com DOMParser, que não roda scripts.
   const Contacts = (() => {
-    const CODES = { yahoo: "bHVjYXNlMzkzQHlhaG9vLmNvbQ==", phone: "NTUzODk5ODEzMDU4MQ==" };
+    const CODES = { gmail: "bHVjYXNlNjE2QGdtYWlsLmNvbQ==", yahoo: "bHVjYXNlMzkzQHlhaG9vLmNvbQ==", phone: "NTUzODk5ODEzMDU4MQ==" };
     const get = (key) => {
       try {
         return atob(CODES[key] || "");
@@ -71,18 +71,25 @@
       return { text: `(${d.slice(2, 4)}) ${d.slice(4, 9)}-${d.slice(9)}`, tel: `tel:+${d}`, whatsapp: `https://wa.me/${d}` };
     };
 
-    const revealEmails = (root = document) =>
-      root.querySelectorAll('a[data-contact="yahoo"]').forEach((a) => {
-        const email = get("yahoo");
+    // Troca os botões "mostrar e-mail" pelo link e pelo botão de copiar. Com o botão clicado, troca só os do
+    // mesmo e-mail (o do README e o da cópia no modal); sem ele, troca todos (o terminal usa assim)
+    const revealEmails = (root = document, clicked) => {
+      const sel = clicked ? `button[data-contact="${clicked.dataset.contact}"]` : 'button[data-contact="gmail"], button[data-contact="yahoo"]';
+      root.querySelectorAll(sel).forEach((btn) => {
+        const email = get(btn.dataset.contact);
+        const doc = btn.ownerDocument;
+        const a = doc.createElement("a");
         a.href = `mailto:${email}`;
         a.textContent = email;
-        a.removeAttribute("data-contact");
-        const btn = a.parentElement.querySelector("[data-copy]");
-        if (btn) {
-          btn.dataset.copy = email;
-          btn.hidden = false;
-        }
+        const copyBtn = doc.createElement("button");
+        copyBtn.className = "copy";
+        copyBtn.type = "button";
+        copyBtn.dataset.copy = email;
+        copyBtn.textContent = "copiar";
+        btn.replaceWith(a, " ", copyBtn);
+        if (btn === clicked) a.focus();
       });
+    };
 
     // Troca todos os botões "mostrar telefone" (o do README e o da cópia no modal) pelos links
     const revealPhones = (clicked) => {
@@ -106,11 +113,21 @@
   })();
   window.Contacts = Contacts;
 
-  Contacts.revealEmails();
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest('button[data-contact="phone"]');
-    if (btn) Contacts.revealPhones(btn);
+    const btn = e.target.closest("button[data-contact]");
+    if (btn?.dataset.contact === "phone") Contacts.revealPhones(btn);
+    else if (btn) Contacts.revealEmails(document, btn);
+    // Sem JavaScript, o link do rodapé leva ao Contato da home
+    const mail = e.target.closest("a[data-mailto]");
+    if (mail) {
+      e.preventDefault();
+      location.href = `mailto:${Contacts.get(mail.dataset.mailto)}`;
+    }
   });
+  // O cabeçalho do PDF do currículo recebe o e-mail só na hora de imprimir
+  window.addEventListener("beforeprint", () =>
+    document.querySelectorAll("[data-print-contact]").forEach((el) => (el.textContent = Contacts.get(el.dataset.printContact)))
+  );
 
   // Páginas: a home tem o README e o modal; as outras (ex.: /setup) apontam para a
   // raiz via data-root e mandam Skills/Contato para a home, que abre o modal pelo hash.
@@ -368,8 +385,8 @@
     { group: "Tema", label: "Tema claro", hint: "light", run: () => setTheme("light") },
     { group: "Tema", label: "Tema escuro", hint: "dark", run: () => setTheme("dark") },
     { group: "Tema", label: "Tema do sistema", hint: "system", run: () => setTheme("system") },
-    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy("lucase616@gmail.com") },
-    { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = "mailto:lucase616@gmail.com") },
+    { group: "Contato", label: "Copiar e-mail", hint: "gmail", run: () => copy(Contacts.get("gmail")) },
+    { group: "Contato", label: "Enviar e-mail", hint: "gmail", run: () => (location.href = `mailto:${Contacts.get("gmail")}`) },
     { group: "Contato", label: "Copiar e-mail (Yahoo)", hint: "yahoo", run: () => copy(Contacts.get("yahoo")) },
     { group: "Contato", label: "Conversar no WhatsApp", hint: "whatsapp", run: () => open(Contacts.phone().whatsapp)() },
     { group: "Contato", label: "Copiar telefone", hint: "telefone", run: () => copy(Contacts.phone().text) },

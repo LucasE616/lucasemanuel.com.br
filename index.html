@@ -42,7 +42,7 @@
         document.documentElement.dataset.theme = light ? "light" : "dark";
       })();
     </script>
-    <link rel="stylesheet" href="style.css?v=20261014.2" />
+    <link rel="stylesheet" href="style.css?v=20261024.1" />
   </head>
   <body>
     <header class="site-header">
@@ -134,21 +134,19 @@
 
               <h3 id="contato">Contato</h3>
               <div data-topic="contato">
+              <!-- Contatos protegidos contra robôs de spam (itens 36 e 49): os valores ficam no script.js
+                   e só aparecem com o clique em "mostrar" -->
               <ul class="contacts">
                 <li>
                   <span class="label">E-mail</span>
                   <span class="value">
-                    <a href="mailto:lucase616@gmail.com">lucase616@gmail.com</a>
-                    <button class="copy" type="button" data-copy="lucase616@gmail.com">copiar</button>
+                    <button class="copy" type="button" data-contact="gmail" aria-label="Mostrar e-mail do Gmail">mostrar e-mail</button>
                   </span>
                 </li>
-                <!-- Contatos protegidos contra robôs de spam (item 36): os valores ficam no script.js.
-                     O e-mail é montado ao abrir a página; o telefone só aparece com o clique em "mostrar" -->
                 <li>
                   <span class="label">E-mail</span>
                   <span class="value">
-                    <a data-contact="yahoo">ative o JavaScript para ver o e-mail</a>
-                    <button class="copy" type="button" data-copy="" hidden>copiar</button>
+                    <button class="copy" type="button" data-contact="yahoo" aria-label="Mostrar e-mail do Yahoo">mostrar e-mail</button>
                   </span>
                 </li>
                 <li>
@@ -183,7 +181,7 @@
       <a href="https://github.com/lucase616" target="_blank" rel="noopener">github</a>
       <a href="https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/" target="_blank" rel="noopener">linkedin</a>
       <a href="https://instagram.com/lucase616" target="_blank" rel="noopener">instagram</a>
-      <a href="mailto:lucase616@gmail.com">email</a>
+      <a href="#contato" data-mailto="gmail">email</a>
     </footer>
 
     <!-- Paleta de comandos (Ctrl/⌘ + K) -->
@@ -228,6 +226,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="script.js?v=20261014.2"></script>
+    <script src="script.js?v=20261024.1"></script>
   </body>
 </html>
