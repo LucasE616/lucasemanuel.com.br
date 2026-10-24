@@ -38,6 +38,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/`, `/setup/` e `/curriculo/`. Tem painel de personalização (engrenagem na barra) |
 | `jogos/` | Página `/jogos` (item 30): jogo da velha, damas e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, `#damas` ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba, com o tabuleiro/canvas marcado com a classe `game-stage` (ver layout abaixo). `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` tem as abas e a interface da velha; `damas-ia.js` tem regras, IA e placar das damas (página, terminal e `damas-worker.js`, o Web Worker da IA); `damas.js` é a interface das damas; `carrinho.js` é o jogo de carrinho em canvas |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
+| `sitemap.xml` | Mapa do site para os buscadores (item 49). Página nova entra nele; ao mudar uma página, atualize o `lastmod` dela |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
 | `ROADMAP.md` | Melhorias planejadas e correções (49 itens) |
