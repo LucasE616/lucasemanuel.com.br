@@ -49,7 +49,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 ## Técnico
 
-15. ⬜ **Imagem de prévia (Open Graph)** (baixo). Hoje o link compartilhado no LinkedIn/WhatsApp aparece sem imagem. Conferido em 27/09/2026: nenhuma página tem `og:image`.
+15. ✅ **Imagem de prévia (Open Graph)** (baixo). Feito em 24/10/2026 (item 49): `og-image.png` em todas as páginas, para o link compartilhado no LinkedIn/WhatsApp aparecer com imagem.
 16. ✅ **`sitemap.xml` e `robots.txt`** (baixo). Feito em 24/10/2026 (item 49): indexação no Google, incluindo `/setup`, `/terminal` e `/jogos`.
 17. ✅ **Versão nos arquivos CSS e JS** (baixo). Feito em 26/09/2026 (`?v=AAAAMMDD.N`), depois que o cache misturou HTML novo com CSS/JS antigos e quebrou o botão de tema. A versão é trocada à mão a cada mudança no CSS ou no JS (regra no CLAUDE.md). Um próximo passo seria automatizar isso no GitHub Actions (item 20).
 18. ⬜ **Analytics sem cookies** (baixo). GoatCounter ou Cloudflare Web Analytics, sem banner de consentimento. O Cloudflare entra no item 40.
@@ -556,8 +556,9 @@ a análise de novo no makemefindable.com no fim.
 - [x] **Meta title** (aviso). Feito em 24/10/2026: o título da home tinha 13 caracteres ("Lucas Emanuel") e passou a usar o texto
   do `og:title`, "Lucas Emanuel — Dev Back-end & Analista de Sistemas" (51).
 - [ ] **Meta description** (aviso). A da home tem 95 caracteres; o ideal é de 120 a 160. Ampliar só com informações que já estão no site.
-- [ ] **Meta social media** (aviso). Nenhuma página tem `og:image` nem `twitter:card`. Criar a imagem de prévia (1200×630, "le", nome e
-  cargo nas cores do site) e pôr as duas tags em todas as páginas (item 15).
+- [x] **Meta social media** (aviso). Feito em 24/10/2026: `og-image.png` (1200×630, uma só para o site todo, só com o "le" e o
+  cursor amarelo, sem foto por enquanto) e as tags `og:image` e `twitter:card`/`title`/`description`/`image` nas 6 páginas, com os
+  textos das `og:` de cada uma (item 15).
 
 **Com o Lucas:**
 

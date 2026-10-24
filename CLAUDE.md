@@ -42,6 +42,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `robots.txt` | Libera tudo aos buscadores e aponta para o `sitemap.xml` (item 49) |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
+| `og-image.png` | Imagem de prévia dos links (item 49), 1200×630, uma só para o site todo: "le" em Verdana negrito `#f2f2f2` com cursor amarelo `#ffbb00` no fundo `#08070b`, sem foto (decisão do Lucas). Gerada com o Chrome headless (`--screenshot --window-size=1200,630`) a partir de um HTML fora do repositório. PNG porque as redes não aceitam SVG |
 | `ROADMAP.md` | Melhorias planejadas e correções (49 itens) |
 
 ## Visual
@@ -94,7 +95,9 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Modais de tópico:** o conteúdo vem do README por `data-topic="nome"` e é clonado para o modal, sem
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
-  `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`.
+  `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
+  `twitter:` (copiar o bloco de uma página existente: `og:image` e `twitter:image` apontam para `/og-image.png`, e
+  `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`.
   Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre
   `/jogos` e o terminal), `damas-placar` (idem), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
   `play carrinho`, função `carGame` em `terminal.js`). Toda leitura e escrita fica em `try/catch`.
