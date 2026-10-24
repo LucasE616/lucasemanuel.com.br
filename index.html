@@ -23,6 +23,37 @@
     <meta name="twitter:description" content="JavaScript, C, Python e Node.js. Suporte de TI, engenharia de requisitos, gestão de software e metodologias ágeis." />
     <meta name="twitter:image" content="https://lucasemanuel.com.br/og-image.png" />
 
+    <!-- Dados estruturados para o Google (item 49): o site e a pessoa. Sem e-mail, que ficaria em texto puro no HTML
+         (contatos protegidos, item 36). O /curriculo aponta para a mesma pessoa pelo @id -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://lucasemanuel.com.br/#website",
+            "url": "https://lucasemanuel.com.br/",
+            "name": "Lucas Emanuel",
+            "inLanguage": "pt-BR",
+            "author": { "@id": "https://lucasemanuel.com.br/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://lucasemanuel.com.br/#person",
+            "name": "Lucas Emanuel",
+            "jobTitle": "Dev Back-end & Analista de Sistemas",
+            "url": "https://lucasemanuel.com.br/",
+            "sameAs": [
+              "https://github.com/LucasE616",
+              "https://www.linkedin.com/in/lucas-emanuel-santos-martins-105304242/",
+              "https://instagram.com/lucase616"
+            ],
+            "knowsAbout": ["JavaScript", "C", "Python", "Node.js"]
+          }
+        ]
+      }
+    </script>
+
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <script>
       // Aplica o tema antes de desenhar a página, para não piscar o tema errado

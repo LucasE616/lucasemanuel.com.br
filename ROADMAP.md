@@ -589,6 +589,14 @@ a análise de novo no makemefindable.com no fim.
   sairia mas os erros de JS provavelmente voltariam. O analytics sem cookies (item 18, Cloudflare Web Analytics ou
   GoatCounter) dispensa banner, mas o makemefindable procura só o GA4, e o alerta continuaria.
 
+**Itens informativos (ícone cinza), revistos em 24/10/2026:**
+
+- [x] **Structured data**. Feito em 24/10/2026: JSON-LD na home com `WebSite` e `Person` (nome, cargo, site, GitHub, LinkedIn,
+  Instagram e as linguagens do hero), sem e-mail, para o "Plaintext email" não voltar. A `Person` do `/curriculo` ganhou o
+  mesmo `@id` (`https://lucasemanuel.com.br/#person`), para o Google saber que é a mesma pessoa.
+- [x] **Modern media**. Nada a fazer: a home não tem imagens. Se entrarem fotos (item 4, Sobre), usar WebP ou AVIF.
+- [x] **Unsafe target="_blank" links**. Já está certo: todos os links que abrem em nova aba têm `rel="noopener"`.
+
 **Depende de outro item ou não tem correção:**
 
 - [ ] **HSTS** (aviso). O GitHub Pages não envia o cabeçalho `Strict-Transport-Security` em domínio próprio, e o HSTS por `<meta>`
