@@ -50,7 +50,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 ## Técnico
 
 15. ⬜ **Imagem de prévia (Open Graph)** (baixo). Hoje o link compartilhado no LinkedIn/WhatsApp aparece sem imagem. Conferido em 27/09/2026: nenhuma página tem `og:image`.
-16. 🟡 **`sitemap.xml` e `robots.txt`** (baixo). Indexação no Google, incluindo `/setup`, `/terminal` e `/jogos`. O `sitemap.xml` foi feito em 24/10/2026 (item 49); falta o `robots.txt`.
+16. ✅ **`sitemap.xml` e `robots.txt`** (baixo). Feito em 24/10/2026 (item 49): indexação no Google, incluindo `/setup`, `/terminal` e `/jogos`.
 17. ✅ **Versão nos arquivos CSS e JS** (baixo). Feito em 26/09/2026 (`?v=AAAAMMDD.N`), depois que o cache misturou HTML novo com CSS/JS antigos e quebrou o botão de tema. A versão é trocada à mão a cada mudança no CSS ou no JS (regra no CLAUDE.md). Um próximo passo seria automatizar isso no GitHub Actions (item 20).
 18. ⬜ **Analytics sem cookies** (baixo). GoatCounter ou Cloudflare Web Analytics, sem banner de consentimento. O Cloudflare entra no item 40.
 19. ⬜ **Auditoria com Lighthouse** (baixo). Acessibilidade e desempenho.
@@ -549,7 +549,8 @@ a análise de novo no makemefindable.com no fim.
 
 **No código (Claude faz):**
 
-- [ ] **Robots.txt** (erro). `/robots.txt` dá 404. Criar com `Allow` geral e a linha `Sitemap:` (item 16).
+- [x] **Robots.txt** (erro). Feito em 24/10/2026: `/robots.txt` libera tudo e aponta para o sitemap (item 16). Sem `Disallow`
+  para `/CLAUDE.md` e `/ROADMAP.md`, que só anunciaria os arquivos: isso fica para o item 35.
 - [x] **Sitemap** (erro). Feito em 24/10/2026: `/sitemap.xml` com `/`, `/setup/`, `/curriculo/`, `/servicos/`, `/terminal/` e `/jogos/`,
   cada um com o `lastmod` do último commit da página (item 16).
 - [ ] **Meta title** (aviso). O título da home, "Lucas Emanuel", tem 13 caracteres. Usar o texto do `og:title`, que já existe:
