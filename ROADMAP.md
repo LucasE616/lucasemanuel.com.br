@@ -553,8 +553,8 @@ a análise de novo no makemefindable.com no fim.
   para `/CLAUDE.md` e `/ROADMAP.md`, que só anunciaria os arquivos: isso fica para o item 35.
 - [x] **Sitemap** (erro). Feito em 24/10/2026: `/sitemap.xml` com `/`, `/setup/`, `/curriculo/`, `/servicos/`, `/terminal/` e `/jogos/`,
   cada um com o `lastmod` do último commit da página (item 16).
-- [ ] **Meta title** (aviso). O título da home, "Lucas Emanuel", tem 13 caracteres. Usar o texto do `og:title`, que já existe:
-  "Lucas Emanuel — Dev Back-end & Analista de Sistemas" (51).
+- [x] **Meta title** (aviso). Feito em 24/10/2026: o título da home tinha 13 caracteres ("Lucas Emanuel") e passou a usar o texto
+  do `og:title`, "Lucas Emanuel — Dev Back-end & Analista de Sistemas" (51).
 - [ ] **Meta description** (aviso). A da home tem 95 caracteres; o ideal é de 120 a 160. Ampliar só com informações que já estão no site.
 - [ ] **Meta social media** (aviso). Nenhuma página tem `og:image` nem `twitter:card`. Criar a imagem de prévia (1200×630, "le", nome e
   cargo nas cores do site) e pôr as duas tags em todas as páginas (item 15).
