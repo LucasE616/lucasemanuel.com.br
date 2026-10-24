@@ -572,10 +572,12 @@ a análise de novo no makemefindable.com no fim.
   a folha do Google Fonts e a fonte Chomsky do jsDelivr falhavam (status 0), e cada falha contava como erro. As duas fontes
   passaram para a pasta `fonts/` do site. Antes disso, as chamadas a `matchMedia` viraram `window.matchMedia?.(...)` e o
   carrinho passou a não montar sem canvas 2D, porque no jsdom a página dava `ReferenceError` (não era a causa, mas ficou).
-- [ ] **Media query responsiveness** (aviso). Não resolvido. O `style.css` tem 12 `@media`, mas o aviso continuou depois de
-  duas tentativas em 24/10/2026: `crossorigin` no `<link>` do Google Fonts e, depois, as fontes no próprio site, sem nenhuma
-  folha de outro domínio. Próximo passo: usar a página temporária de diagnóstico (cópia da home com um script que escreve em
-  `<h2>`, lidos em "Heading tags") para ver o que o navegador dele enxerga em `document.styleSheets`.
+- [ ] **Media query responsiveness** (aviso). Causa achada em 24/10/2026: **o makemefindable só conta `@media` dentro de
+  `<style>` no próprio HTML** e ignora as folhas externas. Testado com páginas temporárias: o navegador dele lê as 12
+  `@media` do `style.css`, mas o aviso continua; uma cópia da home com um `<style>` de uma linha passa ("1 media query"); e
+  `media="screen"` no `<link>` não muda nada. O site é responsivo; o aviso é limitação da ferramenta. Decidir com o Lucas se
+  vale pôr um `<style>` com `@media` no HTML só para a ferramenta (as tentativas anteriores, `crossorigin` e fontes locais,
+  não eram a causa).
 - [x] **Plaintext email** (erro). Feito em 24/10/2026, a confirmar no makemefindable. A ferramenta roda o JavaScript, então
   achava também o Yahoo, montado ao abrir a página (item 36). Agora os dois e-mails só aparecem com o clique em "mostrar
   e-mail", como o telefone, na home e no `/servicos`; o link "email" do rodapé abre o Gmail sem mostrá-lo, e o PDF do currículo
