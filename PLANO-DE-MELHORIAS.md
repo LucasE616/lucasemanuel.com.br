@@ -165,8 +165,7 @@ previews de PR e os cabeçalhos de segurança. Também cobre os itens 35 e 40 do
 ### 2.4 Cabeçalhos de segurança (`site/_headers`)
 
 - ⬜ Mover o script de tema inline para um arquivo **ou** calcular o hash dele para o CSP.
-- ⬜ Decidir sobre o `<style>` `.mmf`: foi adicionado a pedido do Lucas (item 49) para o aviso do makemefindable.
-  Removê-lo deixa o código mais limpo, mas o aviso volta. Não bloqueia o CSP (`style-src` já tem `'unsafe-inline'`).
+- ✅ Remover o `<style>` `.mmf`. Feito em 25/10/2026, por decisão do Lucas: código mais limpo; o aviso do makemefindable volta.
 - ⬜ Criar o `_headers`:
 
 ```
