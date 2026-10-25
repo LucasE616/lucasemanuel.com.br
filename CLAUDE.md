@@ -35,7 +35,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `index.html` | Home: apresentação (hero), README com skills e contatos, modal e paleta |
 | `setup/index.html` | Página `/setup`: equipamentos e ferramentas |
 | `curriculo/index.html` | Página `/curriculo` (item 24): experiência e formação em linha do tempo (`<ol class="timeline">`), cursos, habilidades, idiomas e livros técnicos, no design do `/setup`. O PDF é a própria página impressa (`@media print` em `style.css`, botão `data-print`) |
-| `servicos/index.html` | Página `/servicos` (item 37): desenvolvimento, formatação de PC (4 planos em cartões `.plans`), configuração, impressoras e scanners, e contato para contratar, com o aviso `.paper-note` no topo (fora os planos, valores a combinar), no design do `/setup` com o amarelo do site |
+| `servicos/index.html` | Página `/servicos` (item 37): desenvolvimento, formatação de PC (4 planos em cartões `.plans`), configuração, impressoras e scanners, e contato para contratar, fora do menu (link no rodapé), com o aviso `.paper-note` no topo (fora os planos, valores a combinar), no design do `/setup` com o amarelo do site |
 | `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
 | `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/`, `/setup/` e `/curriculo/`. Tem painel de personalização (engrenagem na barra) |
@@ -136,8 +136,8 @@ status dos itens no mesmo commit em que forem concluídos.
   para `/#topico`, e a home abre o modal pelo hash e limpa a URL.
 - **Atalhos de teclado:** I (Início, fecha o modal e vai ao topo), S (Skills), C (Contato), U (Setup), E (Currículo), V (Serviços), T ou crase (Terminal) e J (Jogos). A página `/jogos` fica fora do menu,
   para ele continuar cabendo numa linha. O link "Currículo" (classe `nav-wide`) só aparece a partir de 480px: com 5 links
-  o menu não cabe entre 320 e 470px. O link "Serviços" (classe `nav-wider`) só aparece a partir de 820px: com 6 links o
-  cabeçalho das páginas com a busca "Buscar… Ctrl K" só cabe a partir de ~810px (medido em 13/10/2026). Link novo no menu = testar essas larguras antes.
+  o menu não cabe entre 320 e 470px. **Serviços não fica no menu** (decisão de 25/10/2026, plano de melhorias): abre pelo
+  rodapé (`index.html`, `setup/`, `curriculo/` e `servicos/`), pela paleta e pelo atalho V. A classe `nav-wider` foi removida. Link novo no menu = testar as larguras antes.
   São ignorados enquanto se digita e com a paleta aberta. Cada comando fica no array `commands` de
   `script.js`, que também alimenta a paleta.
 - **Copiar:** `navigator.clipboard` só existe em HTTPS, então há um plano B com `execCommand`. Os

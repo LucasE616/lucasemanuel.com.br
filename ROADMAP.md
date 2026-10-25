@@ -123,7 +123,7 @@ Encontradas numa revisão do código em 27/09/2026. Detalhes abaixo.
 - **Decisão do Lucas (27/09/2026), conforme a recomendação:**
   - **Telefone:** mostrado com clique. O bloco de contato tem o botão "mostrar telefone"; o clique troca todos os botões (README e modal) pelo link `tel:` e pelo WhatsApp. É o que mais valia proteger, porque o número leva ao WhatsApp, onde chegam golpes.
   - **Yahoo:** montado pelo JavaScript ao abrir a página. Sem JavaScript, aparece "ative o JavaScript para ver o e-mail".
-  - **Gmail:** continua em texto puro, inclusive no `/cli`. Ele já é público como e-mail de autor dos commits (a API do GitHub mostra). Para protegê-lo nos commits futuros, seria preciso usar o e-mail noreply do GitHub no `git config user.email`.
+  - **Gmail:** continuava em texto puro, inclusive no `/cli`. Em 24/10/2026 (item 49) passou a aparecer só com clique no site, e em 25/10/2026 saiu também do `/cli`, que agora aponta para `/#contato`. Ele já é público como e-mail de autor dos commits (a API do GitHub mostra). Para protegê-lo nos commits futuros, seria preciso usar o e-mail noreply do GitHub no `git config user.email`.
 - **Implementação:** objeto `Contacts` em `script.js` (exposto como `window.Contacts`), com os valores em base64 fora do HTML, que só marca o lugar com `data-contact="yahoo"` ou `data-contact="phone"`. A paleta ("Copiar e-mail (Yahoo)", "Conversar no WhatsApp", "Copiar telefone") usa o mesmo objeto. O terminal chama `Contacts.revealEmails()` no HTML lido pelo `DOMParser`, mostra o telefone como "oculto" no `contato` e ganhou o comando `telefone`; o `open whatsapp` continua funcionando.
 - **Limite:** protege contra coleta automática, não contra quem abre o site e clica. O base64 não é criptografia.
 
