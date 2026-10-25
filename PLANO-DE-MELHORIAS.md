@@ -52,7 +52,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito
   E marcar em Settings → Emails: "Keep my email addresses private" e "Block command line pushes that expose my email".
 - ⬜ Ativar **Secret scanning** e **Push protection** (Settings → Code security). Grátis em repositório público.
 - ⬜ Ativar **Dependabot** só para GitHub Actions (`.github/dependabot.yml`).
-- ⬜ Adicionar `LICENSE` (ex.: MIT para o código; deixar claro que textos e imagens não são livres, se for o caso).
+- ✅ Adicionar `LICENSE`. Feito em 25/10/2026, MIT simples.
 - ✅ Adicionar `SECURITY.md`. Feito em 25/10/2026, com relato privado pelo GitHub (sem expor e-mail).
 - ⬜ Ativar **Private vulnerability reporting** (Settings → Code security), que o `SECURITY.md` usa.
 - ✅ Remover o Gmail em texto puro do `/cli`. Feito em 25/10/2026: agora aponta para `/#contato`.
