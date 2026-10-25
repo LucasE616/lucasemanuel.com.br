@@ -913,12 +913,6 @@ body.paper-page .site-footer a:hover { color: var(--accent); }
   .nav .nav-wide { display: none; }
 }
 
-/* O link "Serviços" (6º do menu) só cabe a partir de ~810px nas páginas com a busca "Buscar… Ctrl K"
-   (medido); abaixo disso a página abre pela paleta e pelo atalho V */
-@media (max-width: 819px) {
-  .nav .nav-wider { display: none; }
-}
-
 @media print {
   @page { margin: 14mm 16mm; }
 
