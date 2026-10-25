@@ -1,3 +1,7 @@
 .claude/
 .DS_Store
 Thumbs.db
+
+# Gerados
+dist/
+node_modules/

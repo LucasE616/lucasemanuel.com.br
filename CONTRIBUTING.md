@@ -26,22 +26,23 @@ Pull Request. O plano completo está em [PLANO-DE-MELHORIAS.md](PLANO-DE-MELHORI
 4. Preencha o template do PR e revise a aba **Files changed** antes de pedir o merge.
 5. Merge com **Squash and merge**. A branch é apagada depois.
 
-Quando a `develop` e o ambiente de dev existirem (Fase 2 e 3 do plano), os PRs passam a ir para a `develop`,
+Quando a `develop` e o ambiente de dev existirem (passo E da Fase 2), os PRs passam a ir para a `develop`,
 e a `main` recebe só PRs de release.
 
 ## Rodar localmente
 
 ```bash
-py -m http.server 5500      # Windows
-python3 -m http.server 5500 # Linux/macOS
+py -m http.server 5500 -d site      # Windows
+python3 -m http.server 5500 -d site # Linux/macOS
 ```
 
-Abra http://localhost:5500.
+Abra http://localhost:5500. Para testar o build: `node scripts/build.mjs` e sirva a pasta `dist` no lugar de `site`.
+
+Cada PR também ganha um **preview** no Cloudflare Pages: o link aparece num comentário do PR.
 
 ## Regras que valem para todo PR
 
-- **Cache:** mudou `style.css`, `script.js`, `terminal/terminal.js` ou algo em `jogos/`? Aumente o `?v=` em
-  todos os HTMLs no mesmo PR (regra detalhada no `CLAUDE.md`, até o build automático existir).
+- **Cache:** nos HTMLs, CSS e JS entram com `?v=dev`. O build troca pela versão; não aumente à mão.
 - **Contatos:** e-mails e telefone nunca em texto puro no HTML (ver `CLAUDE.md`).
 - **Acessibilidade:** teclado, `aria-*` e `prefers-reduced-motion` continuam funcionando.
 - **Temas:** testar no claro e no escuro.
