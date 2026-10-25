@@ -65,9 +65,15 @@ No Windows, se o comando `python` não existir, use `py -m http.server 5500`. De
 | `CNAME`, `.nojekyll` | Domínio do GitHub Pages e publicação dos arquivos como estão |
 | `ROADMAP.md` | Melhorias planejadas e correções |
 | `CLAUDE.md` | Decisões, padrões e preferências do projeto |
+| `LICENSE` | Licença MIT |
 
 ## Ao alterar o site
 
 - Os HTMLs pedem o CSS e o JS com `?v=AAAAMMDD.N`. Ao mudar `style.css`, `script.js`, `terminal/terminal.js` ou os
   arquivos de `jogos/`, aumente o `?v=` em todos os HTMLs, no mesmo commit; senão o cache do navegador mistura versões.
 - Página nova: entra no `sitemap.xml` e segue o checklist de "Toda página nova precisa de" no `CLAUDE.md`.
+
+## Licença
+
+O código e o conteúdo do site estão sob a [Licença MIT](LICENSE). As fontes em `fonts/` (JetBrains Mono e Chomsky)
+seguem a SIL Open Font License 1.1, com os textos das licenças na mesma pasta.
