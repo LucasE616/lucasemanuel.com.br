@@ -575,7 +575,7 @@ a análise de novo no makemefindable.com no fim.
   a folha do Google Fonts e a fonte Chomsky do jsDelivr falhavam (status 0), e cada falha contava como erro. As duas fontes
   passaram para a pasta `fonts/` do site. Antes disso, as chamadas a `matchMedia` viraram `window.matchMedia?.(...)` e o
   carrinho passou a não montar sem canvas 2D, porque no jsdom a página dava `ReferenceError` (não era a causa, mas ficou).
-- [x] **Media query responsiveness** (aviso). Feito em 24/10/2026: a pedido do Lucas, as 7 páginas ganharam, logo depois do
+- [ ] **Media query responsiveness** (aviso). **Revertido em 25/10/2026** (plano de melhorias): o `<style>` `.mmf` saiu das 7 páginas para deixar o código limpo, e o aviso do makemefindable volta, por decisão do Lucas. Histórico: em 24/10/2026, a pedido do Lucas, as 7 páginas ganharam, logo depois do
   `style.css`, um `<style>` comentado com uma `@media` sem efeito (classe `.mmf`, que não existe). Causa: **o makemefindable só conta `@media` dentro de
   `<style>` no próprio HTML** e ignora as folhas externas. Testado com páginas temporárias: o navegador dele lê as 12
   `@media` do `style.css`, mas o aviso continua; uma cópia da home com um `<style>` de uma linha passa ("1 media query"); e
