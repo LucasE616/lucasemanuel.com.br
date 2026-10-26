@@ -8,7 +8,7 @@
 
 ## Como testar
 
-1. `py -m http.server 5500` e abrir http://localhost:5500
+1. Abrir o preview do Cloudflare Pages (link no comentário do PR) ou `py -m http.server 5500 -d site`
 2. ...
 
 ## Checklist
@@ -17,7 +17,7 @@
 - [ ] Testei nos temas claro e escuro
 - [ ] Sem erros no console
 - [ ] Teclado e `prefers-reduced-motion` continuam funcionando
-- [ ] Se mudei CSS/JS, aumentei o `?v=` em todos os HTMLs
+- [ ] CSS/JS novos entram com `?v=dev`
 - [ ] Atualizei o status no `ROADMAP.md` / `PLANO-DE-MELHORIAS.md`, se for o caso
 
 ## Capturas de tela

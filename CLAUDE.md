@@ -9,26 +9,34 @@ status dos itens no mesmo commit em que forem concluídos.
 
 ## Stack e hospedagem
 
-- **Site estático:** HTML, CSS e JavaScript puros, sem framework, sem build e sem dependências.
+- **Site estático:** HTML, CSS e JavaScript puros, sem framework e sem dependências no que é publicado. O único passo de build
+  é o `scripts/build.mjs` (só Node, sem pacotes), que copia `site/` para `dist/` e versiona o CSS e o JS.
   O site antigo era Next.js na Vercel e foi abandonado por decisão do Lucas: **não usar Next.js nem Vercel**.
-- **Hospedagem:** GitHub Pages, branch `main`, pasta raiz. Cada push publica em cerca de 30 a 45 segundos.
+- **Hospedagem:** Cloudflare Pages, projeto `lucasemanuel` (desde 25/10/2026; antes era o GitHub Pages, hoje despublicado).
+  Build: `node scripts/build.mjs`; saída: `dist`; branch de produção: `main`. Cada merge na `main` publica em cerca de 1 minuto,
+  e cada branch ou PR ganha um preview em `<branch>.lucasemanuel.pages.dev`, com o link comentado no PR.
 - **Repositório:** https://github.com/LucasE616/lucasemanuel.com.br. O usuário do GitHub se escreve
   `LucasE616` (antes era `lucase616`, que ainda redireciona).
-- **Domínio:** `lucasemanuel.com.br`, registrado no Registro.br, com DNS nos servidores do próprio
-  Registro.br (a Vercel não é mais usada):
-  - 4 registros A: `185.199.108.153` a `185.199.111.153`
-  - 4 registros AAAA: `2606:50c0:8000::153` a `2606:50c0:8003::153`
-  - `www` CNAME → `lucase616.github.io`
+- **Fluxo de trabalho:** a `main` é protegida por um ruleset (sem push direto, sem force push, só PR com squash).
+  Toda mudança, inclusive no `CLAUDE.md` e no `ROADMAP.md`, vai por branch e PR, conforme o `CONTRIBUTING.md`.
+  O Lucas revisa e faz o merge. Plano completo em `PLANO-DE-MELHORIAS.md`.
+- **Domínio:** `lucasemanuel.com.br`, registrado no Registro.br, com DNS no Cloudflare (nameservers `newt` e `raquel`
+  `.ns.cloudflare.com`, desde 25/10/2026):
+  - `lucasemanuel.com.br` e `www`: CNAME → `lucasemanuel.pages.dev` (domínios personalizados do Pages)
   - TXT `v=spf1 -all` no domínio e TXT `v=DMARC1; p=reject;` em `_dmarc` (24/10/2026, item 49): o domínio não envia e-mail,
     e isso impede e-mail falso em nome dele. **Se um dia houver e-mail no domínio, troque pelos registros do provedor**, senão
     os próprios e-mails serão rejeitados.
-- **HTTPS:** certificado da Let's Encrypt emitido pelo GitHub, com "Enforce HTTPS" ativo. HTTP e `www`
-  redirecionam com 301 para `https://lucasemanuel.com.br`. A emissão só funcionou depois de remover e
-  readicionar o domínio em Settings → Pages.
-- **Arquivos de publicação:** `CNAME` (domínio) e `.nojekyll` (publica os arquivos como estão). Tudo no
-  repositório fica acessível pelo site, inclusive os `.md`.
+- **HTTPS:** certificado emitido pelo Cloudflare para o domínio e o `www`. O redirecionamento do `www` para o domínio sem `www`
+  ainda falta (plano de melhorias, Fase 2).
+- **Publicação:** só a pasta `site/` vai para o ar (via `dist/`). `CLAUDE.md`, `ROADMAP.md` e os outros arquivos da raiz
+  ficam no repositório, mas não no domínio.
+- **Cache:** o Cloudflare Pages manda `Cache-Control: max-age=0, must-revalidate`, ou seja, o navegador confere a versão a cada
+  visita. Mesmo assim, o build versiona o CSS e o JS (ver "Versão dos arquivos").
 
 ## Estrutura
+
+Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela. Na raiz ficam `scripts/build.mjs`, os `.md`,
+`LICENSE` e `.github/`.
 
 | Arquivo | Conteúdo |
 |---|---|
@@ -37,7 +45,7 @@ status dos itens no mesmo commit em que forem concluídos.
 | `curriculo/index.html` | Página `/curriculo` (item 24): experiência e formação em linha do tempo (`<ol class="timeline">`), cursos, habilidades, idiomas e livros técnicos, no design do `/setup`. O PDF é a própria página impressa (`@media print` em `style.css`, botão `data-print`) |
 | `servicos/index.html` | Página `/servicos` (item 37): desenvolvimento, formatação de PC (4 planos em cartões `.plans`), configuração, impressoras e scanners, e contato para contratar, fora do menu (link no rodapé), com o aviso `.paper-note` no topo (fora os planos, valores a combinar), no design do `/setup` com o amarelo do site |
 | `style.css` | Estilos compartilhados por todas as páginas (incluindo terminal e jogos) |
-| `404.html` | Página de erro do GitHub Pages: caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
+| `404.html` | Página de erro (o Cloudflare Pages a serve em qualquer endereço inexistente): caminhos absolutos (`/style.css`), pois é servida em qualquer endereço |
 | `terminal/` | Página `/terminal` (item 23): `index.html` e `terminal.js`, com lista fechada de comandos (sem `eval`) e conteúdo lido de `/`, `/setup/` e `/curriculo/`. Tem painel de personalização (engrenagem na barra) |
 | `jogos/` | Página `/jogos` (item 30): jogo da velha, damas e carrinho, cada um numa `<section class="game" id="...">`, mostrados **um por vez em abas** pelo hash (`#velha`, padrão, `#damas` ou `#carrinho`; links com `data-game-tab`). Jogo novo = nova seção + nova aba, com o tabuleiro/canvas marcado com a classe `game-stage` (ver layout abaixo). `velha-ia.js` tem regras, IA e placar, e é usado também pelo terminal (`play velha`); `jogos.js` tem as abas e a interface da velha; `damas-ia.js` tem regras, IA e placar das damas (página, terminal e `damas-worker.js`, o Web Worker da IA); `damas.js` é a interface das damas; `carrinho.js` é o jogo de carrinho em canvas |
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
@@ -105,8 +113,8 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
   `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
   `twitter:` (copiar o bloco de uma página existente: `og:image` e `twitter:image` apontam para `/og-image.png`, e
-  `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`. E o `<style>` comentado
-  logo depois do `style.css`, com uma `@media` sem efeito: o makemefindable só conta media queries escritas no HTML (item 49).
+  `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`. Os CSS/JS entram com `?v=dev`
+  (o build troca pela versão). O `<style>` `.mmf` do makemefindable não existe mais (removido em 25/10/2026, PR #3).
   Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre
   `/jogos` e o terminal), `damas-placar` (idem), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
   `play carrinho`, função `carGame` em `terminal.js`). Toda leitura e escrita fica em `try/catch`.
@@ -200,13 +208,13 @@ status dos itens no mesmo commit em que forem concluídos.
 - **Shell:** PowerShell 5.1. Mensagens de commit com aspas quebram no `-m`; escreva a mensagem num
   arquivo e use `git commit -F arquivo`.
 - **Caminhos longos:** se a pasta tiver caminho longo, rode `git config core.longpaths true`.
-- **Servidor local:** `py -m http.server 5500` na raiz do projeto (neste PC o comando `python` não existe; use o `py`). A config de preview fica em
+- **Servidor local:** `py -m http.server 5500 -d site` na raiz do projeto (ou `node scripts/build.mjs` e `-d dist`, para testar o build) (neste PC o comando `python` não existe; use o `py`). A config de preview fica em
   `.claude/launch.json`, que está no `.gitignore`.
-- **Versão dos arquivos (obrigatório):** todos os HTMLs pedem os CSS/JS com `?v=AAAAMMDD.N` (ex.: `style.css?v=20260926.9`).
-  **Sempre que mudar `style.css`, `script.js`, `terminal/terminal.js` ou os arquivos de `jogos/`, aumente o `?v=` em
-  todos os HTMLs** (`index.html`, `setup/index.html`, `curriculo/index.html`, `servicos/index.html`, `terminal/index.html`, `jogos/index.html` e `404.html`), no mesmo commit. O GitHub Pages manda o navegador guardar os arquivos por 10 minutos
-  (`max-age=600`); sem trocar a versão, o visitante recebe HTML novo com CSS/JS antigos, e o site quebra.
-  Isso aconteceu em 26/09/2026: o botão de tema não funcionava e o cabeçalho ficou sem estilo.
+- **Versão dos arquivos (automática desde 25/10/2026):** no código-fonte, os HTMLs pedem os CSS/JS com `?v=dev`. O
+  `scripts/build.mjs` troca o `dev` por um hash do conteúdo de **todos** os CSS e JS, igual em todas as páginas. **Não é mais
+  preciso aumentar o `?v=` à mão.** Arquivo CSS/JS novo num HTML: use `?v=dev`. A versão é única porque os jogos repassam o `?v=`
+  de um arquivo para outro (`damas-ia.js` → `damas-worker.js`). Histórico: no GitHub Pages (`max-age=600`), esquecer de trocar a
+  versão quebrou o botão de tema em 26/09/2026.
 - **Cache no teste local:** o navegador reaproveita `style.css` e `script.js` antigos. Antes de testar, force
   com `fetch(url, {cache: 'reload'})` ou troque o `href` com `?v=`. Isso já causou vários falsos alarmes.
 - **Painel de navegador oculto:** quando o painel está escondido, o Chromium congela a renderização, e
@@ -288,3 +296,5 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     em `<iframe>` de 320 a 1920px nas 7 páginas.
 20. Currículo: DoctorSaaS (Analista de Suporte e Sucesso do Cliente, Lages-SC, desde Out 2026) no topo da experiência; e-paper
     e FizPay encerradas em Out 2026 (atuais primeiro, depois as encerradas). No JSON-LD, `worksFor` ficou só com DoctorSaaS e Plant Evolution. Grafia oficial: DoctorSaaS (como no site da empresa).
+21. Plano de melhorias (25/10/2026): fluxo por PR com a `main` protegida, licença MIT, Serviços fora do menu,
+    `.mmf` removido, DNS no Cloudflare, hospedagem no Cloudflare Pages, pasta `site/` e build com versão automática.

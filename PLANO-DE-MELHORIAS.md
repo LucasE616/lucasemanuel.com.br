@@ -65,7 +65,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito
 
 ### 2.1 Estrutura de pastas
 
-- ⬜ Mover tudo o que é publicado para `site/`. Na raiz ficam só arquivos do projeto.
+- ✅ Mover tudo o que é publicado para `site/`. Na raiz ficam só arquivos do projeto. Feito em 25/10/2026.
 
 ```
 lucasemanuel.com.br/
@@ -89,11 +89,14 @@ lucasemanuel.com.br/
 └── package.json
 ```
 
-- ⬜ `CNAME` e `.nojekyll` deixam de ser necessários depois da migração para o Cloudflare Pages.
+- ✅ `CNAME` e `.nojekyll` removidos (25/10/2026), depois da migração para o Cloudflare Pages.
 
 ### 2.2 Script de build
 
-- ⬜ Criar `scripts/build.mjs`: copia `site/` para `dist/` e troca o `?v=` manual por um hash do arquivo.
+- ✅ Criar `scripts/build.mjs`: copia `site/` para `dist/` e troca o `?v=` manual por um hash. Feito em 25/10/2026.
+  A versão final usa **um hash único** de todos os CSS e JS (não um por arquivo), porque os jogos repassam o `?v=`
+  de um arquivo para outro. No código-fonte, os HTMLs usam `?v=dev`. O código abaixo foi a proposta inicial; a fonte
+  da verdade é o `scripts/build.mjs`.
   Isso elimina a regra de "aumentar o `?v=` em todos os HTMLs".
 
 ```js
@@ -143,13 +146,14 @@ console.log("Build concluído em dist/");
 Troca o GitHub Pages pelo Cloudflare Pages ligado ao repositório. Resolve de uma vez a URL de dev, os
 previews de PR e os cabeçalhos de segurança. Também cobre os itens 35 e 40 do ROADMAP.
 
-- ⬜ Passar o DNS do Registro.br para o Cloudflare (necessário para usar o domínio raiz no Pages).
-- ⬜ Criar o projeto no Cloudflare Pages, conectado ao GitHub:
+- ✅ Passar o DNS do Registro.br para o Cloudflare. Feito em 25/10/2026 (nameservers `newt` e `raquel`).
+- ✅ Criar o projeto no Cloudflare Pages (`lucasemanuel`), conectado ao GitHub. Feito em 25/10/2026, primeiro sem build
+  (raiz) e, junto com o PR da pasta `site/`, com a configuração abaixo:
   - Comando de build: `node scripts/build.mjs`
   - Pasta de saída: `dist`
   - Branch de produção: `main`
   - Previews: todas as outras branches
-- ⬜ Domínios:
+- 🟡 Domínios: produção (`lucasemanuel.com.br` e `www`) feita em 25/10/2026; `dev.` fica para o passo E.
 
 | Branch | Endereço | Papel |
 |---|---|---|
@@ -160,7 +164,7 @@ previews de PR e os cabeçalhos de segurança. Também cobre os itens 35 e 40 do
   Para o `dev.`, apontar um CNAME para o alias da branch (`develop.<projeto>.pages.dev`); conferir o passo a passo
   atual na documentação do Cloudflare Pages.
 - ⬜ Redirecionar `www` → raiz com 301.
-- ⬜ Depois de validar a produção no Cloudflare, desligar o GitHub Pages do repositório.
+- ✅ GitHub Pages despublicado em 25/10/2026, depois de validar a produção no Cloudflare.
 
 ### 2.4 Cabeçalhos de segurança (`site/_headers`)
 
