@@ -74,6 +74,8 @@ Cada PR também ganha um **preview** no Cloudflare Pages: o link aparece num com
 
 - **Cache:** nos HTMLs, CSS e JS entram com `?v=dev`. O build troca pela versão; não aumente à mão.
 - **Contatos:** e-mails e telefone nunca em texto puro no HTML (ver `CLAUDE.md`).
+- **CSP:** nada de script ou estilo inline (`<script>`, `<style>`, `style=""`, `onclick=""`). Recurso de outro site exige
+  atualizar o `site/_headers` no mesmo PR; no preview, o console não pode mostrar `Refused to`.
 - **Acessibilidade:** teclado, `aria-*` e `prefers-reduced-motion` continuam funcionando.
 - **Temas:** testar no claro e no escuro.
 - **Roadmap:** se o PR conclui um item do `ROADMAP.md` ou do plano, atualize o status no mesmo PR.

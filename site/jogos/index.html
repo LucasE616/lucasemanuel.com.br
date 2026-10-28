@@ -24,17 +24,7 @@
     <meta name="twitter:image" content="https://lucasemanuel.com.br/og-image.png" />
 
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
-    <script>
-      // Aplica o tema antes de desenhar a página, para não piscar o tema errado
-      (() => {
-        let pref = null;
-        try {
-          pref = localStorage.getItem("theme");
-        } catch {}
-        const light = pref === "light" || (pref !== "dark" && window.matchMedia?.("(prefers-color-scheme: light)").matches);
-        document.documentElement.dataset.theme = light ? "light" : "dark";
-      })();
-    </script>
+    <script src="../theme.js?v=dev"></script>
     <link rel="stylesheet" href="../style.css?v=dev" />
   </head>
   <body data-page="jogos" data-root="../">

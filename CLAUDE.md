@@ -57,6 +57,9 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `sitemap.xml` | Mapa do site para os buscadores (item 49). Página nova entra nele; ao mudar uma página, atualize o `lastmod` dela |
 | `robots.txt` | Libera tudo aos buscadores e aponta para o `sitemap.xml` (item 49) |
+| `theme.js` | Aplica o tema salvo antes da primeira pintura. Carregado no `<head>` de todas as páginas, sem `defer`. Era inline até 27/10/2026 e saiu por causa do CSP |
+| `404.js` | Mostra na 404 o endereço que não foi encontrado (`textContent`) |
+| `_headers` | Cabeçalhos HTTP do Cloudflare Pages: CSP, HSTS, anti-clickjacking, `Permissions-Policy` e `noindex` no dev e nos previews. Ver Segurança |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
 | `fonts/` | JetBrains Mono (latin e latin-ext) e Chomsky em woff2, com as licenças OFL. Ver Fontes, em Visual |
@@ -116,8 +119,8 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
   não tem efeito (o Lucas escolheu só essas duas linhas). Desligado com `prefers-reduced-motion`.
 - **Modais de tópico:** o conteúdo vem do README por `data-topic="nome"` e é clonado para o modal, sem
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
-- **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
-  `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
+- **Toda página nova precisa de:** o `theme.js` no `<head>`, antes do `style.css` e sem `defer` (`<script src="../theme.js?v=dev">`,
+  com o caminho certo para a pasta), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
   `twitter:` (copiar o bloco de uma página existente: `og:image` e `twitter:image` apontam para `/og-image.png`, e
   `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`. Os CSS/JS entram com `?v=dev`
   (o build troca pela versão). O `<style>` `.mmf` do makemefindable não existe mais (removido em 25/10/2026, PR #3).
@@ -255,7 +258,12 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 - Serviços: o "google" da lista de apps do Plano 2 (ficou de fora até o Lucas confirmar se é o Chrome, já listado, ou outro app).
 - Currículo: data, carga horária e link de verificação dos cursos (e o emissor do "HTML & CSS"); atividades de cada
   experiência; confirmar o nome "Atlassian Workspace"; editora do livro *Competente o Suficiente* (Fabio Akita), ainda sem editora.
-- **Lembrete ao implementar o Cloudflare (item 40):** avisar o Lucas, que pediu em 24/10/2026, de ligar o HSTS e de decidir
+- **Segurança (`site/_headers`, desde 27/10/2026):** o CSP só permite recursos do próprio site (mais `connect-src` para
+  `api.github.com`, usado pelo terminal). **Proibido:** `<script>` inline, `<style>` inline, atributo `style=""` no HTML ou via
+  `setAttribute`, `on*=""` e recursos de terceiros sem atualizar o CSP. Mudar `.style.x` pelo JavaScript é permitido.
+  Recurso novo de fora = nova origem no `_headers`, no mesmo PR, testada no preview (console sem `Refused to`). HSTS começa com
+  `max-age=86400`; aumentar para 1 ano depois de semanas sem problema (decisão do item 49).
+- **Lembrete ao implementar o Cloudflare (item 40):** o HSTS foi ligado em 27/10/2026 (curto); falta o Lucas decidir
   o analytics (GA4 ou sem cookies). Os prós e contras estão em "HSTS" e "GA tags", no checklist do item 49.
 
 ## Histórico resumido

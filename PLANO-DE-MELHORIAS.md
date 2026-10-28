@@ -168,9 +168,12 @@ previews de PR e os cabeçalhos de segurança. Também cobre os itens 35 e 40 do
 
 ### 2.4 Cabeçalhos de segurança (`site/_headers`)
 
-- ⬜ Mover o script de tema inline para um arquivo **ou** calcular o hash dele para o CSP.
+- ✅ Mover o script de tema inline para um arquivo (`theme.js`, 27/10/2026), e o da 404 para `404.js`. Assim o CSP usa só
+  `script-src 'self'`, sem hashes para manter. Sem estilos inline no site, o `style-src` também ficou só `'self'`.
 - ✅ Remover o `<style>` `.mmf`. Feito em 25/10/2026, por decisão do Lucas: código mais limpo; o aviso do makemefindable volta.
-- ⬜ Criar o `_headers`:
+- ✅ Criar o `_headers` (27/10/2026). A versão final, em `site/_headers`, difere da proposta abaixo em: `style-src 'self'`
+  (sem `'unsafe-inline'`), `connect-src` com `api.github.com` (terminal), `X-Frame-Options`, `Cross-Origin-Opener-Policy` e
+  HSTS curto (`max-age=86400`, sem `includeSubDomains`), conforme a decisão do item 49 do ROADMAP. Proposta inicial:
 
 ```
 /*
