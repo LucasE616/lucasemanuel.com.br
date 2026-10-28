@@ -153,7 +153,7 @@ previews de PR e os cabeçalhos de segurança. Também cobre os itens 35 e 40 do
   - Pasta de saída: `dist`
   - Branch de produção: `main`
   - Previews: todas as outras branches
-- 🟡 Domínios: produção (`lucasemanuel.com.br` e `www`) feita em 25/10/2026; `dev.` fica para o passo E.
+- ✅ Domínios: produção (`lucasemanuel.com.br` e `www`) em 25/10/2026 e `dev.` → alias `develop` em 27/10/2026.
 
 | Branch | Endereço | Papel |
 |---|---|---|
@@ -210,18 +210,21 @@ docs/<nome>     ─┘
 hotfix/<nome>   ─────────────────────────► PR ► main  (e depois merge de volta em develop)
 ```
 
-- ⬜ Criar a branch `develop` a partir da `main`.
-- ⬜ Nomes de branch: `feature/pagina-projetos`, `fix/cabecalho-estoura`, `docs/readme`, `chore/ci`.
+- ✅ Criar a branch `develop` a partir da `main` (27/10/2026). Ela é a branch padrão do repositório.
+- ✅ Nomes de branch: `feature/pagina-projetos`, `fix/cabecalho-estoura`, `docs/readme`, `chore/ci` (no `CONTRIBUTING.md`).
 
 ### 3.2 Regras do GitHub (Settings → Rules → Rulesets)
 
-- ⬜ Ruleset para `main` e `develop`:
+- 🟡 Ruleset para `main` e `develop` (27/10/2026: "Proteção da main e develop", alvos pelo nome). Falta exigir os checks
+  do CI (Fase 3.4). Ajuste em relação à proposta: **sem histórico linear** e com **merge commit** liberado, porque as
+  releases `develop` → `main` usam merge commit:
   - Exigir Pull Request antes do merge.
   - Exigir checks verdes do CI (`validar`).
   - Exigir branch atualizada antes do merge.
   - Bloquear force push e exclusão.
   - Exigir histórico linear (squash merge).
-- ⬜ Aprovações: o GitHub **não deixa o autor aprovar o próprio PR**. Escolher uma opção:
+- ✅ Aprovações: decisão do Lucas (25/10/2026): **ele mesmo revisa e faz o merge**, com 0 aprovações obrigatórias, sem
+  revisor automático. Opções avaliadas:
   - 0 aprovações obrigatórias + checks obrigatórios (mais simples para projeto solo);
   - revisor automático (Copilot code review ou Claude Code GitHub Action) comentando cada PR;
   - convidar um colega como revisor e exigir 1 aprovação.
@@ -297,11 +300,11 @@ jobs:
 
 ### 3.5 Convenções
 
-- ⬜ **Conventional Commits:** `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`.
+- ✅ **Conventional Commits** (em uso desde o PR #1): `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`.
   Ex.: `feat(projetos): página de projetos com dados em JSON`.
 - ⬜ **Versionamento semântico** com tags (`v1.0.0`) e **GitHub Releases**.
 - ⬜ `CHANGELOG.md` no formato *Keep a Changelog*.
-- ✅ `CONTRIBUTING.md` (25/10/2026, fluxo atual direto na `main` por PR) descrevendo o fluxo acima (serve de documentação do processo para quem visita o repo).
+- ✅ `CONTRIBUTING.md` (25/10/2026; fluxo com `develop`, release e hotfix em 27/10/2026) descrevendo o fluxo acima (serve de documentação do processo para quem visita o repo).
 - ⬜ Migrar os itens abertos do `ROADMAP.md` para **Issues**, com labels (`conteúdo`, `visual`, `segurança`,
   `bug`, `processo`, `playground`) e um quadro no **GitHub Projects** (A fazer / Em andamento / Em revisão / Feito).
   O ROADMAP pode continuar como registro de decisões.
