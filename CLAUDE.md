@@ -14,15 +14,21 @@ status dos itens no mesmo commit em que forem concluídos.
   O site antigo era Next.js na Vercel e foi abandonado por decisão do Lucas: **não usar Next.js nem Vercel**.
 - **Hospedagem:** Cloudflare Pages, projeto `lucasemanuel` (desde 25/10/2026; antes era o GitHub Pages, hoje despublicado).
   Build: `node scripts/build.mjs`; saída: `dist`; branch de produção: `main`. Cada merge na `main` publica em cerca de 1 minuto,
-  e cada branch ou PR ganha um preview em `<branch>.lucasemanuel.pages.dev`, com o link comentado no PR.
+  e cada branch ou PR ganha um preview em `<branch>.lucasemanuel.pages.dev`, com o link comentado no PR. A `develop`
+  aparece em `dev.lucasemanuel.com.br`.
 - **Repositório:** https://github.com/LucasE616/lucasemanuel.com.br. O usuário do GitHub se escreve
   `LucasE616` (antes era `lucase616`, que ainda redireciona).
-- **Fluxo de trabalho:** a `main` é protegida por um ruleset (sem push direto, sem force push, só PR com squash).
-  Toda mudança, inclusive no `CLAUDE.md` e no `ROADMAP.md`, vai por branch e PR, conforme o `CONTRIBUTING.md`.
-  O Lucas revisa e faz o merge. Plano completo em `PLANO-DE-MELHORIAS.md`.
+- **Fluxo de trabalho (desde 27/10/2026):** `develop` é a branch padrão e vai para `dev.lucasemanuel.com.br`; `main` é a
+  produção. As duas são protegidas por um ruleset (sem push direto, sem force push, sem exclusão; só PR, com merge ou squash).
+  Trabalho: branch a partir da `develop` → PR para a `develop` com **squash**. Release: PR `develop` → `main` com **merge
+  commit** (nunca squash). Hotfix: branch a partir da `main` → PR para a `main` → PR de volta `main` → `develop` com merge
+  commit. Toda mudança, inclusive no `CLAUDE.md` e no `ROADMAP.md`, segue esse fluxo (`CONTRIBUTING.md`). **Nunca faça
+  push direto nem merge:** abra o PR e deixe o Lucas revisar e mergear. Plano completo em `PLANO-DE-MELHORIAS.md`.
 - **Domínio:** `lucasemanuel.com.br`, registrado no Registro.br, com DNS no Cloudflare (nameservers `newt` e `raquel`
   `.ns.cloudflare.com`, desde 25/10/2026):
-  - `lucasemanuel.com.br` e `www`: CNAME → `lucasemanuel.pages.dev` (domínios personalizados do Pages)
+  - `lucasemanuel.com.br` e `www`: CNAME → `lucasemanuel.pages.dev` (domínios personalizados do Pages, produção)
+  - `dev`: CNAME → `develop.lucasemanuel.pages.dev` (alias da branch `develop`; o Pages cria o registro apontando para a
+    produção, e ele foi editado à mão para o alias)
   - TXT `v=spf1 -all` no domínio e TXT `v=DMARC1; p=reject;` em `_dmarc` (24/10/2026, item 49): o domínio não envia e-mail,
     e isso impede e-mail falso em nome dele. **Se um dia houver e-mail no domínio, troque pelos registros do provedor**, senão
     os próprios e-mails serão rejeitados.
