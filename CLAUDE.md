@@ -61,7 +61,7 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
 | `favicon.svg` | Ícone "le" |
 | `fonts/` | JetBrains Mono (latin e latin-ext) e Chomsky em woff2, com as licenças OFL. Ver Fontes, em Visual |
 | `og-image.png` | Imagem de prévia dos links (item 49), 1200×630, uma só para o site todo: "le" em Verdana negrito `#f2f2f2` com cursor amarelo `#ffbb00` no fundo `#08070b`, sem foto (decisão do Lucas). Gerada com o Chrome headless (`--screenshot --window-size=1200,630`) a partir de um HTML fora do repositório. PNG porque as redes não aceitam SVG |
-| `ROADMAP.md` | Melhorias planejadas e correções (49 itens) |
+| `ROADMAP.md` | Melhorias planejadas e correções (50 itens) |
 
 ## Visual
 
