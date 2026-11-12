@@ -22,6 +22,11 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 8. ⬜ **Versão em inglês** (médio). Para vagas de fora e remotas.
 9. ✅ **Página 404 personalizada** (baixo). Feita em 26/09/2026: `404.html` com o mesmo visual, mostrando o endereço pedido no formato de erro do terminal.
+50. ⬜ **Página de erro ensinando o que é o erro HTTP** (baixo). Pedido em 12/11/2026: incentivar quem cai na página de erro a descobrir que erro HTTP é aquele.
+    - **Link para o http.cat** (`https://http.cat/404`), com a foto de gato do código do erro.
+    - **Link para a documentação no MDN Web Docs**, para quem quiser ler sobre o erro: `https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Status/404`.
+    - **Só links, sem embutir a imagem do http.cat:** o site não carrega nada de outro domínio (item 49).
+    - Hoje a única página de erro é a `404.html` (item 9), a que o Cloudflare Pages serve. O código fica numa variável, para a mesma montagem servir a outras páginas de erro se elas surgirem (por exemplo, com os Workers dos itens 41 a 44).
 10. ⬜ **Mais comandos na paleta** (baixo). Baixar currículo, copiar o link do site, abrir cada projeto.
 11. ↪ **Terminal interativo**. Incorporado ao item 23.
 12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio. Alternativa com back-end próprio no item 41.
