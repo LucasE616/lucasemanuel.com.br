@@ -1,0 +1,29 @@
+# Cabeçalhos HTTP do Cloudflare Pages (passo F do plano de melhorias).
+# Valem para produção, dev e previews. Ao adicionar um recurso externo (script, fonte, API),
+# atualize o Content-Security-Policy, senão o navegador bloqueia em silêncio (veja o console).
+#
+# - script-src 'self': nenhum script inline nem de terceiros (o tema fica em theme.js)
+# - connect-src: o próprio site (terminal lê as páginas) e a API do GitHub (comando de commits do terminal)
+# - worker-src 'self': o Web Worker da IA das damas
+# - frame-ancestors 'none' + X-Frame-Options: ninguém pode embutir o site num iframe (clickjacking)
+# - HSTS: começa curto (1 dia), sem includeSubDomains nem preload (decisão de 24/10/2026, item 49 do ROADMAP).
+#   Depois de semanas sem problema: aumentar para 1 ano (31536000) e só então pensar em includeSubDomains/preload
+
+/*
+  Strict-Transport-Security: max-age=86400
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Ambientes que não são a produção: fora dos buscadores
+https://dev.lucasemanuel.com.br/*
+  X-Robots-Tag: noindex
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
