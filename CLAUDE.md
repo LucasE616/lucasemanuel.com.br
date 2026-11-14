@@ -14,15 +14,21 @@ status dos itens no mesmo commit em que forem concluídos.
   O site antigo era Next.js na Vercel e foi abandonado por decisão do Lucas: **não usar Next.js nem Vercel**.
 - **Hospedagem:** Cloudflare Pages, projeto `lucasemanuel` (desde 25/10/2026; antes era o GitHub Pages, hoje despublicado).
   Build: `node scripts/build.mjs`; saída: `dist`; branch de produção: `main`. Cada merge na `main` publica em cerca de 1 minuto,
-  e cada branch ou PR ganha um preview em `<branch>.lucasemanuel.pages.dev`, com o link comentado no PR.
+  e cada branch ou PR ganha um preview em `<branch>.lucasemanuel.pages.dev`, com o link comentado no PR. A `develop`
+  aparece em `dev.lucasemanuel.com.br`.
 - **Repositório:** https://github.com/LucasE616/lucasemanuel.com.br. O usuário do GitHub se escreve
   `LucasE616` (antes era `lucase616`, que ainda redireciona).
-- **Fluxo de trabalho:** a `main` é protegida por um ruleset (sem push direto, sem force push, só PR com squash).
-  Toda mudança, inclusive no `CLAUDE.md` e no `ROADMAP.md`, vai por branch e PR, conforme o `CONTRIBUTING.md`.
-  O Lucas revisa e faz o merge. Plano completo em `PLANO-DE-MELHORIAS.md`.
+- **Fluxo de trabalho (desde 27/10/2026):** `develop` é a branch padrão e vai para `dev.lucasemanuel.com.br`; `main` é a
+  produção. As duas são protegidas por um ruleset (sem push direto, sem force push, sem exclusão; só PR, com merge ou squash).
+  Trabalho: branch a partir da `develop` → PR para a `develop` com **squash**. Release: PR `develop` → `main` com **merge
+  commit** (nunca squash). Hotfix: branch a partir da `main` → PR para a `main` → PR de volta `main` → `develop` com merge
+  commit. Toda mudança, inclusive no `CLAUDE.md` e no `ROADMAP.md`, segue esse fluxo (`CONTRIBUTING.md`). **Nunca faça
+  push direto nem merge:** abra o PR e deixe o Lucas revisar e mergear. Plano completo em `PLANO-DE-MELHORIAS.md`.
 - **Domínio:** `lucasemanuel.com.br`, registrado no Registro.br, com DNS no Cloudflare (nameservers `newt` e `raquel`
   `.ns.cloudflare.com`, desde 25/10/2026):
-  - `lucasemanuel.com.br` e `www`: CNAME → `lucasemanuel.pages.dev` (domínios personalizados do Pages)
+  - `lucasemanuel.com.br` e `www`: CNAME → `lucasemanuel.pages.dev` (domínios personalizados do Pages, produção)
+  - `dev`: CNAME → `develop.lucasemanuel.pages.dev` (alias da branch `develop`; o Pages cria o registro apontando para a
+    produção, e ele foi editado à mão para o alias)
   - TXT `v=spf1 -all` no domínio e TXT `v=DMARC1; p=reject;` em `_dmarc` (24/10/2026, item 49): o domínio não envia e-mail,
     e isso impede e-mail falso em nome dele. **Se um dia houver e-mail no domínio, troque pelos registros do provedor**, senão
     os próprios e-mails serão rejeitados.
@@ -51,11 +57,14 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
 | `cli` | Cartão de visita com cores ANSI: `curl lucasemanuel.com.br/cli` |
 | `sitemap.xml` | Mapa do site para os buscadores (item 49). Página nova entra nele; ao mudar uma página, atualize o `lastmod` dela |
 | `robots.txt` | Libera tudo aos buscadores e aponta para o `sitemap.xml` (item 49) |
+| `theme.js` | Aplica o tema salvo antes da primeira pintura. Carregado no `<head>` de todas as páginas, sem `defer`. Era inline até 27/10/2026 e saiu por causa do CSP |
+| `404.js` | Mostra na 404 o endereço que não foi encontrado (`textContent`) |
+| `_headers` | Cabeçalhos HTTP do Cloudflare Pages: CSP, HSTS, anti-clickjacking, `Permissions-Policy` e `noindex` no dev e nos previews. Ver Segurança |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
 | `fonts/` | JetBrains Mono (latin e latin-ext) e Chomsky em woff2, com as licenças OFL. Ver Fontes, em Visual |
 | `og-image.png` | Imagem de prévia dos links (item 49), 1200×630, uma só para o site todo: "le" em Verdana negrito `#f2f2f2` com cursor amarelo `#ffbb00` no fundo `#08070b`, sem foto (decisão do Lucas). Gerada com o Chrome headless (`--screenshot --window-size=1200,630`) a partir de um HTML fora do repositório. PNG porque as redes não aceitam SVG |
-| `ROADMAP.md` | Melhorias planejadas e correções (49 itens) |
+| `ROADMAP.md` | Melhorias planejadas e correções (50 itens) |
 
 ## Visual
 
@@ -110,8 +119,8 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
   não tem efeito (o Lucas escolheu só essas duas linhas). Desligado com `prefers-reduced-motion`.
 - **Modais de tópico:** o conteúdo vem do README por `data-topic="nome"` e é clonado para o modal, sem
   duplicar HTML. Os tópicos são registrados no objeto `topics` de `script.js`.
-- **Toda página nova precisa de:** o script de tema no `<head>` (antes do `style.css`, copiado de
-  `index.html`), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
+- **Toda página nova precisa de:** o `theme.js` no `<head>`, antes do `style.css` e sem `defer` (`<script src="../theme.js?v=dev">`,
+  com o caminho certo para a pasta), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
   `twitter:` (copiar o bloco de uma página existente: `og:image` e `twitter:image` apontam para `/og-image.png`, e
   `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`. Os CSS/JS entram com `?v=dev`
   (o build troca pela versão). O `<style>` `.mmf` do makemefindable não existe mais (removido em 25/10/2026, PR #3).
@@ -249,7 +258,12 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
 - Serviços: o "google" da lista de apps do Plano 2 (ficou de fora até o Lucas confirmar se é o Chrome, já listado, ou outro app).
 - Currículo: data, carga horária e link de verificação dos cursos (e o emissor do "HTML & CSS"); atividades de cada
   experiência; confirmar o nome "Atlassian Workspace"; editora do livro *Competente o Suficiente* (Fabio Akita), ainda sem editora.
-- **Lembrete ao implementar o Cloudflare (item 40):** avisar o Lucas, que pediu em 24/10/2026, de ligar o HSTS e de decidir
+- **Segurança (`site/_headers`, desde 27/10/2026):** o CSP só permite recursos do próprio site (mais `connect-src` para
+  `api.github.com`, usado pelo terminal). **Proibido:** `<script>` inline, `<style>` inline, atributo `style=""` no HTML ou via
+  `setAttribute`, `on*=""` e recursos de terceiros sem atualizar o CSP. Mudar `.style.x` pelo JavaScript é permitido.
+  Recurso novo de fora = nova origem no `_headers`, no mesmo PR, testada no preview (console sem `Refused to`). HSTS começa com
+  `max-age=86400`; aumentar para 1 ano depois de semanas sem problema (decisão do item 49).
+- **Lembrete ao implementar o Cloudflare (item 40):** o HSTS foi ligado em 27/10/2026 (curto); falta o Lucas decidir
   o analytics (GA4 ou sem cookies). Os prós e contras estão em "HSTS" e "GA tags", no checklist do item 49.
 
 ## Histórico resumido

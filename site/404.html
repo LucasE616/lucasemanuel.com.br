@@ -12,17 +12,7 @@
     <!-- O GitHub Pages serve este arquivo em qualquer endereço inexistente (/a/b/c),
          então todos os caminhos aqui são absolutos -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <script>
-      // Aplica o tema antes de desenhar a página, para não piscar o tema errado
-      (() => {
-        let pref = null;
-        try {
-          pref = localStorage.getItem("theme");
-        } catch {}
-        const light = pref === "light" || (pref !== "dark" && window.matchMedia?.("(prefers-color-scheme: light)").matches);
-        document.documentElement.dataset.theme = light ? "light" : "dark";
-      })();
-    </script>
+    <script src="/theme.js?v=dev"></script>
     <link rel="stylesheet" href="/style.css?v=dev" />
   </head>
   <body data-page="404" data-root="/">
@@ -99,13 +89,6 @@ bash: cd: <span class="nf-path">/</span>: arquivo ou diretório inexistente</cod
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="/script.js?v=dev"></script>
-    <script>
-      // Mostra qual endereço não foi encontrado (textContent: nada do endereço vira HTML)
-      (() => {
-        const path = location.pathname + location.search;
-        document.querySelectorAll(".nf-path").forEach((el) => (el.textContent = path));
-        document.title = `404 — ${path} — Lucas Emanuel`;
-      })();
-    </script>
+    <script src="/404.js?v=dev"></script>
   </body>
 </html>

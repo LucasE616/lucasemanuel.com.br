@@ -22,6 +22,11 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 8. ⬜ **Versão em inglês** (médio). Para vagas de fora e remotas.
 9. ✅ **Página 404 personalizada** (baixo). Feita em 26/09/2026: `404.html` com o mesmo visual, mostrando o endereço pedido no formato de erro do terminal.
+50. ⬜ **Página de erro ensinando o que é o erro HTTP** (baixo). Pedido em 12/11/2026: incentivar quem cai na página de erro a descobrir que erro HTTP é aquele.
+    - **Link para o http.cat** (`https://http.cat/404`), com a foto de gato do código do erro.
+    - **Link para a documentação no MDN Web Docs**, para quem quiser ler sobre o erro: `https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Status/404`.
+    - **Só links, sem embutir a imagem do http.cat:** o site não carrega nada de outro domínio (item 49).
+    - Hoje a única página de erro é a `404.html` (item 9), a que o Cloudflare Pages serve. O código fica numa variável, para a mesma montagem servir a outras páginas de erro se elas surgirem (por exemplo, com os Workers dos itens 41 a 44).
 10. ⬜ **Mais comandos na paleta** (baixo). Baixar currículo, copiar o link do site, abrir cada projeto.
 11. ↪ **Terminal interativo**. Incorporado ao item 23.
 12. ⬜ **Formulário de contato** (baixo). Via serviço como o Formspree, sem back-end próprio. Alternativa com back-end próprio no item 41.
@@ -62,7 +67,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 
 Analisado em 13/10/2026: o que dá para usar de MongoDB, PostgreSQL, Cloudflare, OAuth2, JWT, AWS e nginx com o site no GitHub Pages. Tudo de 40 a 44 é gratuito dentro dos limites dos planos grátis. Detalhes e custos abaixo.
 
-40. 🟡 **Cloudflare na frente do site** (baixo). **Em andamento desde 25/10/2026** (plano de melhorias, Fase 2): DNS no Cloudflare e site no Cloudflare Pages (o GitHub Pages foi despublicado); faltam HSTS (`_headers`), analytics e regras de cache. Texto original: DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35), HSTS (item 49) e regras de cache. Sem programar. **Ao começar, lembrar o Lucas** (pedido em 24/10/2026) de ligar o HSTS e de decidir o analytics: GA4 ou sem cookies (ver "GA tags" no item 49).
+40. 🟡 **Cloudflare na frente do site** (baixo). **Em andamento desde 25/10/2026** (plano de melhorias, Fase 2): DNS no Cloudflare e site no Cloudflare Pages (o GitHub Pages foi despublicado); HSTS e cabeçalhos de segurança no `_headers` (27/10/2026); faltam analytics e regras de cache. Texto original: DNS do Registro.br passa para o Cloudflare (o GitHub Pages continua), Web Analytics sem cookies (item 18), bloqueio de `/CLAUDE.md` e `/ROADMAP.md` (item 35), HSTS (item 49) e regras de cache. Sem programar. **Ao começar, lembrar o Lucas** (pedido em 24/10/2026) de ligar o HSTS e de decidir o analytics: GA4 ou sem cookies (ver "GA tags" no item 49).
 41. ⬜ **Formulário de contato com back-end próprio** (médio). API no Cloudflare Workers, anti-robô com o Turnstile, mensagens salvas no banco (Neon/PostgreSQL ou MongoDB Atlas) e aviso por e-mail. Alternativa ao Formspree do item 12.
 42. ⬜ **Ranking global dos jogos** (médio). Login com GitHub (OAuth2), sessão com JWT e placares da velha, das damas e do carrinho salvos no PostgreSQL. Hoje os placares ficam só no `localStorage` (item 30).
 43. ⬜ **Login pelo GitHub e imagens da área administrativa** (médio). O OAuth do Decap/Sveltia CMS roda num Worker, e as imagens vão para o Cloudflare R2 ou para o próprio repositório. Feito junto com o item 21.
@@ -616,7 +621,8 @@ Notas: `/setup`, `/curriculo`, `/servicos` e `/jogos` 85,37%; `/terminal` 82,93%
 
 **Depende de outro item ou não tem correção:**
 
-- [ ] **HSTS** (aviso). O GitHub Pages não envia o cabeçalho `Strict-Transport-Security` em domínio próprio, e o HSTS por `<meta>`
+- [x] **HSTS** (aviso). **Feito em 27/10/2026** no `site/_headers` do Cloudflare Pages, com `max-age=86400` (curto, como decidido),
+  sem `includeSubDomains` e sem `preload`. Próximo passo: aumentar para 1 ano depois de semanas sem problema. Texto original: O GitHub Pages não envia o cabeçalho `Strict-Transport-Security` em domínio próprio, e o HSTS por `<meta>`
   não funciona. Hoje o HTTP já redireciona para HTTPS com 301. **Decidido em 24/10/2026: fazer junto com o Cloudflare (item 40)**,
   ligando o HSTS no painel. Começar com `max-age` curto e aumentar depois; não ligar `includeSubDomains` nem `preload` sem pensar,
   porque sair da lista de preload dos navegadores demora meses.

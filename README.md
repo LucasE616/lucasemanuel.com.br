@@ -67,6 +67,8 @@ Tudo o que é publicado fica em `site/`:
 | `jogos/` | `index.html`, regras e IA (`velha-ia.js`, `damas-ia.js`, `damas-worker.js`) e interfaces (`jogos.js`, `damas.js`, `carrinho.js`) |
 | `style.css` | Estilos de todas as páginas, com os temas claro e escuro |
 | `script.js` | Paleta de comandos, atalhos, tema, modais, botões de copiar e contatos protegidos |
+| `theme.js`, `404.js` | Tema aplicado antes da primeira pintura e o endereço mostrado na 404 |
+| `_headers` | Cabeçalhos de segurança (CSP, HSTS etc.) e `noindex` fora da produção |
 | `404.html` | Página de erro |
 | `fonts/` | JetBrains Mono e Chomsky, com as licenças OFL |
 | `cli` | Cartão de visita com cores ANSI, para o `curl` |

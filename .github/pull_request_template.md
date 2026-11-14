@@ -1,3 +1,5 @@
+<!-- Destino: develop (trabalho, squash) · main (release com merge commit, ou hotfix com squash) -->
+
 ## O que muda
 
 <!-- Resumo em 1 a 3 frases -->
@@ -13,6 +15,7 @@
 
 ## Checklist
 
+- [ ] O destino do PR está certo (`develop` para trabalho; `main` só para release ou hotfix)
 - [ ] Testei no computador e no celular (ou no modo responsivo do navegador)
 - [ ] Testei nos temas claro e escuro
 - [ ] Sem erros no console
