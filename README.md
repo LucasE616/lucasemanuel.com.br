@@ -73,6 +73,7 @@ Tudo o que é publicado fica em `site/`:
 | `fonts/` | JetBrains Mono e Chomsky, com as licenças OFL |
 | `cli` | Cartão de visita com cores ANSI, para o `curl` |
 | `favicon.svg`, `og-image.png` | Ícone e imagem de prévia dos links |
+| `manifest.webmanifest`, `sw.js`, `icons/`, `offline/` | PWA: manifesto, service worker, ícones do app e página "Sem conexão" |
 | `robots.txt`, `sitemap.xml` | Indexação nos buscadores |
 
 Na raiz do repositório (fora do site):

@@ -1,6 +1,6 @@
 // Build do site: copia site/ para dist/ e troca o ?v= dos CSS e JS nos HTMLs por uma versão
 // calculada a partir do conteúdo de todos os CSS e JS. Assim, qualquer mudança neles gera uma
-// versão nova em todas as páginas, sem precisar aumentar o ?v= à mão.
+// versão nova em todas as páginas, sem precisar aumentar o ?v= à mão. Também grava as versões no sw.js (PWA).
 //
 // Uso: node scripts/build.mjs   (sem dependências; só o Node 18+)
 //
@@ -55,4 +55,19 @@ for (const file of files.filter((f) => f.endsWith(".html"))) {
   }
 }
 
-console.log(`Build concluído em ${OUT}/: versão ${version}, ${refs} referências em ${pages} páginas.`);
+// Service worker do PWA (item 51): recebe a versão dos CSS/JS (para guardar as mesmas URLs que as páginas pedem)
+// e um hash de todos os arquivos publicados, calculado depois da troca acima. Assim qualquer mudança no site, até
+// só num HTML, muda o sw.js, e o navegador instala o service worker novo, que guarda as páginas atualizadas.
+const SW = join(OUT, "sw.js");
+const site = createHash("sha256");
+for (const file of files.filter((f) => f !== SW)) {
+  site.update(toPosix(relative(OUT, file)));
+  site.update(await readFile(file));
+}
+const build = site.digest("hex").slice(0, 10);
+const sw = await readFile(SW, "utf8");
+const swPlaceholders = /const (VERSION|BUILD) = "dev";/g;
+if ((sw.match(swPlaceholders) || []).length !== 2) throw new Error('sw.js: faltam as linhas const VERSION = "dev"; e const BUILD = "dev";');
+await writeFile(SW, sw.replace(swPlaceholders, (_, name) => `const ${name} = "${name === "VERSION" ? version : build}";`));
+
+console.log(`Build concluído em ${OUT}/: versão ${version}, ${refs} referências em ${pages} páginas, service worker ${build}.`);

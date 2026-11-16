@@ -61,6 +61,7 @@ Status: ⬜ a fazer · 🟡 em andamento · ✅ feito · ↪ incorporado a outro
 19. ⬜ **Auditoria com Lighthouse** (baixo). Acessibilidade e desempenho.
 20. ⬜ **Verificação no GitHub Actions** (médio). Validar HTML e checar links quebrados a cada push. Também pode trocar o `?v=` sozinho: hoje ele é trocado à mão em 18 lugares (5 HTMLs), e um esquecimento já quebrou o site em 26/09/2026 (item 17).
 21. ⬜ **Área administrativa** (médio-alto). Editar o conteúdo do site por formulários, sem mexer no código.
+51. ✅ **PWA: site instalável e offline** (baixo a médio). Feito em 16/11/2026: `manifest.webmanifest` (nome, cores, ícones e atalhos para Terminal, Jogos, Currículo e Setup), ícones PNG em `icons/` gerados do `favicon.svg`, service worker `sw.js` (páginas com rede primeiro, CSS/JS com `?v=` do cache, página `/offline/` para o que nunca foi visitado), registro no `script.js` e o comando "Instalar o site como app" na paleta (Chrome, Edge e Android). O build grava as versões no `sw.js`. Detalhes no CLAUDE.md.
 49. ⬜ **Checklist do makemefindable** (baixo). Em 24/10/2026, o makemefindable.com deu 70,73% ao site, com 6 erros e 6 avisos. Inclui os itens 15 e 16. Checklist abaixo.
 
 ## Back-end e infraestrutura

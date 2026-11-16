@@ -62,9 +62,13 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
 | `_headers` | Cabeçalhos HTTP do Cloudflare Pages: CSP, HSTS, anti-clickjacking, `Permissions-Policy` e `noindex` no dev e nos previews. Ver Segurança |
 | `script.js` | Paleta de comandos, atalhos, modais, botões de copiar e navegação entre páginas |
 | `favicon.svg` | Ícone "le" |
+| `manifest.webmanifest` | Manifesto do PWA (item 51): nome, cores (`#08070b`), ícones e atalhos (Terminal, Jogos, Currículo, Setup). Ligado em todas as páginas por `<link rel="manifest">` |
+| `sw.js` | Service worker do PWA (item 51), na raiz para controlar o site todo. Ver "PWA", em Padrões de código |
+| `icons/` | Ícones do PWA: `icon-192.png` e `icon-512.png` (o `favicon.svg`, com cantos arredondados), `icon-maskable-512.png` e `apple-touch-icon.png` (180px), estes dois feitos do `icon-maskable.svg` (fundo cheio, sem cantos, para o Android e o iOS recortarem). Ao mudar o favicon, gere de novo: `rsvg-convert -w 512 -h 512 favicon.svg -o icons/icon-512.png` (ou o Chrome headless) |
+| `offline/index.html` | Página "Sem conexão" (item 51), que o `sw.js` mostra offline no lugar de uma página nunca visitada. Caminhos absolutos, como a 404, e fora do `sitemap.xml` |
 | `fonts/` | JetBrains Mono (latin e latin-ext) e Chomsky em woff2, com as licenças OFL. Ver Fontes, em Visual |
 | `og-image.png` | Imagem de prévia dos links (item 49), 1200×630, uma só para o site todo: "le" em Verdana negrito `#f2f2f2` com cursor amarelo `#ffbb00` no fundo `#08070b`, sem foto (decisão do Lucas). Gerada com o Chrome headless (`--screenshot --window-size=1200,630`) a partir de um HTML fora do repositório. PNG porque as redes não aceitam SVG |
-| `ROADMAP.md` | Melhorias planejadas e correções (50 itens) |
+| `ROADMAP.md` | Melhorias planejadas e correções (51 itens) |
 
 ## Visual
 
@@ -123,7 +127,9 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
   com o caminho certo para a pasta), o bloco `.header-actions` com o seletor de tema e a paleta, e o `script.js`. Também as tags `og:` e
   `twitter:` (copiar o bloco de uma página existente: `og:image` e `twitter:image` apontam para `/og-image.png`, e
   `twitter:title`/`twitter:description` repetem as `og:` da página) e uma entrada no `sitemap.xml`. Os CSS/JS entram com `?v=dev`
-  (o build troca pela versão). O `<style>` `.mmf` do makemefindable não existe mais (removido em 25/10/2026, PR #3).
+  (o build troca pela versão). Logo depois do favicon, `<link rel="manifest">` e `<link rel="apple-touch-icon">` (PWA, item 51),
+  e, se a página tiver JS ou CSS novo, o arquivo entra na lista `VERSIONED` do `sw.js`; página nova entra também em `PAGES`
+  no `sw.js`, para abrir offline. O `<style>` `.mmf` do makemefindable não existe mais (removido em 25/10/2026, PR #3).
   Chaves no `localStorage`: `theme`, `setup-view`, `term-prefs`, `velha-placar` (compartilhada entre
   `/jogos` e o terminal), `damas-placar` (idem), `carrinho-recorde` (página) e `carrinho-terminal-recorde` (versão em texto do
   `play carrinho`, função `carGame` em `terminal.js`). Toda leitura e escrita fica em `try/catch`.
@@ -192,6 +198,16 @@ Tudo o que é publicado fica em `site/`; os caminhos abaixo são relativos a ela
   makemefindable) não têm `matchMedia`, e a chamada direta virava erro de JavaScript na nota do site. Pelo mesmo motivo,
   código que usa canvas confere se o `getContext` devolveu algo. Para testar: jsdom com `runScripts: "dangerously"` e
   `resources: "usable"`, lendo os erros pelo `VirtualConsole` (os avisos "Not implemented" são do próprio jsdom).
+- **PWA (item 51, 16/11/2026):** o `script.js` registra o `/sw.js`. No install, ele guarda as 6 páginas, a `/offline/`, os
+  CSS/JS com `?v=`, as fontes e os ícones (listas `PAGES`, `VERSIONED` e `FILES`). Páginas: **rede primeiro** (online sempre
+  vem a versão nova; offline, a cópia guardada ou a `/offline/`). CSS/JS com `?v=`: cache primeiro. Outros arquivos do site:
+  devolve o guardado e atualiza por trás. Não mexe em outros domínios (API do GitHub), em pedidos `cache: "no-store"` (o
+  `ping` do terminal) nem em URLs com outra query. O `build.mjs` troca as linhas `const VERSION = "dev";` (o `?v=` dos CSS/JS)
+  e `const BUILD = "dev";` (hash de todos os arquivos) no `dist/sw.js`, então qualquer deploy instala um service worker novo,
+  que apaga o cache antigo (`le-<build>`). **Com `"dev"` (servidor local sobre `site/`) o service worker não guarda nada**,
+  para não servir CSS velho; para testar o offline, use o build (`-d dist`) e desligue o servidor. O comando "Instalar o site
+  como app" só entra na paleta quando o navegador dispara o `beforeinstallprompt` (Chrome, Edge, Android); no Firefox e no
+  Safari a instalação fica no menu do navegador. O CSP já tinha `worker-src 'self'` e `manifest-src 'self'`.
 - **Acessibilidade:** foco preso dentro do modal com Tab e devolvido ao elemento de origem ao fechar;
   `aria-current="page"` no menu; `prefers-reduced-motion` desliga as animações.
 
@@ -312,3 +328,6 @@ Testar em **1920×1080**, **1366×768**, **375×812** e **320×640**:
     e FizPay encerradas em Out 2026 (atuais primeiro, depois as encerradas). No JSON-LD, `worksFor` ficou só com DoctorSaaS e Plant Evolution. Grafia oficial: DoctorSaaS (como no site da empresa).
 21. Plano de melhorias (25/10/2026): fluxo por PR com a `main` protegida, licença MIT, Serviços fora do menu,
     `.mmf` removido, DNS no Cloudflare, hospedagem no Cloudflare Pages, pasta `site/` e build com versão automática.
+22. PWA (item 51, 16/11/2026): manifesto, ícones, service worker com página offline e comando de instalação na paleta.
+    Testado com o Chrome headless (puppeteer) sobre o `dist/` com o CSP do `_headers`: instalável, sem erros no console,
+    todas as páginas e o Web Worker das damas abrindo com o servidor desligado, e atualização do cache a cada build.
