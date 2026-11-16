@@ -520,6 +520,33 @@
   document.querySelectorAll("[data-open-palette]").forEach((b) => b.addEventListener("click", openPalette));
   document.querySelectorAll("[data-close-palette]").forEach((b) => b.addEventListener("click", closePalette));
 
+  // PWA (item 51): registra o service worker (sw.js), que deixa o site instalável e abrindo offline.
+  // Caminho absoluto: o sw.js fica na raiz para controlar o site todo. Falhar aqui não quebra nada.
+  if ("serviceWorker" in navigator) {
+    addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+  }
+
+  // Quando o navegador oferece a instalação (Chrome, Edge, Android), a paleta ganha o comando "Instalar o site".
+  // Firefox e Safari não têm esse evento: lá a instalação fica no menu do navegador ("Adicionar à tela de início").
+  let installPrompt = null;
+  const installCmd = { group: "Site", label: "Instalar o site como app", hint: "pwa", run: () => installPrompt?.prompt().catch(() => {}) };
+  const removeInstallCmd = () => {
+    installPrompt = null;
+    const i = commands.indexOf(installCmd);
+    if (i >= 0) commands.splice(i, 1);
+  };
+  addEventListener("beforeinstallprompt", (e) => {
+    installPrompt = e;
+    if (!commands.includes(installCmd)) commands.push(installCmd);
+    // O aviso só pode ser mostrado uma vez: aceito ou recusado, o comando sai (o navegador oferece de novo depois)
+    const done = () => installPrompt === e && removeInstallCmd();
+    e.userChoice?.then(done, done);
+  });
+  addEventListener("appinstalled", () => {
+    removeInstallCmd();
+    showToast("Site instalado como app");
+  });
+
   // Setup: alternância Lista/Grade (lembrada no navegador)
   if (page === "setup") {
     const viewButtons = document.querySelectorAll("[data-view]");
